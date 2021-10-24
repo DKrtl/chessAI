@@ -1,3 +1,5 @@
+package com.dogukan.chessai;
+
 import java.util.HashSet;
 import java.util.Set;
 

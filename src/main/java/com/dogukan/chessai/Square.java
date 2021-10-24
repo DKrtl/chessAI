@@ -1,3 +1,5 @@
+package com.dogukan.chessai;
+
 public class Square {
 
     private int x;

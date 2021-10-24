@@ -1,3 +1,5 @@
+package com.dogukan.chessai;
+
 public class Board {
 
     private Square[][] board;

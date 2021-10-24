@@ -1,3 +1,5 @@
+package com.dogukan.chessai;
+
 import java.util.Set;
 
 public abstract class Piece {
