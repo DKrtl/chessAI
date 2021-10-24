@@ -1,3 +1,5 @@
+import java.util.Set;
+
 public abstract class Piece {
 
     private static Board board = new Board();
@@ -8,6 +10,8 @@ public abstract class Piece {
     }
 
     public abstract void move(Square currentSquare, Square nextSquare);
+
+    public abstract Set<Square> legalMoves(Square currentSquare);
 
     public Board getBoard() {
         return board;

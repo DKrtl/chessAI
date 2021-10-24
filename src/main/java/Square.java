@@ -26,4 +26,12 @@ public class Square {
     public boolean isEmpty() {
         return currentPiece == null;
     }
+
+    public Piece getCurrentPiece() {
+        return currentPiece;
+    }
+
+    public void setCurrentPiece(Piece currentPiece) {
+        this.currentPiece = currentPiece;
+    }
 }
