@@ -1,4 +1,4 @@
-package com.dogukan.chessai;
+package com.dogukan.chessai.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -21,14 +21,10 @@ public class Game extends Application {
         Color currentColour = Color.BLACK;
         for (int i = 0; i < 8; i++) {
             HBox hBox = new HBox();
+            currentColour = toggleColour(currentColour);
             for (int j = 0; j < 8; j++) {
-                Rectangle square = new Rectangle(10, 10);
-                if (currentColour == Color.BLACK) {
-                    currentColour = Color.GREEN;
-                } else {
-                    currentColour = Color.BLACK;
-                }
-                square.setFill(currentColour);
+                SquareGUI square = new SquareGUI(currentColour, 50 ,50);
+                currentColour = toggleColour(currentColour);
                 hBox.getChildren().add(square);
             }
             vBox.getChildren().add(hBox);
@@ -38,6 +34,15 @@ public class Game extends Application {
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    private Color toggleColour(Color color) {
+        if (color == Color.GREEN) {
+            color = Color.WHITE;
+        } else {
+            color = Color.GREEN;
+        }
+        return color;
     }
 
     public static void main(String[] args) {
