@@ -21,8 +21,8 @@ public class Pawn extends Piece {
     }
 
     public Set<Square> legalMoves(Square currentSquare) {
-        int currentX = (int) currentSquare.getX();
-        int currentY = (int) currentSquare.getY();
+        int currentX = currentSquare.getX();
+        int currentY = currentSquare.getY();
         Set<Square> legalMoves = new HashSet<>();
 
         if (firstMove) {
