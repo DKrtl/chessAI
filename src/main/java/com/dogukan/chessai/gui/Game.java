@@ -18,31 +18,11 @@ public class Game extends Application {
         stage.setTitle("Chess");
 
         VBox vBox = new VBox();
-        Color currentColour = Color.BLACK;
-        for (int i = 0; i < 8; i++) {
-            HBox hBox = new HBox();
-            currentColour = toggleColour(currentColour);
-            for (int j = 0; j < 8; j++) {
-                SquareGUI square = new SquareGUI(currentColour, 50 ,50);
-                currentColour = toggleColour(currentColour);
-                hBox.getChildren().add(square);
-            }
-            vBox.getChildren().add(hBox);
-        }
 
         Scene scene = new Scene(vBox, 500, 500);
 
         stage.setScene(scene);
         stage.show();
-    }
-
-    private Color toggleColour(Color color) {
-        if (color == Color.GREEN) {
-            color = Color.WHITE;
-        } else {
-            color = Color.GREEN;
-        }
-        return color;
     }
 
     public static void main(String[] args) {
