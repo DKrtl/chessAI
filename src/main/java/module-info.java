@@ -12,6 +12,4 @@ module com.dogukan.chessai {
 
     opens com.dogukan.chessai to javafx.fxml;
     exports com.dogukan.chessai;
-    exports com.dogukan.chessai.gui;
-    opens com.dogukan.chessai.gui to javafx.fxml;
 }
