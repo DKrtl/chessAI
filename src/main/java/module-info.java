@@ -10,8 +10,8 @@ module com.dogukan.chessai {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
-    opens com.dogukan.chessai to javafx.fxml;
-    exports com.dogukan.chessai;
     exports com.dogukan.chessai.gui;
     opens com.dogukan.chessai.gui to javafx.fxml;
+    exports com.dogukan.chessai.chess;
+    opens com.dogukan.chessai.chess to javafx.fxml;
 }

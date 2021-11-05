@@ -1,0 +1,12 @@
+#board {
+    /*-fx-padding: 10 0 20 0;*/
+    -fx-alignment: center;
+}
+
+.lightSquare {
+    -fx-fill: white;
+}
+
+.darkSquare {
+    -fx-fill: green;
+}
