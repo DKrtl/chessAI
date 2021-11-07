@@ -2,19 +2,25 @@ package com.dogukan.chessai.chess;
 
 public class Square {
 
-    private int x;
-    private int y;
+    private Piece piece;
+    private boolean hasPiece;
 
-    Square(int x, int y) {
-        this.x = x;
-        this.y = y;
+    Square(Piece piece) {
+        this.piece = piece;
+        hasPiece = true;
     }
 
-    public int getX() {
-        return x;
+    public Piece getPiece() {
+        return piece;
     }
 
-    public int getY() {
-        return y;
+    public void removePiece() {
+        hasPiece = false;
+        piece = null;
+    }
+
+    public void addPiece(Piece piece) {
+        hasPiece = true;
+        this.piece = piece;
     }
 }

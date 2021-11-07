@@ -5,20 +5,14 @@ import java.util.Set;
 public abstract class Piece {
 
     private PieceColour colour;
-    private Square currentSquare;
 
-    Piece(Square currentSquare, PieceColour colour) {
+    Piece(PieceColour colour) {
         this.colour = colour;
-        this.currentSquare = currentSquare;
     }
 
-    public abstract Set<Square> legalMoves();
+    public abstract Set<Move> legalMoves();
 
     public PieceColour getColour() {
         return colour;
-    }
-
-    public void changeCurrentSquare(Square nextSquare) {
-        currentSquare = nextSquare;
     }
 }

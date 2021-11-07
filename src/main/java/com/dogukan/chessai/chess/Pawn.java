@@ -7,13 +7,13 @@ public class Pawn extends Piece {
 
     private boolean firstMove;
 
-    Pawn(Square currentSquare, PieceColour colour) {
-        super(currentSquare, colour);
+    Pawn(PieceColour colour) {
+        super(colour);
         firstMove = true;
     }
 
     @Override
-    public Set<Square> legalMoves() {
+    public Set<Move> legalMoves() {
         return null;
     }
 
