@@ -10,7 +10,7 @@ public abstract class Piece {
         this.colour = colour;
     }
 
-    public abstract Set<Move> legalMoves();
+    public abstract Set<Move> legalMoves(Board board, Position position);
 
     public PieceColour getColour() {
         return colour;

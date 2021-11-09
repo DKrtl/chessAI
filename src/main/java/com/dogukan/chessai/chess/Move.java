@@ -4,19 +4,19 @@ import java.util.Objects;
 
 public class Move {
 
-    private Square from;
-    private Square to;
+    private Position from;
+    private Position to;
 
-    public Move(Square from, Square to) {
+    public Move(Position from, Position to) {
         this.from = from;
         this.to = to;
     }
 
-    public Square getFrom() {
+    public Position getFrom() {
         return from;
     }
 
-    public Square getTo() {
+    public Position getTo() {
         return to;
     }
 
@@ -32,6 +32,6 @@ public class Move {
 
     @Override
     public int hashCode() {
-        return 1;
+        return from.hashCode() * to.hashCode();
     }
 }

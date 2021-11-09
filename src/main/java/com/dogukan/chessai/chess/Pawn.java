@@ -1,6 +1,7 @@
 package com.dogukan.chessai.chess;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class Pawn extends Piece {
@@ -13,42 +14,22 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Set<Move> legalMoves() {
-        return null;
+    public Set<Move> legalMoves(Board board, Position position) {
+        Set<Move> legalMoves = new HashSet<>();
+
+        Optional<Move> oneSquareMove = oneSquareMove(board, position);
+        Optional<Move> twoSquareMove = twoSquareMove(board, position);
+        Optional<Move> takeLeft = takeLeft(board, position);
+        Optional<Move> takeRight = takeRight(board, position);
+
+        oneSquareMove.ifPresent(legalMoves::add);
+        twoSquareMove.ifPresent(legalMoves::add);
+        takeLeft.ifPresent(legalMoves::add);
+        takeRight.ifPresent(legalMoves::add);
+
+        return legalMoves;
     }
 
-//        int currentX = currentSquare.getX();
-//        int currentY = currentSquare.getY();
-//        Set<Square> legalMoves = new HashSet<>();
-//
-//        if (firstMove) {
-//            Square nextMove1;
-//            Square nextMove2;
-//            if (super.getColour() == PieceColour.WHITE) {
-//                nextMove1 = getBoard().getSquare(currentX, currentY + 2);
-//                nextMove2 = getBoard().getSquare(currentX, currentY + 1);
-//            } else {
-//                nextMove1 = getBoard().getSquare(currentX, currentY - 2);
-//                nextMove2 = getBoard().getSquare(currentX, currentY - 1);
-//            }
-//            if (nextMove1.isEmpty() && nextMove2.isEmpty()) {
-//                legalMoves.add(nextMove1);
-//                legalMoves.add(nextMove1);
-//            }
-//        } else {
-//            Square nextMove;
-//            if (super.getColour() == PieceColour.WHITE) {
-//                nextMove = getBoard().getSquare(currentX, currentY + 1);
-//            } else {
-//                nextMove = getBoard().getSquare(currentX, currentY - 1);
-//            }
-//            if (nextMove.isEmpty()) {
-//                legalMoves.add(nextMove);
-//            }
-//        }
-//
-//        Square takeLeft;
-//        Square takeRight;
 //        boolean pawnOnLeft;
 //        boolean pawnOnRight;
 //
@@ -71,4 +52,79 @@ public class Pawn extends Piece {
 //        }
 //        return legalMoves;
 //    }
+
+    private Optional<Move> takeLeft(Board board, Position position) {
+        int currentX = position.getX();
+        int currentY = position.getY();
+        Move takeLeft;
+
+        if (super.getColour() == PieceColour.WHITE) {
+            takeLeft = new Move(position, new Position(currentX - 1, currentY + 1));
+        } else {
+            takeLeft = new Move(position, new Position(currentX + 1, currentY - 1));
+        }
+
+        if (!board.isEmpty(takeLeft.getTo())) {
+            return Optional.of(takeLeft);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Move> takeRight(Board board, Position position) {
+        int currentX = position.getX();
+        int currentY = position.getY();
+        Move takeRight;
+
+        if (super.getColour() == PieceColour.WHITE) {
+            takeRight = new Move(position, new Position(currentX + 1, currentY + 1));
+        } else {
+            takeRight = new Move(position, new Position(currentX - 1, currentY - 1));
+        }
+
+        if (!board.isEmpty(takeRight.getTo())) {
+            return Optional.of(takeRight);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Move> oneSquareMove(Board board, Position position) {
+        int currentX = position.getX();
+        int currentY = position.getY();
+
+        Move oneSquareMove;
+
+        if (getColour() == PieceColour.WHITE) {
+            oneSquareMove = new Move(position, new Position(currentX, currentY + 1));
+        } else {
+            oneSquareMove = new Move(position, new Position(currentX, currentY - 1));
+        }
+
+        if (board.isEmpty(oneSquareMove.getTo())) {
+            return Optional.of(oneSquareMove);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Move> twoSquareMove(Board board, Position position) {
+        int currentX = position.getX();
+        int currentY = position.getY();
+        Move twoSquareMove;
+
+        if (firstMove) {
+            if (super.getColour() == PieceColour.WHITE) {
+                twoSquareMove = new Move(position, new Position(currentX, currentY + 2));
+            } else {
+                twoSquareMove = new Move(position, new Position(currentX, currentY - 2));
+            }
+
+            if (board.isEmpty(twoSquareMove.getTo())) {
+                return Optional.of(twoSquareMove);
+            }
+        }
+
+        return Optional.empty();
+    }
 }
