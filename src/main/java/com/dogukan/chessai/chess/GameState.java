@@ -1,7 +1,5 @@
 package com.dogukan.chessai.chess;
 
-import java.util.Set;
-
 public class GameState {
 
     private GameState prev;
@@ -17,21 +15,15 @@ public class GameState {
     }
 
     public void move(Move move) {
-        Board newBoard = new Board(board.getBoard());
-        Piece piece = newBoard.getSquare(move.getFrom());
+        Piece piece = board.getSquare(move.getFrom());
         if (piece != null) {
-            Set<Move> legalMoves = piece.legalMoves(newBoard, move.getFrom());
-            if (legalMoves.contains(move)) {
-                newBoard.removePiece(move.getFrom());
-                newBoard.addPiece(move.getTo(), piece);
-                next = new GameState(this, playerTurn.opponent(), newBoard);
-            }
+            piece.move(this, move);
         }
     }
 
-//    public Square[][] getBoard() {
-//        return board.clone();
-//    }
+    public Board getBoard() {
+        return board;
+    }
 
     public GameState getPrev() {
         return prev;
@@ -39,5 +31,13 @@ public class GameState {
 
     public GameState getNext() {
         return next;
+    }
+
+    public void setNext(GameState next) {
+        this.next = next;
+    }
+
+    public PieceColour getPlayerTurn() {
+        return playerTurn;
     }
 }

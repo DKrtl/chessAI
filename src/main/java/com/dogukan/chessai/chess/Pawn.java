@@ -16,6 +16,11 @@ public class Pawn extends Piece {
     }
 
     @Override
+    public void move(GameState gameState, Move move) {
+
+    }
+
+    @Override
     public Set<Move> legalMoves(Board board, Position position) {
         Set<Move> legalMoves = new HashSet<>();
 

@@ -25,7 +25,7 @@ public class Board {
         return board[position.getX()][position.getY()];
     }
 
-    public Piece[][] getBoard() {
+    public Piece[][] getSquares() {
         return board.clone();
     }
 

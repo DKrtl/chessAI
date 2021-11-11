@@ -10,6 +10,17 @@ public abstract class Piece {
         this.colour = colour;
     }
 
+    public void move(GameState gameState, Move move) {
+        Board board = gameState.getBoard();
+        Board newBoard = new Board(board.getSquares());
+        Set<Move> legalMoves = legalMoves(newBoard, move.getFrom());
+        if (legalMoves.contains(move)) {
+            newBoard.removePiece(move.getFrom());
+            newBoard.addPiece(move.getTo(), this);
+            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+        }
+    }
+
     public abstract Set<Move> legalMoves(Board board, Position position);
 
     public PieceColour getColour() {
