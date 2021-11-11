@@ -27,4 +27,12 @@ public class Board {
     public boolean isEmpty(Position position) {
         return board[position.getX()][position.getY()] == null;
     }
+
+    public int rowLength() {
+        return board[0].length;
+    }
+
+    public int columnLength() {
+        return board.length;
+    }
 }
