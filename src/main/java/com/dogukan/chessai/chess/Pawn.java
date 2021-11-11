@@ -8,6 +8,7 @@ public class Pawn extends Piece {
 
     private boolean firstMove;
     private boolean tookTwoSquareMove;
+    private Set<Move> enPassantMoves;
 
     Pawn(PieceColour colour) {
         super(colour);
@@ -17,12 +18,32 @@ public class Pawn extends Piece {
 
     @Override
     public void move(GameState gameState, Move move) {
+        Board board = gameState.getBoard();
+        Board newBoard = new Board(board.getSquares());
+        legalMoves(newBoard, move.getFrom());
+        if (enPassantMoves.contains(move)) {
+            Position position = move.getTo();
+            int nextX = position.getX();
+            int nextY = position.getY();
 
+            if (getColour() == PieceColour.WHITE) {
+                newBoard.removePiece(new Position(nextX, nextY - 1));
+            } else {
+                newBoard.removePiece(new Position(nextX, nextY + 1));
+            }
+            newBoard.addPiece(move.getTo(), this);
+            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+        } else if (getLegalMoves().contains(move)) {
+            newBoard.removePiece(move.getFrom());
+            newBoard.addPiece(move.getTo(), this);
+            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+        }
     }
 
     @Override
-    public Set<Move> legalMoves(Board board, Position position) {
+    public void legalMoves(Board board, Position position) {
         Set<Move> legalMoves = new HashSet<>();
+        Set<Move> enPassantMoves = new HashSet<>();
 
         Optional<Move> oneSquareMove = oneSquareMove(board, position);
         Optional<Move> twoSquareMove = twoSquareMove(board, position);
@@ -38,7 +59,11 @@ public class Pawn extends Piece {
         enPassantLeft.ifPresent(legalMoves::add);
         enPassantRight.ifPresent(legalMoves::add);
 
-        return legalMoves;
+        enPassantLeft.ifPresent(enPassantMoves::add);
+        enPassantRight.ifPresent(enPassantMoves::add);
+
+        this.enPassantMoves = enPassantMoves;
+        setLegalMoves(legalMoves);
     }
 
     private Optional<Move> enPassantRight(Board board, Position position) {
@@ -46,7 +71,7 @@ public class Pawn extends Piece {
         int currentY = position.getY();
         Piece piece;
 
-        if (super.getColour() == PieceColour.WHITE) {
+        if (getColour() == PieceColour.WHITE) {
             piece = board.getSquare(new Position(currentX + 1, currentY));
         } else {
             piece = board.getSquare(new Position(currentX - 1, currentY));
@@ -75,7 +100,7 @@ public class Pawn extends Piece {
         int currentY = position.getY();
         Piece piece;
 
-        if (super.getColour() == PieceColour.WHITE) {
+        if (getColour() == PieceColour.WHITE) {
             piece = board.getSquare(new Position(currentX - 1, currentY));
         } else {
             piece = board.getSquare(new Position(currentX + 1, currentY));

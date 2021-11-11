@@ -5,6 +5,7 @@ import java.util.Set;
 public abstract class Piece {
 
     private PieceColour colour;
+    private Set<Move> legalMoves;
 
     Piece(PieceColour colour) {
         this.colour = colour;
@@ -13,7 +14,7 @@ public abstract class Piece {
     public void move(GameState gameState, Move move) {
         Board board = gameState.getBoard();
         Board newBoard = new Board(board.getSquares());
-        Set<Move> legalMoves = legalMoves(newBoard, move.getFrom());
+        legalMoves(newBoard, move.getFrom());
         if (legalMoves.contains(move)) {
             newBoard.removePiece(move.getFrom());
             newBoard.addPiece(move.getTo(), this);
@@ -21,9 +22,17 @@ public abstract class Piece {
         }
     }
 
-    public abstract Set<Move> legalMoves(Board board, Position position);
+    public abstract void legalMoves(Board board, Position position);
 
     public PieceColour getColour() {
         return colour;
+    }
+
+    public void setLegalMoves(Set<Move> legalMoves) {
+        this.legalMoves = legalMoves;
+    }
+
+    public Set<Move> getLegalMoves() {
+        return legalMoves;
     }
 }

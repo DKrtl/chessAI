@@ -1,15 +1,18 @@
 package com.dogukan.chessai.chess;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Test {
 
     public static void main(String[] args) {
-        Set<Integer> a = new HashSet<>();
+        Game game = new Game();
 
-        a.add(null);
+        Piece[][] board = game.getBoard();
 
-        System.out.println(a.size());
+        for (int x = 0; x < board.length; x++) {
+            for (int y = 0; y < board[x].length; y++) {
+                if (board[x][y] instanceof Pawn) {
+
+                }
+            }
+        }
     }
 }
