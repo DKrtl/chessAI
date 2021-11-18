@@ -9,7 +9,11 @@ public class Board {
     }
 
     public Piece getSquare(Position position) {
-        return board[position.getX()][position.getY()];
+        if (isInRange(position)) {
+            return board[position.getX()][position.getY()];
+        } else {
+            return null;
+        }
     }
 
     public Piece[][] getSquares() {
@@ -26,6 +30,11 @@ public class Board {
 
     public boolean isEmpty(Position position) {
         return board[position.getX()][position.getY()] == null;
+    }
+
+    public boolean isInRange(Position position) {
+        return position.getY() < board[1].length && position.getX() < board.length
+                && position.getY() >= 0 && position.getX() >= 0;
     }
 
     public int rowLength() {

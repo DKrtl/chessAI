@@ -25,4 +25,8 @@ public class Game {
     public Board getBoard() {
         return currentState.getBoard();
     }
+
+    public void move(Move move) {
+        currentState.move(move);
+    }
 }
