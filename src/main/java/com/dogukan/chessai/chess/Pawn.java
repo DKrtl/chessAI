@@ -45,7 +45,7 @@ public class Pawn extends Piece {
     @Override
     public void legalMoves(Board board, Position position) {
         Set<Move> legalMoves = new HashSet<>();
-        Set<Move> enPassantMoves = new HashSet<>();
+//        Set<Move> enPassantMoves = new HashSet<>();
 
         Optional<Move> oneSquareMove = oneSquareMove(board, position);
         Optional<Move> twoSquareMove = twoSquareMove(board, position);
@@ -144,7 +144,8 @@ public class Pawn extends Piece {
             takeLeft = new Move(position, new Position(currentX + 1, currentY + 1));
         }
 
-        if (board.isInRange(takeLeft.getTo()) && !board.isEmpty(takeLeft.getTo())) {
+        if (board.isInRange(takeLeft.getTo()) && !board.isEmpty(takeLeft.getTo()) &&
+                board.getSquare(takeLeft.getTo()).getColour() == getColour().opponent()) {
             return Optional.of(takeLeft);
         } else {
             return Optional.empty();
@@ -162,7 +163,8 @@ public class Pawn extends Piece {
             takeRight = new Move(position, new Position(currentX - 1, currentY + 1));
         }
 
-        if (board.isInRange(takeRight.getTo()) && !board.isEmpty(takeRight.getTo())) {
+        if (board.isInRange(takeRight.getTo()) && !board.isEmpty(takeRight.getTo()) &&
+                board.getSquare(takeRight.getTo()).getColour() == getColour().opponent()) {
             return Optional.of(takeRight);
         } else {
             return Optional.empty();
