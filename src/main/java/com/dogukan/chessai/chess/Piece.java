@@ -1,5 +1,6 @@
 package com.dogukan.chessai.chess;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Piece {
@@ -9,6 +10,7 @@ public abstract class Piece {
 
     Piece(PieceColour colour) {
         this.colour = colour;
+        this.legalMoves = new HashSet<>();
     }
 
     public void move(GameState gameState, Move move) {

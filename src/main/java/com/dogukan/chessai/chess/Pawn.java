@@ -44,28 +44,13 @@ public class Pawn extends Piece {
 
     @Override
     public void legalMoves(Board board, Position position) {
-        Set<Move> legalMoves = new HashSet<>();
-//        Set<Move> enPassantMoves = new HashSet<>();
 
-        Optional<Move> oneSquareMove = oneSquareMove(board, position);
-        Optional<Move> twoSquareMove = twoSquareMove(board, position);
-        Optional<Move> takeLeft = takeLeft(board, position);
-        Optional<Move> takeRight = takeRight(board, position);
+        oneSquareMove(board, position);
+        twoSquareMove(board, position);
+        takeLeft(board, position);
+        takeRight(board, position);
 //        Optional<Move> enPassantLeft = enPassantLeft(board, position);
 //        Optional<Move> enPassantRight = enPassantRight(board, position);
-
-        oneSquareMove.ifPresent(legalMoves::add);
-        twoSquareMove.ifPresent(legalMoves::add);
-        takeLeft.ifPresent(legalMoves::add);
-        takeRight.ifPresent(legalMoves::add);
-//        enPassantLeft.ifPresent(legalMoves::add);
-//        enPassantRight.ifPresent(legalMoves::add);
-//
-//        enPassantLeft.ifPresent(enPassantMoves::add);
-//        enPassantRight.ifPresent(enPassantMoves::add);
-
-//        this.enPassantMoves = enPassantMoves;
-        setLegalMoves(legalMoves);
 
         firstMove = false;
     }
@@ -133,7 +118,7 @@ public class Pawn extends Piece {
 //        }
 //    }
 
-    private Optional<Move> takeLeft(Board board, Position position) {
+    private void takeLeft(Board board, Position position) {
         int currentX = position.getX();
         int currentY = position.getY();
         Move takeLeft;
@@ -146,13 +131,11 @@ public class Pawn extends Piece {
 
         if (board.isInRange(takeLeft.getTo()) && !board.isEmpty(takeLeft.getTo()) &&
                 board.getSquare(takeLeft.getTo()).getColour() == getColour().opponent()) {
-            return Optional.of(takeLeft);
-        } else {
-            return Optional.empty();
+            getLegalMoves().add(takeLeft);
         }
     }
 
-    private Optional<Move> takeRight(Board board, Position position) {
+    private void takeRight(Board board, Position position) {
         int currentX = position.getX();
         int currentY = position.getY();
         Move takeRight;
@@ -165,13 +148,11 @@ public class Pawn extends Piece {
 
         if (board.isInRange(takeRight.getTo()) && !board.isEmpty(takeRight.getTo()) &&
                 board.getSquare(takeRight.getTo()).getColour() == getColour().opponent()) {
-            return Optional.of(takeRight);
-        } else {
-            return Optional.empty();
+            getLegalMoves().add(takeRight);
         }
     }
 
-    private Optional<Move> oneSquareMove(Board board, Position position) {
+    private void oneSquareMove(Board board, Position position) {
         int currentX = position.getX();
         int currentY = position.getY();
 
@@ -184,13 +165,11 @@ public class Pawn extends Piece {
         }
 
         if (board.isInRange(oneSquareMove.getTo()) && board.isEmpty(oneSquareMove.getTo())) {
-            return Optional.of(oneSquareMove);
-        } else {
-            return Optional.empty();
+            getLegalMoves().add(oneSquareMove);
         }
     }
 
-    private Optional<Move> twoSquareMove(Board board, Position position) {
+    private void twoSquareMove(Board board, Position position) {
         int currentX = position.getX();
         int currentY = position.getY();
         Move twoSquareMove;
@@ -203,10 +182,8 @@ public class Pawn extends Piece {
             }
 
             if (board.isInRange(twoSquareMove.getTo()) && board.isEmpty(twoSquareMove.getTo())) {
-                return Optional.of(twoSquareMove);
+                getLegalMoves().add(twoSquareMove);
             }
         }
-
-        return Optional.empty();
     }
 }
