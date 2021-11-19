@@ -7,13 +7,13 @@ import java.util.Set;
 public class Pawn extends Piece {
 
     private boolean firstMove;
-    private boolean tookTwoSquareMove;
-    private Set<Move> enPassantMoves;
+//    private boolean tookTwoSquareMove;
+//    private Set<Move> enPassantMoves;
 
     Pawn(PieceColour colour) {
         super(colour);
         firstMove = true;
-        tookTwoSquareMove = false;
+//        tookTwoSquareMove = false;
     }
 
     @Override
@@ -22,19 +22,20 @@ public class Pawn extends Piece {
         Board newBoard = new Board(board.getSquares());
         legalMoves(newBoard, move.getFrom());
 
-        if (enPassantMoves.contains(move)) {
-            Position position = move.getTo();
-            int nextX = position.getX();
-            int nextY = position.getY();
-
-            if (getColour() == PieceColour.WHITE) {
-                newBoard.removePiece(new Position(nextX, nextY - 1));
-            } else {
-                newBoard.removePiece(new Position(nextX, nextY + 1));
-            }
-            newBoard.addPiece(move.getTo(), this);
-            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
-        } else if (getLegalMoves().contains(move)) {
+//        if (enPassantMoves.contains(move)) {
+//            Position position = move.getTo();
+//            int nextX = position.getX();
+//            int nextY = position.getY();
+//
+//            if (getColour() == PieceColour.WHITE) {
+//                newBoard.removePiece(new Position(nextX, nextY - 1));
+//            } else {
+//                newBoard.removePiece(new Position(nextX, nextY + 1));
+//            }
+//            newBoard.addPiece(move.getTo(), this);
+//            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+//        } else if ()
+        if (getLegalMoves().contains(move)) {
             newBoard.removePiece(move.getFrom());
             newBoard.addPiece(move.getTo(), this);
             gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
@@ -50,84 +51,87 @@ public class Pawn extends Piece {
         Optional<Move> twoSquareMove = twoSquareMove(board, position);
         Optional<Move> takeLeft = takeLeft(board, position);
         Optional<Move> takeRight = takeRight(board, position);
-        Optional<Move> enPassantLeft = enPassantLeft(board, position);
-        Optional<Move> enPassantRight = enPassantRight(board, position);
+//        Optional<Move> enPassantLeft = enPassantLeft(board, position);
+//        Optional<Move> enPassantRight = enPassantRight(board, position);
 
         oneSquareMove.ifPresent(legalMoves::add);
         twoSquareMove.ifPresent(legalMoves::add);
         takeLeft.ifPresent(legalMoves::add);
         takeRight.ifPresent(legalMoves::add);
-        enPassantLeft.ifPresent(legalMoves::add);
-        enPassantRight.ifPresent(legalMoves::add);
+//        enPassantLeft.ifPresent(legalMoves::add);
+//        enPassantRight.ifPresent(legalMoves::add);
+//
+//        enPassantLeft.ifPresent(enPassantMoves::add);
+//        enPassantRight.ifPresent(enPassantMoves::add);
 
-        enPassantLeft.ifPresent(enPassantMoves::add);
-        enPassantRight.ifPresent(enPassantMoves::add);
-
-        this.enPassantMoves = enPassantMoves;
+//        this.enPassantMoves = enPassantMoves;
         setLegalMoves(legalMoves);
+
+        firstMove = false;
     }
 
-    private Optional<Move> enPassantRight(Board board, Position position) {
-        int currentX = position.getX();
-        int currentY = position.getY();
-        Piece piece;
-
-        if (getColour() == PieceColour.WHITE) {
-            piece = board.getSquare(new Position(currentX + 1, currentY));
-        } else {
-            piece = board.getSquare(new Position(currentX - 1, currentY));
-        }
-        if ((piece instanceof Pawn) && ((Pawn) piece).tookTwoSquareMove) {
-            if (getColour() == PieceColour.WHITE) {
-                if (board.isInRange(new Position(currentX + 1, currentY - 1))
-                        && board.isEmpty(new Position(currentX + 1, currentY - 1))) {
-                    return Optional.of(new Move(position, new Position(currentX + 1, currentY - 1)));
-                } else {
-                    return Optional.empty();
-                }
-            } else {
-                if (board.isInRange(new Position(currentX - 1, currentY + 1))
-                        && board.isEmpty(new Position(currentX - 1, currentY + 1))) {
-                    return Optional.of(new Move(position, new Position(currentX - 1, currentY + 1)));
-                } else {
-                    return Optional.empty();
-                }
-            }
-        } else {
-            return Optional.empty();
-        }
-    }
-
-    private Optional<Move> enPassantLeft(Board board, Position position) {
-        int currentX = position.getX();
-        int currentY = position.getY();
-        Piece piece;
-
-        if (getColour() == PieceColour.WHITE) {
-            piece = board.getSquare(new Position(currentX - 1, currentY));
-        } else {
-            piece = board.getSquare(new Position(currentX + 1, currentY));
-        }
-        if ((piece instanceof Pawn) && ((Pawn) piece).tookTwoSquareMove) {
-            if (getColour() == PieceColour.WHITE) {
-                if (board.isInRange(new Position(currentX - 1, currentY - 1))
-                        && board.isEmpty(new Position(currentX - 1, currentY - 1))) {
-                    return Optional.of(new Move(position, new Position(currentX - 1, currentY - 1)));
-                } else {
-                    return Optional.empty();
-                }
-            } else {
-                if (board.isInRange(new Position(currentX + 1, currentY + 1))
-                        && board.isEmpty(new Position(currentX + 1, currentY + 1))) {
-                    return Optional.of(new Move(position, new Position(currentX + 1, currentY + 1)));
-                } else {
-                    return Optional.empty();
-                }
-            }
-        } else {
-            return Optional.empty();
-        }
-    }
+//    private Optional<Move> enPassantRight(Board board, Position position) {
+//        int currentX = position.getX();
+//        int currentY = position.getY();
+//        Piece piece;
+//
+//        if (getColour() == PieceColour.WHITE) {
+//            piece = board.getSquare(new Position(currentX + 1, currentY));
+//        } else {
+//            piece = board.getSquare(new Position(currentX - 1, currentY));
+//        }
+//        if ((piece instanceof Pawn) && ((Pawn) piece).tookTwoSquareMove) {
+//            if (getColour() == PieceColour.WHITE) {
+//                if (board.isInRange(new Position(currentX + 1, currentY - 1))
+//                        && board.isEmpty(new Position(currentX + 1, currentY - 1))) {
+//                    return Optional.of(new Move(position, new Position(currentX + 1, currentY - 1)));
+//                } else {
+//                    return Optional.empty();
+//                }
+//            } else {
+//                if (board.isInRange(new Position(currentX - 1, currentY + 1))
+//                        && board.isEmpty(new Position(currentX - 1, currentY + 1))) {
+//                    return Optional.of(new Move(position, new Position(currentX - 1, currentY + 1)));
+//                } else {
+//                    return Optional.empty();
+//                }
+//            }
+//        } else {
+//            return Optional.empty();
+//        }
+//    }
+//
+//    private Optional<Move> enPassantLeft(Board board, Position position) {
+//        int currentX = position.getX();
+//        int currentY = position.getY();
+//        Piece piece;
+//
+//        if (getColour() == PieceColour.WHITE) {
+//            piece = board.getSquare(new Position(currentX - 1, currentY));
+//        } else {
+//            piece = board.getSquare(new Position(currentX + 1, currentY));
+//        }
+//
+//        if ((piece instanceof Pawn) && ((Pawn) piece).tookTwoSquareMove) {
+//            if (getColour() == PieceColour.WHITE) {
+//                if (board.isInRange(new Position(currentX - 1, currentY - 1))
+//                        && board.isEmpty(new Position(currentX - 1, currentY - 1))) {
+//                    return Optional.of(new Move(position, new Position(currentX - 1, currentY - 1)));
+//                } else {
+//                    return Optional.empty();
+//                }
+//            } else {
+//                if (board.isInRange(new Position(currentX + 1, currentY + 1))
+//                        && board.isEmpty(new Position(currentX + 1, currentY + 1))) {
+//                    return Optional.of(new Move(position, new Position(currentX + 1, currentY + 1)));
+//                } else {
+//                    return Optional.empty();
+//                }
+//            }
+//        } else {
+//            return Optional.empty();
+//        }
+//    }
 
     private Optional<Move> takeLeft(Board board, Position position) {
         int currentX = position.getX();

@@ -17,9 +17,6 @@ public class Test {
                 int x1 = Integer.parseInt(scanner.next());
                 int y1 = Integer.parseInt(scanner.next());
 
-//                for (Move m : game.getBoard().getSquare(new Position(x1, y1)).getLegalMoves()) {
-//                    System.out.println("(" + m.getTo().getX() + "," + m.getTo().getY() + ")");
-//                }
                 int x2 = Integer.parseInt(scanner.next());
                 int y2 = Integer.parseInt(scanner.next());
                 game.move(new Move(new Position(x1, y1),
