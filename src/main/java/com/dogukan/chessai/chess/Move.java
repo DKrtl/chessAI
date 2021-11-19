@@ -20,6 +20,22 @@ public class Move {
         return to;
     }
 
+    private boolean isDiagonal() {
+        return (manhattanDistance() % 2 == 0) && (from.getY() != to.getY()) && (from.getX() != to.getX());
+    }
+
+    private int manhattanDistance() {
+        return Math.abs(from.getX() - to.getX()) + Math.abs(from.getY() - to.getY());
+    }
+
+    public int distance() {
+        if (isDiagonal()) {
+            return manhattanDistance() / 2;
+        } else {
+            return manhattanDistance();
+        }
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) {
