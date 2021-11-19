@@ -1,5 +1,7 @@
 package com.dogukan.chessai.chess;
 
+import java.util.Objects;
+
 public class Position {
 
     private int x;
@@ -16,5 +18,20 @@ public class Position {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Position position = (Position) object;
+        return (this == object) || (Objects.equals(x, position.x)
+                && Objects.equals(y, position.y));
+    }
+
+    @Override
+    public int hashCode() {
+        return x * y;
     }
 }

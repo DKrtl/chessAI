@@ -22,10 +22,6 @@ public class Pawn extends Piece {
         Board newBoard = new Board(board.getSquares());
         legalMoves(newBoard, move.getFrom());
 
-//        for (Move m : getLegalMoves()) {
-//            System.out.println("(" + m.getTo().getX() + "," + m.getTo().getY() + ")");
-//        }
-
         if (enPassantMoves.contains(move)) {
             Position position = move.getTo();
             int nextX = position.getX();
@@ -69,9 +65,6 @@ public class Pawn extends Piece {
 
         this.enPassantMoves = enPassantMoves;
         setLegalMoves(legalMoves);
-        for (Move m : legalMoves) {
-            System.out.println("(" + m.getTo().getX() + "," + m.getTo().getY() + ")");
-        }
     }
 
     private Optional<Move> enPassantRight(Board board, Position position) {
