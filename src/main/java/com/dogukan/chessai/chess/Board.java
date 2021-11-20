@@ -29,7 +29,7 @@ public class Board {
     }
 
     public boolean isEmpty(Position position) {
-        return board[position.getX()][position.getY()] == null;
+        return isInRange(position) && board[position.getX()][position.getY()] == null;
     }
 
     public boolean isInRange(Position position) {
