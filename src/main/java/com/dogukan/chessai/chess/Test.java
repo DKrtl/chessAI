@@ -36,6 +36,12 @@ public class Test {
                     } else {
                         System.out.print("BP ");
                     }
+                } else if (piece instanceof Rook) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WR ");
+                    } else {
+                        System.out.print("BR ");
+                    }
                 } else {
                     System.out.print(" x ");
                 }

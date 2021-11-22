@@ -20,18 +20,24 @@ public class Rook extends Piece {
     }
 
     private void verticalMove(Board board, Position position) {
-        emptySquareOnAbove(board, position);
+        emptySquareAbove(board, position);
         emptySquareBelow(board, position);
     }
 
-    private void emptySquareOnAbove(Board board, Position position) {
+    private void emptySquareAbove(Board board, Position position) {
         int currentX = position.getX();
         int currentY = position.getY();
 
         int i = 1;
-        while (board.isEmpty(new Position(currentX, currentY - 1))) {
+        while (board.isEmpty(new Position(currentX, currentY - i))) {
             getLegalMoves().add(new Move(position, new Position(currentX, currentY - i)));
             i++;
+        }
+
+        Piece blockingPiece = board.getSquare(new Position(currentX, currentY - i));
+
+        if (blockingPiece != null && blockingPiece.getColour() == getColour().opponent()) {
+            getLegalMoves().add(new Move(position, new Position(currentX, currentY - i)));
         }
     }
 
@@ -40,9 +46,15 @@ public class Rook extends Piece {
         int currentY = position.getY();
 
         int i = 1;
-        while (board.isEmpty(new Position(currentX, currentY + 1))) {
+        while (board.isEmpty(new Position(currentX, currentY + i))) {
             getLegalMoves().add(new Move(position, new Position(currentX, currentY + i)));
             i++;
+        }
+
+        Piece blockingPiece = board.getSquare(new Position(currentX, currentY + i));
+
+        if (blockingPiece != null && blockingPiece.getColour() == getColour().opponent()) {
+            getLegalMoves().add(new Move(position, new Position(currentX, currentY + i)));
         }
     }
 
@@ -55,6 +67,12 @@ public class Rook extends Piece {
             getLegalMoves().add(new Move(position, new Position(currentX - i, currentY)));
             i++;
         }
+
+        Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY));
+
+        if (blockingPiece != null && blockingPiece.getColour() == getColour().opponent()) {
+            getLegalMoves().add(new Move(position, new Position(currentX - i, currentY)));
+        }
     }
 
     private void emptySquareOnRight(Board board, Position position) {
@@ -65,6 +83,12 @@ public class Rook extends Piece {
         while (board.isEmpty(new Position(currentX + i, currentY))) {
             getLegalMoves().add(new Move(position, new Position(currentX + i, currentY)));
             i++;
+        }
+
+        Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY));
+
+        if (blockingPiece != null && blockingPiece.getColour() == getColour().opponent()) {
+            getLegalMoves().add(new Move(position, new Position(currentX + i, currentY)));
         }
     }
 }

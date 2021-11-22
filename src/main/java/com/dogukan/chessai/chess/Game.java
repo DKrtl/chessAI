@@ -16,6 +16,14 @@ public class Game {
                     board.addPiece(new Position(i, j), new Pawn(PieceColour.BLACK));
                 } else if (j == 6) {
                     board.addPiece(new Position(i, j), new Pawn(PieceColour.WHITE));
+                } else if (j == 0) {
+                    if (i == 0 || i == 7) {
+                        board.addPiece(new Position(i , j), new Rook(PieceColour.BLACK));
+                    }
+                } else if (j == 7) {
+                    if (i == 0 || i == 7) {
+                        board.addPiece(new Position(i , j), new Rook(PieceColour.WHITE));
+                    }
                 }
             }
         }
