@@ -48,6 +48,12 @@ public class Test {
                     } else {
                         System.out.print("BB ");
                     }
+                } else if (piece instanceof Knight) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WK ");
+                    } else {
+                        System.out.print("BK ");
+                    }
                 } else {
                     System.out.print(" x ");
                 }

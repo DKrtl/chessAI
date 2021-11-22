@@ -21,12 +21,16 @@ public class Game {
                         board.addPiece(new Position(i , j), new Rook(PieceColour.BLACK));
                     } else if (i == 1 || i == 6) {
                         board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
+                    } else if (i == 2 || i == 5) {
+                        board.addPiece(new Position(i , j), new Knight(PieceColour.BLACK));
                     }
                 } else if (j == 7) {
                     if (i == 0 || i == 7) {
                         board.addPiece(new Position(i , j), new Rook(PieceColour.WHITE));
                     } else if (i == 1 || i == 6) {
                         board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
+                    } else if (i == 2 || i == 5) {
+                        board.addPiece(new Position(i , j), new Knight(PieceColour.WHITE));
                     }
                 }
             }

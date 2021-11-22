@@ -8,45 +8,24 @@ public class Knight extends Piece {
 
     @Override
     public void legalMoves(Board board, Position position) {
-        northEast(board, position);
-        southEast(board, position);
-        southWest(board, position);
-        northWest(board, position);
-    }
-
-    private void northEast(Board board, Position position) {
         int currentX = position.getX();
         int currentY = position.getY();
 
-        if (board.getSquare(new Position(currentX + 1, currentY - 2)).getColour() != getColour()) {
-            getLegalMoves().add(new Move(position, new Position(currentX + 1, currentY - 2)));
-        }
+        Position northEast = new Position(currentX + 1, currentY - 2);
+        Position southEast = new Position(currentX + 1, currentY + 2);
+        Position southWest = new Position(currentX - 1, currentY + 2);
+        Position northWest = new Position(currentX - 1, currentY - 2);
+
+        createMove(board, new Move(position, northEast));
+        createMove(board, new Move(position, southEast));
+        createMove(board, new Move(position, southWest));
+        createMove(board, new Move(position, northWest));
     }
 
-    private void southEast(Board board, Position position) {
-        int currentX = position.getX();
-        int currentY = position.getY();
-
-        if (board.getSquare(new Position(currentX + 1, currentY + 2)).getColour() != getColour()) {
-            getLegalMoves().add(new Move(position, new Position(currentX + 1, currentY + 2)));
-        }
-    }
-
-    private void southWest(Board board, Position position) {
-        int currentX = position.getX();
-        int currentY = position.getY();
-
-        if (board.getSquare(new Position(currentX - 1, currentY + 2)).getColour() != getColour()) {
-            getLegalMoves().add(new Move(position, new Position(currentX - 1, currentY + 2)));
-        }
-    }
-
-    private void northWest(Board board, Position position) {
-        int currentX = position.getX();
-        int currentY = position.getY();
-
-        if (board.getSquare(new Position(currentX - 1, currentY - 2)).getColour() != getColour()) {
-            getLegalMoves().add(new Move(position, new Position(currentX - 1, currentY - 2)));
+    private void createMove(Board board, Move move) {
+        if (board.isEmpty(move.getTo()) ||
+                (board.isInRange(move.getTo()) && board.getSquare(move.getTo()).getColour() != getColour())) {
+            getLegalMoves().add(move);
         }
     }
 }
