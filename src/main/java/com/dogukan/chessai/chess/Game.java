@@ -19,10 +19,14 @@ public class Game {
                 } else if (j == 0) {
                     if (i == 0 || i == 7) {
                         board.addPiece(new Position(i , j), new Rook(PieceColour.BLACK));
+                    } else if (i == 1 || i == 6) {
+                        board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
                     }
                 } else if (j == 7) {
                     if (i == 0 || i == 7) {
                         board.addPiece(new Position(i , j), new Rook(PieceColour.WHITE));
+                    } else if (i == 1 || i == 6) {
+                        board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
                     }
                 }
             }

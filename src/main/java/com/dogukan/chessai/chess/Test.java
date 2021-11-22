@@ -42,6 +42,12 @@ public class Test {
                     } else {
                         System.out.print("BR ");
                     }
+                } else if (piece instanceof Bishop) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WB ");
+                    } else {
+                        System.out.print("BB ");
+                    }
                 } else {
                     System.out.print(" x ");
                 }
