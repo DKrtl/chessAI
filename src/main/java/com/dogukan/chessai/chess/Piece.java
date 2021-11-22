@@ -18,9 +18,11 @@ public abstract class Piece {
         Board newBoard = new Board(board.getSquares());
         legalMoves(newBoard, move.getFrom());
         if (legalMoves.contains(move)) {
-            newBoard.removePiece(move.getFrom());
-            newBoard.addPiece(move.getTo(), this);
-            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+            if (newBoard.isInRange(move.getTo())) {
+                newBoard.removePiece(move.getFrom());
+                newBoard.addPiece(move.getTo(), this);
+                gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+            }
         }
     }
 
