@@ -60,6 +60,12 @@ public class Test {
                     } else {
                         System.out.print("BQ ");
                     }
+                } else if (piece instanceof King) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WKi ");
+                    } else {
+                        System.out.print("BKi ");
+                    }
                 } else {
                     System.out.print(" x ");
                 }

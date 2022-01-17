@@ -25,6 +25,8 @@ public class Game {
                         board.addPiece(new Position(i , j), new Knight(PieceColour.BLACK));
                     } else if (i == 3) {
                         board.addPiece(new Position(i, j), new Queen(PieceColour.BLACK));
+                    } else {
+                        board.addPiece(new Position(i, j), new King(PieceColour.BLACK));
                     }
                 } else if (j == 7) {
                     if (i == 0 || i == 7) {
@@ -35,6 +37,8 @@ public class Game {
                         board.addPiece(new Position(i , j), new Knight(PieceColour.WHITE));
                     } else if (i == 3) {
                         board.addPiece(new Position(i, j), new Queen(PieceColour.WHITE));
+                    } else {
+                        board.addPiece(new Position(i, j), new King(PieceColour.WHITE));
                     }
                 }
             }
