@@ -5,182 +5,235 @@ import java.util.Set;
 
 public class Direction {
 
-    public static Set<Move> horizontalMove(Board board, Position position, PieceColour colour) {
-        Set<Move> moves = new HashSet<>();
 
-        moves.addAll(emptySquareOnLeft(board, position, colour));
-        moves.addAll(emptySquareOnRight(board, position, colour));
-
-        return moves;
-    }
-
-    public static Set<Move> verticalMove(Board board, Position position, PieceColour colour) {
-        Set<Move> moves = new HashSet<>();
-
-        moves.addAll(emptySquareAbove(board, position, colour));
-        moves.addAll(emptySquareBelow(board, position, colour));
-
-        return moves;
-    }
-
-    private static Set<Move> emptySquareAbove(Board board, Position position, PieceColour colour) {
+    public static Set<Move> northMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
-        int i = 1;
-        while (board.isEmpty(new Position(currentX, currentY - i))) {
-            moves.add(new Move(position, new Position(currentX, currentY - i)));
-            i++;
-        }
-
-        Piece blockingPiece = board.getSquare(new Position(currentX, currentY - i));
-
-        if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-            moves.add(new Move(position, new Position(currentX, currentY - i)));
+        if(colour == PieceColour.WHITE) {
+            upTheBoard(board, position, colour, amount, moves, currentX, currentY);
+        } else {
+            downTheBoard(board, position, colour, amount, moves, currentX, currentY);
         }
 
         return moves;
     }
 
-    private static Set<Move> emptySquareBelow(Board board, Position position, PieceColour colour) {
+    public static Set<Move> southMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
-        int i = 1;
-        while (board.isEmpty(new Position(currentX, currentY + i))) {
-            moves.add(new Move(position, new Position(currentX, currentY + i)));
-            i++;
-        }
-
-        Piece blockingPiece = board.getSquare(new Position(currentX, currentY + i));
-
-        if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-            moves.add(new Move(position, new Position(currentX, currentY + i)));
+        if(colour == PieceColour.WHITE) {
+            downTheBoard(board, position, colour, amount, moves, currentX, currentY);
+        } else {
+            upTheBoard(board, position, colour, amount, moves, currentX, currentY);
         }
 
         return moves;
     }
 
-    private static Set<Move> emptySquareOnLeft(Board board, Position position, PieceColour colour) {
+    private static void downTheBoard(Board board, Position position, PieceColour colour, int amount,
+                                    Set<Move> moves, int currentX, int currentY) {
+        for(int i = 1; i <= amount; i++) {
+            if(board.isEmpty(new Position(currentX, currentY + i))) {
+                moves.add(new Move(position, new Position(currentX, currentY + i)));
+            } else {
+                Piece blockingPiece = board.getSquare(new Position(currentX, currentY + i));
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, new Position(currentX, currentY + i)));
+                }
+                break;
+            }
+        }
+    }
+
+    private static void upTheBoard(Board board, Position position, PieceColour colour, int amount,
+                                     Set<Move> moves, int currentX, int currentY) {
+        for(int i = 1; i <= amount; i++) {
+            if(board.isEmpty(new Position(currentX, currentY - i))) {
+                moves.add(new Move(position, new Position(currentX, currentY - i)));
+            } else {
+                Piece blockingPiece = board.getSquare(new Position(currentX, currentY - i));
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, new Position(currentX, currentY - i)));
+                }
+                break;
+            }
+        }
+    }
+
+    public static Set<Move> eastMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
-        int i = 1;
-        while (board.isEmpty(new Position(currentX - i, currentY))) {
-            moves.add(new Move(position, new Position(currentX - i, currentY)));
-            i++;
-        }
-
-        Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY));
-
-        if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-            moves.add(new Move(position, new Position(currentX - i, currentY)));
+        if(colour == PieceColour.WHITE) {
+            rightOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
+        } else {
+            leftOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
         }
 
         return moves;
     }
 
-    private static Set<Move> emptySquareOnRight(Board board, Position position, PieceColour colour) {
+    public static Set<Move> westMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
-        int i = 1;
-        while (board.isEmpty(new Position(currentX + i, currentY))) {
-            moves.add(new Move(position, new Position(currentX + i, currentY)));
-            i++;
-        }
-
-        Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY));
-
-        if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-            moves.add(new Move(position, new Position(currentX + i, currentY)));
+        if(colour == PieceColour.WHITE) {
+            leftOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
+        } else {
+            rightOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
         }
 
         return moves;
     }
 
-    public static Set<Move> northEastDiagonal(Board board, Position position, PieceColour colour) {
+    private static void rightOnTheBoard(Board board, Position position, PieceColour colour, int amount,
+                                    Set<Move> moves, int currentX, int currentY) {
+        for(int i = 1; i <= amount; i++) {
+            if(board.isEmpty(new Position(currentX + i, currentY))) {
+                moves.add(new Move(position, new Position(currentX + i, currentY)));
+            } else {
+                Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY));
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, new Position(currentX + i, currentY)));
+                }
+                break;
+            }
+        }
+    }
+
+    private static void leftOnTheBoard(Board board, Position position, PieceColour colour, int amount,
+                                     Set<Move> moves, int currentX, int currentY) {
+        for(int i = 1; i <= amount; i++) {
+            if(board.isEmpty(new Position(currentX - i, currentY))) {
+                moves.add(new Move(position, new Position(currentX - i, currentY)));
+            } else {
+                Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY));
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, new Position(currentX - i, currentY)));
+                }
+                break;
+            }
+        }
+    }
+
+    public static Set<Move> northEastMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
-        int i = 1;
-        while (board.isEmpty(new Position(currentX + i, currentY - i))) {
-            moves.add(new Move(position, new Position(currentX + i, currentY - i)));
-            i++;
-        }
-
-        Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY - i));
-
-        if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-            moves.add(new Move(position, new Position(currentX + i, currentY - i)));
+        if(colour == PieceColour.WHITE) {
+            topRightOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
+        } else {
+            bottomLeftOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
         }
 
         return moves;
     }
 
-    public static Set<Move> southEastDiagonal(Board board, Position position, PieceColour colour) {
+    public static Set<Move> southWestMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
-        int i = 1;
-        while (board.isEmpty(new Position(currentX + i, currentY + i))) {
-            moves.add(new Move(position, new Position(currentX + i, currentY + i)));
-            i++;
-        }
-
-        Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY + i));
-
-        if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-            moves.add(new Move(position, new Position(currentX + i, currentY + i)));
+        if(colour == PieceColour.WHITE) {
+            bottomLeftOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
+        } else {
+            topRightOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
         }
 
         return moves;
     }
 
-    public static Set<Move> southWestDiagonal(Board board, Position position, PieceColour colour) {
+    private static void bottomLeftOnTheBoard(Board board, Position position, PieceColour colour, int amount,
+                                             Set<Move> moves, int currentX, int currentY) {
+        for(int i = 1; i <= amount; i++) {
+            if(board.isEmpty(new Position(currentX - i, currentY + i))) {
+                moves.add(new Move(position, new Position(currentX - i, currentY + i)));
+            } else {
+                Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY + i));
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, new Position(currentX - i, currentY + i)));
+                }
+                break;
+            }
+        }
+    }
+
+    private static void topRightOnTheBoard(Board board, Position position, PieceColour colour, int amount,
+                                           Set<Move> moves, int currentX, int currentY) {
+        for(int i = 1; i <= amount; i++) {
+            if(board.isEmpty(new Position(currentX + i, currentY - i))) {
+                moves.add(new Move(position, new Position(currentX + i, currentY - i)));
+            } else {
+                Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY - i));
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, new Position(currentX + i, currentY - i)));
+                }
+                break;
+            }
+        }
+    }
+
+    public static Set<Move> southEastMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
-        int i = 1;
-        while (board.isEmpty(new Position(currentX - i, currentY + i))) {
-            moves.add(new Move(position, new Position(currentX - i, currentY + i)));
-            i++;
-        }
-
-        Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY + i));
-
-        if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-            moves.add(new Move(position, new Position(currentX - i, currentY + i)));
+        if(colour == PieceColour.WHITE) {
+            bottomRightOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
+        } else {
+            topLeftOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
         }
 
         return moves;
     }
 
-    public static Set<Move> northWestDiagonal(Board board, Position position, PieceColour colour) {
+    public static Set<Move> northWestMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
-        int i = 1;
-        while (board.isEmpty(new Position(currentX - i, currentY - i))) {
-            moves.add(new Move(position, new Position(currentX - i, currentY - i)));
-            i++;
-        }
-
-        Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY - i));
-
-        if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-            moves.add(new Move(position, new Position(currentX - i, currentY - i)));
+        if(colour == PieceColour.WHITE) {
+            topLeftOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
+        } else {
+            bottomRightOnTheBoard(board, position, colour, amount, moves, currentX, currentY);
         }
 
         return moves;
+    }
+
+    private static void bottomRightOnTheBoard(Board board, Position position, PieceColour colour, int amount, Set<Move> moves, int currentX, int currentY) {
+        for(int i = 1; i <= amount; i++) {
+            if(board.isEmpty(new Position(currentX + i, currentY + i))) {
+                moves.add(new Move(position, new Position(currentX + i, currentY + i)));
+            } else {
+                Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY + i));
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, new Position(currentX + i, currentY + i)));
+                }
+                break;
+            }
+        }
+    }
+
+    private static void topLeftOnTheBoard(Board board, Position position, PieceColour colour, int amount, Set<Move> moves, int currentX, int currentY) {
+        for(int i = 1; i <= amount; i++) {
+            if(board.isEmpty(new Position(currentX - i, currentY - i))) {
+                moves.add(new Move(position, new Position(currentX - i, currentY - i)));
+            } else {
+                Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY - i));
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, new Position(currentX - i, currentY - i)));
+                }
+                break;
+            }
+        }
     }
 
     public static Piece getRightPawnPiece(Board board, Position position, Piece currentPiece) {
