@@ -37,28 +37,16 @@ public class Direction {
     private static void downTheBoard(Board board, Position position, PieceColour colour, int amount,
                                     Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
-            if(board.isEmpty(new Position(currentX, currentY + i))) {
-                moves.add(new Move(position, new Position(currentX, currentY + i)));
-            } else {
-                Piece blockingPiece = board.getSquare(new Position(currentX, currentY + i));
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-                    moves.add(new Move(position, new Position(currentX, currentY + i)));
-                }
-                break;
-            }
+            Position to = new Position(currentX, currentY + i);
+            if (createMove(board, position, colour, moves, to)) break;
         }
     }
 
     private static void upTheBoard(Board board, Position position, PieceColour colour, int amount,
                                      Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
-            if(board.isEmpty(new Position(currentX, currentY - i))) {
-                moves.add(new Move(position, new Position(currentX, currentY - i)));
-            } else {
-                Piece blockingPiece = board.getSquare(new Position(currentX, currentY - i));
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-                    moves.add(new Move(position, new Position(currentX, currentY - i)));
-                }
+            Position to = new Position(currentX, currentY - i);
+            if (!createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -95,13 +83,8 @@ public class Direction {
     private static void rightOnTheBoard(Board board, Position position, PieceColour colour, int amount,
                                     Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
-            if(board.isEmpty(new Position(currentX + i, currentY))) {
-                moves.add(new Move(position, new Position(currentX + i, currentY)));
-            } else {
-                Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY));
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-                    moves.add(new Move(position, new Position(currentX + i, currentY)));
-                }
+            Position to = new Position(currentX + i, currentY);
+            if (!createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -110,13 +93,8 @@ public class Direction {
     private static void leftOnTheBoard(Board board, Position position, PieceColour colour, int amount,
                                      Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
-            if(board.isEmpty(new Position(currentX - i, currentY))) {
-                moves.add(new Move(position, new Position(currentX - i, currentY)));
-            } else {
-                Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY));
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-                    moves.add(new Move(position, new Position(currentX - i, currentY)));
-                }
+            Position to = new Position(currentX - i, currentY);
+            if (!createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -153,13 +131,8 @@ public class Direction {
     private static void bottomLeftOnTheBoard(Board board, Position position, PieceColour colour, int amount,
                                              Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
-            if(board.isEmpty(new Position(currentX - i, currentY + i))) {
-                moves.add(new Move(position, new Position(currentX - i, currentY + i)));
-            } else {
-                Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY + i));
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-                    moves.add(new Move(position, new Position(currentX - i, currentY + i)));
-                }
+            Position to = new Position(currentX - i, currentY + i);
+            if (!createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -168,13 +141,8 @@ public class Direction {
     private static void topRightOnTheBoard(Board board, Position position, PieceColour colour, int amount,
                                            Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
-            if(board.isEmpty(new Position(currentX + i, currentY - i))) {
-                moves.add(new Move(position, new Position(currentX + i, currentY - i)));
-            } else {
-                Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY - i));
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-                    moves.add(new Move(position, new Position(currentX + i, currentY - i)));
-                }
+            Position to = new Position(currentX + i, currentY - i);
+            if (!createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -211,13 +179,8 @@ public class Direction {
     private static void bottomRightOnTheBoard(Board board, Position position, PieceColour colour, int amount,
                                               Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
-            if(board.isEmpty(new Position(currentX + i, currentY + i))) {
-                moves.add(new Move(position, new Position(currentX + i, currentY + i)));
-            } else {
-                Piece blockingPiece = board.getSquare(new Position(currentX + i, currentY + i));
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-                    moves.add(new Move(position, new Position(currentX + i, currentY + i)));
-                }
+            Position to = new Position(currentX + i, currentY + i);
+            if (!createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -226,16 +189,28 @@ public class Direction {
     private static void topLeftOnTheBoard(Board board, Position position, PieceColour colour, int amount,
                                           Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
-            if(board.isEmpty(new Position(currentX - i, currentY - i))) {
-                moves.add(new Move(position, new Position(currentX - i, currentY - i)));
-            } else {
-                Piece blockingPiece = board.getSquare(new Position(currentX - i, currentY - i));
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
-                    moves.add(new Move(position, new Position(currentX - i, currentY - i)));
-                }
+            Position to = new Position(currentX - i, currentY - i);
+            if (!createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
+    }
+
+    private static boolean createMove(Board board, Position position, PieceColour colour, Set<Move> moves, Position to) {
+        if(board.isInRange(to)) {
+            if(board.isEmpty(to)) {
+                moves.add(new Move(position, to));
+            } else {
+                Piece blockingPiece = board.getSquare(to);
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
+                    moves.add(new Move(position, to));
+                }
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
     }
 
     public static Piece getRightPawnPiece(Board board, Position position, Piece currentPiece) {
