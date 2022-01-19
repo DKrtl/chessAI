@@ -208,7 +208,8 @@ public class Direction {
         return moves;
     }
 
-    private static void bottomRightOnTheBoard(Board board, Position position, PieceColour colour, int amount, Set<Move> moves, int currentX, int currentY) {
+    private static void bottomRightOnTheBoard(Board board, Position position, PieceColour colour, int amount,
+                                              Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
             if(board.isEmpty(new Position(currentX + i, currentY + i))) {
                 moves.add(new Move(position, new Position(currentX + i, currentY + i)));
@@ -222,7 +223,8 @@ public class Direction {
         }
     }
 
-    private static void topLeftOnTheBoard(Board board, Position position, PieceColour colour, int amount, Set<Move> moves, int currentX, int currentY) {
+    private static void topLeftOnTheBoard(Board board, Position position, PieceColour colour, int amount,
+                                          Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
             if(board.isEmpty(new Position(currentX - i, currentY - i))) {
                 moves.add(new Move(position, new Position(currentX - i, currentY - i)));

@@ -46,12 +46,12 @@ public class Pawn extends Piece {
 
     @Override
     public void legalMoves(Board board, Position position) {
-        getLegalMoves().addAll(Direction.enPassantRight(board, position, this));
-        getLegalMoves().addAll(Direction.enPassantLeft(board, position, this));
-        getLegalMoves().addAll(Direction.oneSquareMove(board, position, this));
-        getLegalMoves().addAll(Direction.twoSquareMove(board, position, this));
-        getLegalMoves().addAll(Direction.takeLeft(board, position, this));
-        getLegalMoves().addAll(Direction.takeRight(board, position, this));
+//        getLegalMoves().addAll(Direction.enPassantRight(board, position, this));
+//        getLegalMoves().addAll(Direction.enPassantLeft(board, position, this));
+//        getLegalMoves().addAll(Direction.oneSquareMove(board, position, this));
+//        getLegalMoves().addAll(Direction.twoSquareMove(board, position, this));
+//        getLegalMoves().addAll(Direction.takeLeft(board, position, this));
+//        getLegalMoves().addAll(Direction.takeRight(board, position, this));
     }
 
     private boolean isEnPassantMove(Board board, Move move) {
