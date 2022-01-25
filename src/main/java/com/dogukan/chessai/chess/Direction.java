@@ -5,16 +5,13 @@ import java.util.Set;
 
 public class Direction {
 
-
     public static Set<Move> northMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
-        int currentX = position.getX();
-        int currentY = position.getY();
 
         if(colour == PieceColour.WHITE) {
-            upTheBoard(board, position, colour, amount, moves, currentX, currentY);
+            upTheBoard(board, position, colour, amount, moves);
         } else {
-            downTheBoard(board, position, colour, amount, moves, currentX, currentY);
+            downTheBoard(board, position, colour, amount, moves);
         }
 
         return moves;
@@ -22,30 +19,28 @@ public class Direction {
 
     public static Set<Move> southMove(Board board, Position position, PieceColour colour, int amount) {
         Set<Move> moves = new HashSet<>();
-        int currentX = position.getX();
-        int currentY = position.getY();
 
         if(colour == PieceColour.WHITE) {
-            downTheBoard(board, position, colour, amount, moves, currentX, currentY);
+            downTheBoard(board, position, colour, amount, moves);
         } else {
-            upTheBoard(board, position, colour, amount, moves, currentX, currentY);
+            upTheBoard(board, position, colour, amount, moves);
         }
 
         return moves;
     }
 
-    private static void downTheBoard(Board board, Position position, PieceColour colour, int amount,
-                                    Set<Move> moves, int currentX, int currentY) {
+    private static void downTheBoard(Board board, Position position, PieceColour colour, int amount, Set<Move> moves) {
         for(int i = 1; i <= amount; i++) {
-            Position to = new Position(currentX, currentY + i);
-            if (createMove(board, position, colour, moves, to)) break;
+            Position to = new Position(position.getX(), position.getY() + i);
+            if (!createMove(board, position, colour, moves, to)) {
+                break;
+            }
         }
     }
 
-    private static void upTheBoard(Board board, Position position, PieceColour colour, int amount,
-                                     Set<Move> moves, int currentX, int currentY) {
+    private static void upTheBoard(Board board, Position position, PieceColour colour, int amount, Set<Move> moves) {
         for(int i = 1; i <= amount; i++) {
-            Position to = new Position(currentX, currentY - i);
+            Position to = new Position(position.getX(), position.getY() - i);
             if (!createMove(board, position, colour, moves, to)) {
                 break;
             }
@@ -367,4 +362,17 @@ public class Direction {
 
         return moves;
     }
+
+//    public static Set<Move> pawnMove(Board board, Position position, Piece currentPiece) {
+//        Set<Move> moves = new HashSet<>();
+//
+//        Set<Move> northMove = northMove(board, position, currentPiece.getColour(), 2);
+//
+//        if(board.isEmpty(new Position(position.getX(), position.getY() + 1))) {
+//            northMove.remove(new Move(position, new Position(position.getX(), position.getY() + 1)));
+//            northMove.remove(new Move(position, new Position(position.getX(), position.getY() + 2)));
+//        } else if(board.isEmpty(new Position(position.getX(), position.getY() + 2))) {
+//            northMove.remove(new Move(position, new Position(position.getX(), position.getY() + 2)));
+//        }
+//    }
 }

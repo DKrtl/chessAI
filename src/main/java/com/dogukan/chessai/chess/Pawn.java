@@ -11,43 +11,40 @@ public class Pawn extends Piece {
         tookTwoSquareMove = false;
     }
 
-    @Override
-    public void move(GameState gameState, Move move) {
-        Board board = gameState.getBoard();
-        Board newBoard = new Board(board.getSquares());
-        legalMoves(newBoard, move.getFrom());
-
-        if (getLegalMoves().contains(move)) {
-            if (move.distance() == 2) {
-                tookTwoSquareMove = true;
-            } else {
-                tookTwoSquareMove = false;
-            }
-
-            if (isEnPassantMove(board, move)) {
-                Position position = move.getTo();
-                int nextX = position.getX();
-                int nextY = position.getY();
-
-                if (getColour() == PieceColour.WHITE) {
-                    newBoard.removePiece(new Position(nextX, nextY + 1));
-                } else {
-                    newBoard.removePiece(new Position(nextX, nextY - 1));
-                }
-            }
-
-            newBoard.removePiece(move.getFrom());
-            newBoard.addPiece(move.getTo(), this);
-            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
-
-            firstMove = false;
-        }
-    }
+//    @Override
+//    public void move(GameState gameState, Move move) {
+//        Board board = gameState.getBoard();
+//        Board newBoard = new Board(board.getSquares());
+//        legalMoves(newBoard, move.getFrom());
+//
+//        if (getLegalMoves().contains(move)) {
+//            tookTwoSquareMove = (move.distance() == 2);
+//
+//            if (isEnPassantMove(board, move)) {
+//                Position position = move.getTo();
+//                int nextX = position.getX();
+//                int nextY = position.getY();
+//
+//                if (getColour() == PieceColour.WHITE) {
+//                    newBoard.removePiece(new Position(nextX, nextY + 1));
+//                } else {
+//                    newBoard.removePiece(new Position(nextX, nextY - 1));
+//                }
+//            }
+//
+//            newBoard.removePiece(move.getFrom());
+//            newBoard.addPiece(move.getTo(), this);
+//            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+//
+//            firstMove = false;
+//        }
+//    }
 
     @Override
     public void legalMoves(Board board, Position position) {
 //        getLegalMoves().addAll(Direction.enPassantRight(board, position, this));
 //        getLegalMoves().addAll(Direction.enPassantLeft(board, position, this));
+        getLegalMoves().addAll(Direction.northMove(board, position, getColour(), 2));
 //        getLegalMoves().addAll(Direction.oneSquareMove(board, position, this));
 //        getLegalMoves().addAll(Direction.twoSquareMove(board, position, this));
 //        getLegalMoves().addAll(Direction.takeLeft(board, position, this));
