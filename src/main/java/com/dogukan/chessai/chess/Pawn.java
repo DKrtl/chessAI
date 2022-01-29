@@ -1,70 +1,125 @@
 package com.dogukan.chessai.chess;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Pawn extends Piece {
 
-    private boolean firstMove;
+    private boolean initialMove;
     private boolean tookTwoSquareMove;
 
     Pawn(PieceColour colour) {
         super(colour);
-        firstMove = true;
+        initialMove = true;
         tookTwoSquareMove = false;
     }
 
-//    @Override
-//    public void move(GameState gameState, Move move) {
-//        Board board = gameState.getBoard();
-//        Board newBoard = new Board(board.getSquares());
-//        legalMoves(newBoard, move.getFrom());
-//
-//        if (getLegalMoves().contains(move)) {
-//            tookTwoSquareMove = (move.distance() == 2);
-//
-//            if (isEnPassantMove(board, move)) {
-//                Position position = move.getTo();
-//                int nextX = position.getX();
-//                int nextY = position.getY();
-//
-//                if (getColour() == PieceColour.WHITE) {
-//                    newBoard.removePiece(new Position(nextX, nextY + 1));
-//                } else {
-//                    newBoard.removePiece(new Position(nextX, nextY - 1));
-//                }
-//            }
-//
-//            newBoard.removePiece(move.getFrom());
-//            newBoard.addPiece(move.getTo(), this);
-//            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
-//
-//            firstMove = false;
-//        }
-//    }
+    @Override
+    public void move(GameState gameState, Move move) {
+        Board board = gameState.getBoard();
+        Board newBoard = new Board(board.getSquares());
+        legalMoves(newBoard, move.getFrom());
+
+        if (getLegalMoves().contains(move)) {
+            tookTwoSquareMove = (move.distance() == 2);
+
+            if (isEnPassantMove(board, move)) {
+                Position position = move.getTo();
+                int nextX = position.getX();
+                int nextY = position.getY();
+
+                if (getColour() == PieceColour.WHITE) {
+                    newBoard.removePiece(new Position(nextX, nextY + 1));
+                } else {
+                    newBoard.removePiece(new Position(nextX, nextY - 1));
+                }
+            }
+
+            newBoard.removePiece(move.getFrom());
+            newBoard.addPiece(move.getTo(), this);
+            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+
+            initialMove = false;
+        }
+    }
 
     @Override
     public void legalMoves(Board board, Position position) {
+        forwardMove(board, position);
+        takePiece(board, position);
 //        getLegalMoves().addAll(Direction.enPassantRight(board, position, this));
 //        getLegalMoves().addAll(Direction.enPassantLeft(board, position, this));
-        getLegalMoves().addAll(Direction.northMove(board, position, getColour(), 2));
-//        getLegalMoves().addAll(Direction.oneSquareMove(board, position, this));
-//        getLegalMoves().addAll(Direction.twoSquareMove(board, position, this));
-//        getLegalMoves().addAll(Direction.takeLeft(board, position, this));
-//        getLegalMoves().addAll(Direction.takeRight(board, position, this));
+    }
+
+    private void forwardMove(Board board, Position position) {
+        Set<Move> moves = new HashSet<>();
+
+        if(initialMove) {
+            moves.addAll(Direction.northMove(board, position, getColour(), 2));
+        } else {
+            moves.addAll(Direction.northMove(board, position, getColour(), 1));
+        }
+
+        moves.removeIf(move -> !board.isEmpty(move.getTo()));
+
+        getLegalMoves().addAll(moves);
+    }
+
+    private void takePiece(Board board, Position position) {
+        Set<Move> moves = new HashSet<>();
+
+        moves.addAll(Direction.northEastMove(board, position, getColour(), 1));
+        moves.addAll(Direction.northWestMove(board, position, getColour(), 1));
+
+        moves.removeIf(move -> board.isEmpty(move.getTo()) && !isEnPassantMove(board, move));
+
+        getLegalMoves().addAll(moves);
     }
 
     private boolean isEnPassantMove(Board board, Move move) {
-        Piece pieceR = Direction.getRightPawnPiece(board, move.getFrom(), this);
-        Piece pieceL = Direction.getLeftPawnPiece(board, move.getFrom(), this);
+        Piece pieceEast = getEastPiece(board, move.getFrom());
+        Piece pieceWest = getWestPiece(board, move.getFrom());
 
-        return (((pieceR instanceof Pawn && ((Pawn) pieceR).tookTwoSquareMove)) ||
-                ((pieceL instanceof Pawn) && ((Pawn) pieceL).tookTwoSquareMove)) &&
+        return (((pieceEast instanceof Pawn && ((Pawn) pieceEast).tookTwoSquareMove)) ||
+                ((pieceWest instanceof Pawn) && ((Pawn) pieceWest).tookTwoSquareMove)) &&
                 (board.isEmpty(move.getTo()));
     }
 
-    public boolean hasTookTwoSquareMove() {
-        return tookTwoSquareMove;
+    public Piece getEastPiece(Board board, Position position) {
+        Set<Move> moves = (Direction.eastMove(board, position, getColour(), 1));
+
+        if(!moves.isEmpty()) {
+            Move eastMove = (Move) moves.toArray()[0];
+            return board.getSquare(eastMove.getTo());
+        } else {
+            return null;
+        }
     }
 
-    public boolean isFirstMove() {
-        return firstMove;
+    public Piece getWestPiece(Board board, Position position) {
+        Set<Move> moves = (Direction.westMove(board, position, getColour(), 1));
+
+        if(!moves.isEmpty()) {
+            Move westMove = (Move) moves.toArray()[0];
+            return board.getSquare(westMove.getTo());
+        } else {
+            return null;
+        }
+    }
+
+    public boolean enPassantEast(Board board, Position position) {
+        Piece piece = getEastPiece(board, position);
+
+        return (piece instanceof Pawn) && ((Pawn) piece).tookTwoSquareMove();
+    }
+
+    public boolean enPassantWest(Board board, Position position) {
+        Piece piece = getWestPiece(board, position);
+
+        return (piece instanceof Pawn) && ((Pawn) piece).tookTwoSquareMove();
+    }
+
+    public boolean tookTwoSquareMove() {
+        return tookTwoSquareMove;
     }
 }
