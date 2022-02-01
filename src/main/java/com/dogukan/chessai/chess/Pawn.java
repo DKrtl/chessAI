@@ -117,8 +117,4 @@ public class Pawn extends Piece {
             return null;
         }
     }
-
-    public boolean tookTwoSquareMove() {
-        return tookTwoSquareMove;
-    }
 }
