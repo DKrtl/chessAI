@@ -47,8 +47,6 @@ public class Pawn extends Piece {
     public void legalMoves(Board board, Position position) {
         forwardMove(board, position);
         takePiece(board, position);
-//        getLegalMoves().addAll(Direction.enPassantRight(board, position, this));
-//        getLegalMoves().addAll(Direction.enPassantLeft(board, position, this));
     }
 
     private void forwardMove(Board board, Position position) {
@@ -69,9 +67,10 @@ public class Pawn extends Piece {
         Set<Move> moves = new HashSet<>();
 
         moves.addAll(Direction.northEastMove(board, position, getColour(), 1));
-        moves.addAll(Direction.northWestMove(board, position, getColour(), 1));
+        moves.removeIf(move -> board.isEmpty(move.getTo()) && !isEnPassantEastMove(board, move));
 
-        moves.removeIf(move -> board.isEmpty(move.getTo()) && !isEnPassantMove(board, move));
+        moves.addAll(Direction.northWestMove(board, position, getColour(), 1));
+        moves.removeIf(move -> board.isEmpty(move.getTo()) && !isEnPassantWestMove(board, move));
 
         getLegalMoves().addAll(moves);
     }
@@ -83,6 +82,18 @@ public class Pawn extends Piece {
         return (((pieceEast instanceof Pawn && ((Pawn) pieceEast).tookTwoSquareMove)) ||
                 ((pieceWest instanceof Pawn) && ((Pawn) pieceWest).tookTwoSquareMove)) &&
                 (board.isEmpty(move.getTo()));
+    }
+
+    private boolean isEnPassantEastMove(Board board, Move move) {
+        Piece pieceEast = getEastPiece(board, move.getFrom());
+
+        return (pieceEast instanceof Pawn && ((Pawn) pieceEast).tookTwoSquareMove);
+    }
+
+    private boolean isEnPassantWestMove(Board board, Move move) {
+        Piece pieceWest = getWestPiece(board, move.getFrom());
+
+        return (pieceWest instanceof Pawn && ((Pawn) pieceWest).tookTwoSquareMove);
     }
 
     public Piece getEastPiece(Board board, Position position) {
@@ -105,18 +116,6 @@ public class Pawn extends Piece {
         } else {
             return null;
         }
-    }
-
-    public boolean enPassantEast(Board board, Position position) {
-        Piece piece = getEastPiece(board, position);
-
-        return (piece instanceof Pawn) && ((Pawn) piece).tookTwoSquareMove();
-    }
-
-    public boolean enPassantWest(Board board, Position position) {
-        Piece piece = getWestPiece(board, position);
-
-        return (piece instanceof Pawn) && ((Pawn) piece).tookTwoSquareMove();
     }
 
     public boolean tookTwoSquareMove() {
