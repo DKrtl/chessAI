@@ -52,5 +52,6 @@ public class Game {
 
     public void move(Move move) {
         currentState.move(move);
+        currentState = currentState.getNext();
     }
 }

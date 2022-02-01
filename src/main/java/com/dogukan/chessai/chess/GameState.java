@@ -2,9 +2,9 @@ package com.dogukan.chessai.chess;
 
 public class GameState {
 
-    private GameState prev;
+    private final GameState prev;
     private GameState next;
-    private PieceColour playerTurn;
+    private final PieceColour playerTurn;
     private final Board board;
 
     public GameState(GameState prev, PieceColour playerTurn, Board board) {
@@ -16,9 +16,13 @@ public class GameState {
 
     public void move(Move move) {
         Piece piece = board.getSquare(move.getFrom());
-        if (piece != null) {
+        if (piece != null && (piece.getColour() == playerTurn)) {
             piece.move(this, move);
         }
+    }
+
+    public boolean isCheckmate() {
+        return false;
     }
 
     public Board getBoard() {
