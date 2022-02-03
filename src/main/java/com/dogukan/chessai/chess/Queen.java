@@ -8,11 +8,13 @@ public class Queen extends Piece {
 
     @Override
     public void legalMoves(Board board, Position position) {
-//        getLegalMoves().addAll(Direction.horizontalMove(board, position, getColour()));
-//        getLegalMoves().addAll(Direction.verticalMove(board, position, getColour()));
-//        getLegalMoves().addAll(Direction.northEastDiagonal(board, position, getColour()));
-//        getLegalMoves().addAll(Direction.southEastDiagonal(board, position, getColour()));
-//        getLegalMoves().addAll(Direction.southWestDiagonal(board, position, getColour()));
-//        getLegalMoves().addAll(Direction.northWestDiagonal(board, position, getColour()));
+        getLegalMoves().addAll(Direction.northMove(board, position, getColour(), board.columnLength()));
+        getLegalMoves().addAll(Direction.northEastMove(board, position, getColour(), board.columnLength()));
+        getLegalMoves().addAll(Direction.eastMove(board, position, getColour(), board.columnLength()));
+        getLegalMoves().addAll(Direction.southEastMove(board, position, getColour(), board.columnLength()));
+        getLegalMoves().addAll(Direction.southMove(board, position, getColour(), board.columnLength()));
+        getLegalMoves().addAll(Direction.southWestMove(board, position, getColour(), board.columnLength()));
+        getLegalMoves().addAll(Direction.westMove(board, position, getColour(), board.columnLength()));
+        getLegalMoves().addAll(Direction.northWestMove(board, position, getColour(), board.columnLength()));
     }
 }

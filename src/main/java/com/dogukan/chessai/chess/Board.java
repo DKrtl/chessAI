@@ -37,6 +37,18 @@ public class Board {
                 && position.getY() >= 0 && position.getX() >= 0;
     }
 
+    public Position findKing(PieceColour colour) {
+        for(int i = 0 ; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                Piece piece = this.board[i][j];
+                if((piece instanceof King) && (piece.getColour() == colour)) {
+                    return new Position(i, j);
+                }
+            }
+        }
+        return null;
+    }
+
     public int rowLength() {
         return board[0].length;
     }

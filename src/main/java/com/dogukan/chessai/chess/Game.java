@@ -5,7 +5,35 @@ public class Game {
     private GameState currentState;
 
     Game() {
-        newGame();
+        newGame2();
+    }
+
+    public void newGame2() {
+        Board board = new Board(new Piece[8][8]);
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                if (j == 0) {
+                    if (i == 0 || i == 7) {
+                        board.addPiece(new Position(i , j), new Rook(PieceColour.BLACK));
+                    } else if (i == 4) {
+                        board.addPiece(new Position(i, j), new King(PieceColour.BLACK));
+                    }
+                } else if (j == 7) {
+                    if (i == 0 || i == 7) {
+                        board.addPiece(new Position(i , j), new Rook(PieceColour.WHITE));
+                    } else if (i == 1 || i == 6) {
+                        board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
+                    } else if (i == 2 || i == 5) {
+                        board.addPiece(new Position(i , j), new Knight(PieceColour.WHITE));
+                    } else if (i == 3) {
+                        board.addPiece(new Position(i, j), new Queen(PieceColour.WHITE));
+                    } else {
+                        board.addPiece(new Position(i, j), new King(PieceColour.WHITE));
+                    }
+                }
+            }
+        }
+        currentState = new GameState(null, PieceColour.WHITE, board);
     }
 
     public void newGame() {
