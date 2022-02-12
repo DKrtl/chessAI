@@ -1,5 +1,7 @@
 package com.dogukan.chessai.chess;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class GameState {
@@ -18,39 +20,39 @@ public class GameState {
 
     public void move(Move move) {
         Piece piece = board.getSquare(move.getFrom());
-        if (piece != null && (piece.getColour() == playerTurn) && !isCheck()) {
+        List<Piece> checkingPieces = checkingPieces(playerTurn);
+
+        if ((piece != null) && (piece.getColour() == playerTurn) && (checkingPieces.isEmpty())) {
             piece.move(this, move);
+        } else if((piece != null) && (piece.getColour() == playerTurn) && (!checkingPieces.isEmpty())) {
+
         }
     }
 
-    public boolean isCheck() {
+    // change this to a set of checking pieces as this can imply the colour of the
+    // king being checked. This can also be used to find the moves that need to be
+    // blocked to get out of a check or moves that can take the checking piece.
+    public List<Piece> checkingPieces(PieceColour playerTurn) {
         Piece[][] board = this.board.getSquares();
-        Position whiteKing = this.board.findKing(PieceColour.WHITE);
-        Position blackKing = this.board.findKing(PieceColour.BLACK);
+        Position king = this.board.findKing(playerTurn);
+        List<Piece> checkingPieces = new ArrayList<>();
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[i].length; j++) {
                 Piece piece = board[i][j];
-                if(piece != null) {
-                    piece.legalMoves(this.board, new Position(i , j));
+                if(piece != null && piece.getColour() == playerTurn.opponent()) {
+                    piece.legalMoves(getBoard(), new Position(i, j));
                     Set<Move> moves = piece.getLegalMoves();
-                    if(piece.getColour().opponent() == this.board.getSquare(whiteKing).getColour()) {
-                        for(Move move : moves) {
-                            if(move.getTo().equals(whiteKing)) {
-                                return true;
-                            }
-                        }
-                    } else if(piece.getColour().opponent() == this.board.getSquare(blackKing).getColour()) {
-                        for(Move move : moves) {
-                            if(move.getTo().equals(blackKing)) {
-                                return true;
-                            }
+                    for(Move move : moves) {
+                        if(move.getTo().equals(king)) {
+                            checkingPieces.add(piece);
+                            break;
                         }
                     }
                 }
             }
         }
-        return false;
+        return checkingPieces;
     }
 
     public boolean isCheckmate() {

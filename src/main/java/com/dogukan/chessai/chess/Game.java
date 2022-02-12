@@ -85,4 +85,8 @@ public class Game {
             currentState = next;
         }
     }
+
+    public boolean isGameOver() {
+        return currentState.isCheckmate();
+    }
 }
