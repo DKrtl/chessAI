@@ -1,7 +1,5 @@
 package com.dogukan.chessai.chess;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class GameState {
