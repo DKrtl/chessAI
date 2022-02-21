@@ -18,9 +18,9 @@ public class Pawn extends Piece {
     public void move(GameState gameState, Move move) {
         Board board = gameState.getBoard();
         Board newBoard = new Board(board.getSquares(), true);
-        legalMoves(newBoard, move.getFrom());
+        Set<Move> moves = legalMoves(newBoard, move.getFrom());
 
-        if (getLegalMoves().contains(move)) {
+        if (moves.contains(move)) {
             tookTwoSquareMove = (move.distance() == 2);
 
             if (isEnPassantMove(board, move)) {
@@ -44,12 +44,16 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void legalMoves(Board board, Position position) {
-        forwardMove(board, position);
-        takePiece(board, position);
+    public Set<Move> legalMoves(Board board, Position position) {
+        Set<Move> moves = new HashSet<>();
+
+        moves.addAll(forwardMove(board, position));
+        moves.addAll(takePiece(board, position));
+
+        return moves;
     }
 
-    private void forwardMove(Board board, Position position) {
+    private Set<Move> forwardMove(Board board, Position position) {
         Set<Move> moves = new HashSet<>();
 
         if(initialMove) {
@@ -60,10 +64,10 @@ public class Pawn extends Piece {
 
         moves.removeIf(move -> !board.isEmpty(move.getTo()));
 
-        getLegalMoves().addAll(moves);
+        return moves;
     }
 
-    private void takePiece(Board board, Position position) {
+    private Set<Move> takePiece(Board board, Position position) {
         Set<Move> moves = new HashSet<>();
 
         moves.addAll(Direction.northEastMove(board, position, getColour(), 1));
@@ -72,7 +76,7 @@ public class Pawn extends Piece {
         moves.addAll(Direction.northWestMove(board, position, getColour(), 1));
         moves.removeIf(move -> board.isEmpty(move.getTo()) && !isEnPassantWestMove(board, move));
 
-        getLegalMoves().addAll(moves);
+        return moves;
     }
 
     private boolean isEnPassantMove(Board board, Move move) {

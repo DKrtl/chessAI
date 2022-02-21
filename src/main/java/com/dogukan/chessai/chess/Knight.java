@@ -1,5 +1,8 @@
 package com.dogukan.chessai.chess;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Knight extends Piece {
 
     Knight(PieceColour colour) {
@@ -7,7 +10,8 @@ public class Knight extends Piece {
     }
 
     @Override
-    public void legalMoves(Board board, Position position) {
+    public Set<Move> legalMoves(Board board, Position position) {
+        Set<Move> moves = new HashSet<>();
         int currentX = position.getX();
         int currentY = position.getY();
 
@@ -16,16 +20,18 @@ public class Knight extends Piece {
         Position southWest = new Position(currentX - 1, currentY + 2);
         Position northWest = new Position(currentX - 1, currentY - 2);
 
-        createMove(board, new Move(position, northEast));
-        createMove(board, new Move(position, southEast));
-        createMove(board, new Move(position, southWest));
-        createMove(board, new Move(position, northWest));
+        createMove(board, new Move(position, northEast), moves);
+        createMove(board, new Move(position, southEast), moves);
+        createMove(board, new Move(position, southWest), moves);
+        createMove(board, new Move(position, northWest), moves);
+
+        return moves;
     }
 
-    private void createMove(Board board, Move move) {
+    private void createMove(Board board, Move move, Set<Move> moves) {
         if (board.isEmpty(move.getTo()) ||
                 (board.isInRange(move.getTo()) && board.getSquare(move.getTo()).getColour() != getColour())) {
-            getLegalMoves().add(move);
+            moves.add(move);
         }
     }
 }

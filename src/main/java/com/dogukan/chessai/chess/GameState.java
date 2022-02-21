@@ -36,8 +36,7 @@ public class GameState {
             for(int j = 0; j < board[i].length; j++) {
                 Piece piece = board[i][j];
                 if(piece != null && piece.getColour() == playerTurn.opponent()) {
-                    piece.legalMoves(getBoard(), new Position(i, j));
-                    Set<Move> moves = piece.getLegalMoves();
+                    Set<Move> moves = piece.legalMoves(getBoard(), new Position(i, j));
                     for(Move move : moves) {
                         if(move.getTo().equals(king)) {
                             return true;
@@ -57,8 +56,7 @@ public class GameState {
                 Position currentPos = new Position(i, j);
                 Piece piece = this.board.getSquare(currentPos);
                 if(piece != null && piece.getColour() == playerTurn) {
-                    piece.legalMoves(getBoard(), currentPos);
-                    Set<Move> moves = piece.getLegalMoves();
+                    Set<Move> moves = piece.legalMoves(getBoard(), currentPos);
                     for(Move move : moves) {
                         piece.move(this, move);
                         if(!next.isCheck(getPlayerTurn())) {
