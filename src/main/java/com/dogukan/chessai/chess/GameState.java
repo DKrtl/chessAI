@@ -28,9 +28,6 @@ public class GameState {
         }
     }
 
-    // change this to a set of checking pieces as this can imply the colour of the
-    // king being checked. This can also be used to find the moves that need to be
-    // blocked to get out of a check or moves that can take the checking piece.
     public boolean isCheck(PieceColour playerTurn) {
         Piece[][] board = this.board.getSquares();
         Position king = this.board.findKing(playerTurn);
@@ -52,7 +49,6 @@ public class GameState {
         return false;
     }
 
-    // fix this garbage >:(
     public boolean isCheckmate(PieceColour playerTurn) {
         Piece[][] board = this.board.getSquares();
 
