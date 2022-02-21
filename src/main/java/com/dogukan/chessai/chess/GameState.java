@@ -20,22 +20,20 @@ public class GameState {
 
     public void move(Move move) {
         Piece piece = board.getSquare(move.getFrom());
-        List<Piece> checkingPieces = checkingPieces(playerTurn);
-
-        if ((piece != null) && (piece.getColour() == playerTurn) && (checkingPieces.isEmpty())) {
+        if ((piece != null) && (piece.getColour() == playerTurn)) {
             piece.move(this, move);
-        } else if((piece != null) && (piece.getColour() == playerTurn) && (!checkingPieces.isEmpty())) {
-
+            if(next.isCheck(getPlayerTurn())) {
+                next = null;
+            }
         }
     }
 
     // change this to a set of checking pieces as this can imply the colour of the
     // king being checked. This can also be used to find the moves that need to be
     // blocked to get out of a check or moves that can take the checking piece.
-    public List<Piece> checkingPieces(PieceColour playerTurn) {
+    public boolean isCheck(PieceColour playerTurn) {
         Piece[][] board = this.board.getSquares();
         Position king = this.board.findKing(playerTurn);
-        List<Piece> checkingPieces = new ArrayList<>();
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[i].length; j++) {
@@ -45,18 +43,37 @@ public class GameState {
                     Set<Move> moves = piece.getLegalMoves();
                     for(Move move : moves) {
                         if(move.getTo().equals(king)) {
-                            checkingPieces.add(piece);
-                            break;
+                            return true;
                         }
                     }
                 }
             }
         }
-        return checkingPieces;
+        return false;
     }
 
-    public boolean isCheckmate() {
-        return false;
+    // fix this garbage >:(
+    public boolean isCheckmate(PieceColour playerTurn) {
+        Piece[][] board = this.board.getSquares();
+
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                Position currentPos = new Position(i, j);
+                Piece piece = this.board.getSquare(currentPos);
+                if(piece != null && piece.getColour() == playerTurn) {
+                    piece.legalMoves(getBoard(), currentPos);
+                    Set<Move> moves = piece.getLegalMoves();
+                    for(Move move : moves) {
+                        piece.move(this, move);
+                        if(!next.isCheck(getPlayerTurn())) {
+                            next = null;
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public Board getBoard() {

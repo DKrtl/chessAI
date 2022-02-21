@@ -17,7 +17,7 @@ public class Pawn extends Piece {
     @Override
     public void move(GameState gameState, Move move) {
         Board board = gameState.getBoard();
-        Board newBoard = new Board(board.getSquares());
+        Board newBoard = new Board(board.getSquares(), true);
         legalMoves(newBoard, move.getFrom());
 
         if (getLegalMoves().contains(move)) {

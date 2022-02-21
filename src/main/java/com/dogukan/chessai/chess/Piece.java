@@ -15,12 +15,13 @@ public abstract class Piece {
 
     public void move(GameState gameState, Move move) {
         Board board = gameState.getBoard();
-        Board newBoard = new Board(board.getSquares());
+        Board newBoard = new Board(board.getSquares(), true);
         legalMoves(newBoard, move.getFrom());
         if (legalMoves.contains(move)) {
             if (newBoard.isInRange(move.getTo())) {
                 newBoard.removePiece(move.getFrom());
                 newBoard.addPiece(move.getTo(), this);
+                legalMoves = new HashSet<>();
                 gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
             }
         }
@@ -30,10 +31,6 @@ public abstract class Piece {
 
     public PieceColour getColour() {
         return colour;
-    }
-
-    public void setLegalMoves(Set<Move> legalMoves) {
-        this.legalMoves = legalMoves;
     }
 
     public Set<Move> getLegalMoves() {

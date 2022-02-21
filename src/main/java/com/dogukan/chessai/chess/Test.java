@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class Test {
 
     static Game game = new Game();
-    static Board board = game.getBoard();
+    static Board board;
 
     public static void main(String[] args) {
         makeBoard();
 
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
+        while (!game.isGameOver()) {
             if (scanner.hasNext()) {
                 int x1 = Integer.parseInt(scanner.next());
                 int y1 = Integer.parseInt(scanner.next());
@@ -27,6 +27,7 @@ public class Test {
     }
 
     private static void makeBoard() {
+        board = game.getBoard();
         for (int y = 0; y < board.columnLength(); y++) {
             for (int x = 0; x < board.rowLength(); x++) {
                 Piece piece = board.getSquare(new Position(x, y));

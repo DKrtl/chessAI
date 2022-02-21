@@ -4,8 +4,20 @@ public class Board {
 
     private Piece[][] board;
 
-    Board(Piece[][] board) {
-        this.board = board;
+    Board(Piece[][] board, boolean deepCopy) {
+        if(deepCopy) {
+            this.board = new Piece[board.length][board[0].length];
+            for(int i = 0; i < board.length; i++) {
+                for(int j = 0; j < board[i].length; j++) {
+                    Piece piece = board[i][j];
+                    if(piece != null) {
+                        this.board[i][j] = board[i][j];
+                    }
+                }
+            }
+        } else {
+            this.board = board;
+        }
     }
 
     public Piece getSquare(Position position) {
@@ -17,7 +29,7 @@ public class Board {
     }
 
     public Piece[][] getSquares() {
-        return board.clone();
+        return board;
     }
 
     public void removePiece(Position position) {
