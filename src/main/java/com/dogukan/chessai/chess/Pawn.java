@@ -12,6 +12,7 @@ public class Pawn extends Piece {
         super(colour);
         initialMove = true;
         tookTwoSquareMove = false;
+        setStrength(10);
     }
 
     @Override

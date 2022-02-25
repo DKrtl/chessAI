@@ -7,6 +7,7 @@ public class Knight extends Piece {
 
     Knight(PieceColour colour) {
         super(colour);
+        setStrength(30);
     }
 
     @Override

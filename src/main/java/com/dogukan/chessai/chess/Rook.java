@@ -7,6 +7,7 @@ public class Rook extends Piece {
 
     Rook(PieceColour colour) {
         super(colour);
+        setStrength(50);
     }
 
     @Override

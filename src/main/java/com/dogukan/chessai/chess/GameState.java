@@ -8,12 +8,27 @@ public class GameState {
     private GameState next;
     private final PieceColour playerTurn;
     private final Board board;
+    private final int netStrength;
 
     public GameState(GameState prev, PieceColour playerTurn, Board board) {
         this.prev = prev;
         this.next = null;
         this.playerTurn = playerTurn;
         this.board = board;
+        this.netStrength = calculateNetStrength();
+    }
+
+    private int calculateNetStrength() {
+        int total = 0;
+        for(int i = 0; i < board.columnLength(); i++) {
+            for(int j = 0; j < board.rowLength(); j++) {
+                Piece piece = board.getSquare(new Position(i, j));
+                if(piece != null) {
+                    total += piece.getStrength();
+                }
+            }
+        }
+        return total;
     }
 
     public void move(Move move) {

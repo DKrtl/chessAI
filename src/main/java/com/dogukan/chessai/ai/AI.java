@@ -4,12 +4,10 @@ import com.dogukan.chessai.chess.GameState;
 
 public class AI {
     private GameState gameState;
-    private MinMaxTree minMaxTree;
+    private MiniMaxTree minMaxTree;
 
     public AI(GameState gameState) {
         this.gameState = gameState;
-        this.minMaxTree = new MinMaxTree(gameState);
+        this.minMaxTree = new MiniMaxTree(gameState, 3);
     }
-
-
 }

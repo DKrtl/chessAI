@@ -6,6 +6,7 @@ import java.util.Set;
 public abstract class Piece {
 
     private PieceColour colour;
+    private int strength;
 
     Piece(PieceColour colour) {
         this.colour = colour;
@@ -28,5 +29,17 @@ public abstract class Piece {
 
     public PieceColour getColour() {
         return colour;
+    }
+
+    public void setStrength(int strength) {
+        if(colour == PieceColour.WHITE) {
+            this.strength = strength;
+        } else {
+            this.strength = strength * -1;
+        }
+    }
+
+    public int getStrength() {
+        return strength;
     }
 }

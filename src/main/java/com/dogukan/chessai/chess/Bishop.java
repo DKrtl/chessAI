@@ -7,6 +7,7 @@ public class Bishop extends Piece {
 
     Bishop(PieceColour colour) {
         super(colour);
+        setStrength(30);
     }
 
     @Override
