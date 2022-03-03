@@ -1,5 +1,7 @@
 package com.dogukan.chessai.chess;
 
+import com.dogukan.chessai.ai.AI;
+
 public class Game {
 
     private GameState currentState;
@@ -30,6 +32,7 @@ public class Game {
             }
         }
         currentState = new GameState(null, PieceColour.WHITE, board);
+        new AI(currentState);
     }
 
     public void newGame() {

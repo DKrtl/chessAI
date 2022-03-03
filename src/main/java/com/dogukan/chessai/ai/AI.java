@@ -8,6 +8,6 @@ public class AI {
 
     public AI(GameState gameState) {
         this.gameState = gameState;
-        this.minMaxTree = new MiniMaxTree(gameState, 3);
+        this.minMaxTree = new MiniMaxTree(gameState, 1);
     }
 }

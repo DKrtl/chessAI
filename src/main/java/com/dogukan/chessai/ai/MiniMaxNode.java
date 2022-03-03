@@ -2,6 +2,7 @@ package com.dogukan.chessai.ai;
 
 import com.dogukan.chessai.chess.GameState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MiniMaxNode {
@@ -10,6 +11,7 @@ public class MiniMaxNode {
 
     public MiniMaxNode(GameState currentGameState) {
         this.currentGameState = currentGameState;
+        this.children = new ArrayList<>();
     }
 
     public void addChild(MiniMaxNode child) {

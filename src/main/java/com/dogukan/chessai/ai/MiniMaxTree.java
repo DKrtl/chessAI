@@ -1,21 +1,37 @@
 package com.dogukan.chessai.ai;
 
-import com.dogukan.chessai.chess.GameState;
+import com.dogukan.chessai.chess.*;
+
+import java.util.Set;
 
 public class MiniMaxTree {
-    private MiniMaxNode root;
-    private int depth;
+    private final MiniMaxNode root;
+    private final int depth;
 
     public MiniMaxTree(GameState currentGameState, int depth) {
-        this.root = createTree(currentGameState);
+        this.root = createTree(currentGameState, depth);
         this.depth = depth;
     }
 
-    // to be complete
-    private MiniMaxNode createTree(GameState currentGameState) {
-        return new MiniMaxNode(currentGameState);
+    private MiniMaxNode createTree(GameState currentGameState, int depth) {
+        MiniMaxNode node = new MiniMaxNode(currentGameState);
+        if (depth > 0) {
+            Board board = currentGameState.getBoard();
+            for (int i = 0; i < board.columnLength(); i++) {
+                for (int j = 0; j < board.rowLength(); j++) {
+                    Piece piece = board.getSquare(new Position(i, j));
+                    if (piece != null) {
+                        Set<Move> legalMoves = piece.legalMoves(board, new Position(i, j));
+                        for(Move move : legalMoves) {
+                            Board newBoard = new Board(board.getSquares(), true);
+                            GameState next = new GameState(currentGameState, currentGameState.getPlayerTurn().opponent(), newBoard);
+                            piece.move(next, move);
+                            node.addChild(createTree(next, depth - 1));
+                        }
+                    }
+                }
+            }
+        }
+        return node;
     }
-
-    // add child for each possible move in current state then recurse on
-    // the children.
 }

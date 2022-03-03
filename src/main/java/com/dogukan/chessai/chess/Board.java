@@ -4,7 +4,7 @@ public class Board {
 
     private Piece[][] board;
 
-    Board(Piece[][] board, boolean deepCopy) {
+    public Board(Piece[][] board, boolean deepCopy) {
         if(deepCopy) {
             this.board = new Piece[board.length][board[0].length];
             for(int i = 0; i < board.length; i++) {
