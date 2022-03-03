@@ -1,6 +1,5 @@
 package com.dogukan.chessai.chess;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class GameState {
@@ -32,14 +31,15 @@ public class GameState {
         return total;
     }
 
-    public void move(Move move) {
+    public GameState move(Move move) {
         Piece piece = board.getSquare(move.getFrom());
-        if ((piece != null) && (piece.getColour() == playerTurn)) {
-            piece.move(this, move);
-            if(next.isCheck(getPlayerTurn())) {
-                next = null;
+        if((piece != null) && (piece.getColour() == playerTurn)) {
+            GameState next = piece.move(this, move);
+            if(!next.isCheck(getPlayerTurn())) {
+                return next;
             }
         }
+        return null;
     }
 
     public boolean isCheck(PieceColour playerTurn) {
@@ -72,9 +72,8 @@ public class GameState {
                 if(piece != null && piece.getColour() == playerTurn) {
                     Set<Move> moves = piece.legalMoves(getBoard(), currentPos);
                     for(Move move : moves) {
-                        piece.move(this, move);
+                        GameState next = piece.move(this, move);
                         if(!next.isCheck(getPlayerTurn())) {
-                            next = null;
                             return false;
                         }
                     }
@@ -96,11 +95,16 @@ public class GameState {
         return next;
     }
 
-    public void setNext(GameState next) {
+    public GameState setNext(GameState next) {
         this.next = next;
+        return next;
     }
 
     public PieceColour getPlayerTurn() {
         return playerTurn;
+    }
+
+    public int getNetStrength() {
+        return netStrength;
     }
 }

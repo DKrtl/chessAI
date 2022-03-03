@@ -11,7 +11,7 @@ public abstract class Piece {
         this.colour = colour;
     }
 
-    public void move(GameState gameState, Move move) {
+    public GameState move(GameState gameState, Move move) {
         Board board = gameState.getBoard();
         Board newBoard = new Board(board.getSquares(), true);
         Set<Move> legalMoves = legalMoves(newBoard, move.getFrom());
@@ -19,9 +19,10 @@ public abstract class Piece {
             if (newBoard.isInRange(move.getTo())) {
                 newBoard.removePiece(move.getFrom());
                 newBoard.addPiece(move.getTo(), this);
-                gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
+                return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard);
             }
         }
+        return gameState;
     }
 
     public abstract Set<Move> legalMoves(Board board, Position position);

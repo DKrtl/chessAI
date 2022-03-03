@@ -16,7 +16,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void move(GameState gameState, Move move) {
+    public GameState move(GameState gameState, Move move) {
         Board board = gameState.getBoard();
         Board newBoard = new Board(board.getSquares(), true);
         Set<Move> moves = legalMoves(newBoard, move.getFrom());
@@ -38,10 +38,11 @@ public class Pawn extends Piece {
 
             newBoard.removePiece(move.getFrom());
             newBoard.addPiece(move.getTo(), this);
-            gameState.setNext(new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard));
-
             initialMove = false;
+
+            return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard);
         }
+        return null;
     }
 
     @Override

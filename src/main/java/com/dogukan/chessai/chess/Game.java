@@ -17,6 +17,8 @@ public class Game {
                 if (j == 0) {
                     if (i == 0) {
                         board.addPiece(new Position(i, j), new King(PieceColour.BLACK));
+                    } else if(i == 1) {
+                        board.addPiece(new Position(i, j), new Queen(PieceColour.BLACK));
                     }
                 } else if (j == 3) {
                     if (i == 2) {
@@ -32,7 +34,7 @@ public class Game {
             }
         }
         currentState = new GameState(null, PieceColour.WHITE, board);
-        new AI(currentState);
+        // new AI(currentState);
     }
 
     public void newGame() {
@@ -78,10 +80,9 @@ public class Game {
     }
 
     public void move(Move move) {
-        currentState.move(move);
-        GameState next = currentState.getNext();
+        GameState next = currentState.move(move);
         if(next != null) {
-            currentState = next;
+            currentState = currentState.setNext(next);;
         }
     }
 

@@ -2,6 +2,7 @@ package com.dogukan.chessai.ai;
 
 import com.dogukan.chessai.chess.*;
 
+import java.util.Arrays;
 import java.util.Set;
 
 public class MiniMaxTree {
@@ -23,8 +24,7 @@ public class MiniMaxTree {
                     if (piece != null) {
                         Set<Move> legalMoves = piece.legalMoves(board, new Position(i, j));
                         for(Move move : legalMoves) {
-                            Board newBoard = new Board(board.getSquares(), true);
-                            GameState next = new GameState(currentGameState, currentGameState.getPlayerTurn().opponent(), newBoard);
+                            GameState next = new GameState(currentGameState, currentGameState.getPlayerTurn().opponent(), board);
                             piece.move(next, move);
                             node.addChild(createTree(next, depth - 1));
                         }
@@ -32,6 +32,7 @@ public class MiniMaxTree {
                 }
             }
         }
+        System.out.println(Arrays.deepToString(node.getCurrentGameState().getBoard().getSquares()));
         return node;
     }
 }
