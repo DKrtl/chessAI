@@ -34,7 +34,7 @@ public class Game {
             }
         }
         currentState = new GameState(null, PieceColour.WHITE, board);
-        // new AI(currentState);
+        new AI(currentState);
     }
 
     public void newGame() {

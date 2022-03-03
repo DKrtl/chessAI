@@ -24,15 +24,13 @@ public class MiniMaxTree {
                     if (piece != null) {
                         Set<Move> legalMoves = piece.legalMoves(board, new Position(i, j));
                         for(Move move : legalMoves) {
-                            GameState next = new GameState(currentGameState, currentGameState.getPlayerTurn().opponent(), board);
-                            piece.move(next, move);
+                            GameState next = piece.move(currentGameState, move);
                             node.addChild(createTree(next, depth - 1));
                         }
                     }
                 }
             }
         }
-        System.out.println(Arrays.deepToString(node.getCurrentGameState().getBoard().getSquares()));
         return node;
     }
 }
