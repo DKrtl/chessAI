@@ -3,32 +3,29 @@ package com.dogukan.chessai.ai;
 import com.dogukan.chessai.chess.GameState;
 import com.dogukan.chessai.chess.PieceColour;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MiniMaxNode {
     private GameState currentGameState;
-    private Set<MiniMaxNode> children;
-    private int currentUtility;
+    private List<MiniMaxNode> children;
+    private int utility;
 
     public MiniMaxNode(GameState currentGameState) {
         this.currentGameState = currentGameState;
-        this.children = new HashSet<>();
-        this.currentUtility = currentGameState.getNetStrength();
+        this.children = new ArrayList<>();
+        this.utility = initialiseUtility();
+    }
+
+    private int initialiseUtility() {
+        if(currentGameState.getPlayerTurn() == PieceColour.WHITE) {
+            return Integer.MIN_VALUE;
+        } else {
+            return Integer.MAX_VALUE;
+        }
     }
 
     public void addChild(MiniMaxNode child) {
-        if(currentGameState.getPlayerTurn() == PieceColour.WHITE) {
-            int childNetStrength = child.getCurrentGameState().getNetStrength();
-            if(childNetStrength > currentUtility) {
-                currentUtility = childNetStrength;
-            }
-        } else if(currentGameState.getPlayerTurn() == PieceColour.BLACK) {
-            int childNetStrength = child.getCurrentGameState().getNetStrength();
-            if(childNetStrength < currentUtility) {
-                currentUtility = childNetStrength;
-            }
-        }
         this.children.add(child);
     }
 
@@ -36,7 +33,15 @@ public class MiniMaxNode {
         return currentGameState;
     }
 
-    public int getCurrentUtility() {
-        return currentUtility;
+    public void setUtility(int utility) {
+        this.utility = utility;
+    }
+
+    public int getUtility() {
+        return utility;
+    }
+
+    public List<MiniMaxNode> getChildren() {
+        return children;
     }
 }
