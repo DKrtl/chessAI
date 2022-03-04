@@ -2,7 +2,6 @@ package com.dogukan.chessai.ai;
 
 import com.dogukan.chessai.chess.GameState;
 
-import java.util.List;
 
 public class AI {
     private GameState gameState;
@@ -10,6 +9,7 @@ public class AI {
 
     public AI(GameState gameState) {
         this.gameState = gameState;
-        this.minMaxTree = new MiniMaxTree(gameState, 2);
+        this.minMaxTree = new MiniMaxTree(gameState, 6);
+        System.out.println(minMaxTree.count);
     }
 }
