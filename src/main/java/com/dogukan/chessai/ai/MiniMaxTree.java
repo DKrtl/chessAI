@@ -6,14 +6,12 @@ import java.util.Set;
 
 public class MiniMaxTree {
     private final MiniMaxNode root;
-    int count = 0;
 
     public MiniMaxTree(GameState currentGameState, int depth) {
         this.root = createTree(currentGameState, Integer.MIN_VALUE, Integer.MAX_VALUE, depth);
     }
 
     private MiniMaxNode createTree(GameState currentGameState, int alpha, int beta, int depth) {
-        ++count;
         MiniMaxNode node = new MiniMaxNode(currentGameState);
         if (depth > 0) {
             Board board = currentGameState.getBoard();
