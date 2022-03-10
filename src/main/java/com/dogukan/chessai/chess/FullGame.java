@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class FullGame {
 
-    static Game game = new Game();
+    static Game game;
     static Board board;
 
     public static void main(String[] args) {
@@ -26,8 +26,10 @@ public class FullGame {
             if(scanner.hasNext()) {
                 String input = scanner.next();
                 if(input.equals("w")) {
+                    game = new Game(PieceColour.WHITE, true);
                     break;
                 } else if(input.equals("b")) {
+                    game = new Game(PieceColour.BLACK, true);
                     break;
                 }
                 generalInvalidInputMessage();
@@ -38,9 +40,10 @@ public class FullGame {
 
         while (!game.isGameOver()) {
             if (scanner.hasNext()) {
-                if(scanner.nextLine().equals("help")) {
+                String input = scanner.next();
+                if(input.equals("help")) {
                     commandInstructions(scanner);
-                } else {
+                } else if(input.equals("m")) {
                     int x1 = Integer.parseInt(scanner.next());
                     int y1 = Integer.parseInt(scanner.next());
 
@@ -48,9 +51,13 @@ public class FullGame {
                     int y2 = Integer.parseInt(scanner.next());
                     game.move(new Move(new Position(x1, y1),
                             new Position(x2, y2)));
+                    makeBoard();
+                } else if(input.equals("done")) {
+                    game.setCreativeMode(false);
+                } else {
+                    generalInvalidInputMessage();
                 }
             }
-            makeBoard();
         }
     }
 

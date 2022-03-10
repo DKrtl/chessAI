@@ -19,7 +19,7 @@ public abstract class Piece {
             if (newBoard.isInRange(move.getTo())) {
                 newBoard.removePiece(move.getFrom());
                 newBoard.addPiece(move.getTo(), this);
-                return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard);
+                return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard, gameState.getCreativeMode());
             }
         }
         return gameState;

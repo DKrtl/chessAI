@@ -40,7 +40,7 @@ public class Pawn extends Piece {
             newBoard.addPiece(move.getTo(), this);
             initialMove = false;
 
-            return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard);
+            return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard, gameState.getCreativeMode());
         }
         return null;
     }

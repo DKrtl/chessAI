@@ -9,13 +9,15 @@ public class GameState {
     private final PieceColour playerTurn;
     private final Board board;
     private final int netStrength;
+    private boolean creativeMode;
 
-    public GameState(GameState prev, PieceColour playerTurn, Board board) {
+    public GameState(GameState prev, PieceColour playerTurn, Board board, boolean creativeMode) {
         this.prev = prev;
         this.next = null;
         this.playerTurn = playerTurn;
         this.board = board;
         this.netStrength = calculateNetStrength();
+        this.creativeMode = creativeMode;
     }
 
     private int calculateNetStrength() {
@@ -106,5 +108,13 @@ public class GameState {
 
     public int getNetStrength() {
         return netStrength;
+    }
+
+    public boolean getCreativeMode() {
+        return creativeMode;
+    }
+
+    public void setCreativeMode(boolean creativeMode) {
+        this.creativeMode = creativeMode;
     }
 }
