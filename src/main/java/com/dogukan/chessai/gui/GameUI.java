@@ -1,0 +1,33 @@
+package com.dogukan.chessai.gui;
+
+import com.dogukan.chessai.chess.Game;
+import com.dogukan.chessai.chess.PieceColour;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+public class GameUI extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+//        FXMLLoader fxmlLoader = new FXMLLoader(Game.class.getResource("mainUI.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), 600, 700);
+        int width = 600;
+        int height = 670;
+        Game game = new Game(PieceColour.WHITE, true);
+        VBox root = new VBox();
+        root.getChildren().add(new Board(game, width));
+        Scene scene = new Scene(root, width, height);
+        scene.getStylesheets().add("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/stylesheet.css");
+        stage.setTitle("Explore Chess Moves");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+}

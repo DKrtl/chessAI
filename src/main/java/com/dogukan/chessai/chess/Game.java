@@ -4,7 +4,7 @@ public class Game {
 
     private GameState currentState;
 
-    Game(PieceColour colour, boolean creativeMode) {
+    public Game(PieceColour colour, boolean creativeMode) {
         newGame(colour, creativeMode);
     }
 
