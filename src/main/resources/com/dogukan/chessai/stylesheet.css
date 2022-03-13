@@ -13,3 +13,11 @@
 .darkSquare {
     -fx-fill: green;
 }
+
+.fullPane:hover {
+    -fx-cursor: hand;
+}
+
+.selectedSquare {
+    -fx-opacity: 0.5;
+}

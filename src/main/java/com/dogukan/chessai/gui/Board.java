@@ -1,11 +1,17 @@
 package com.dogukan.chessai.gui;
 
 import com.dogukan.chessai.chess.*;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+
+import java.util.List;
+import java.util.Optional;
 
 public class Board extends GridPane {
     private final int size = 8;
@@ -28,14 +34,80 @@ public class Board extends GridPane {
         StackPane stackPane = new StackPane();
         double dim = (double) width/(double) size;
         Rectangle square = new Rectangle(dim, dim);
+        Optional<ImageView> piece = addImage(col, row);
 
-        stackPane.getChildren().addAll(square, addImage(col, row));
+        stackPane.getChildren().add(square);
+        piece.ifPresent(imageView -> {
+            stackPane.getChildren().add(imageView);
+        });
+
+        stackPane.setOnDragDetected(event -> {
+            List<Node> stackPaneChildren = stackPane.getChildren();
+            if(stackPaneChildren.size() > 1) {
+                stackPane.getStyleClass().add("selectedSquare");
+                ImageView img = (ImageView) stackPaneChildren.get(stackPaneChildren.size() - 1);
+                Dragboard db = img.startDragAndDrop(TransferMode.MOVE);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(img.getImage());
+                db.setContent(content);
+
+                event.consume();
+            }
+        });
+
+        stackPane.setOnDragOver(event -> {
+            if ((event.getGestureSource() != stackPane) && (stackPane.getChildren().size() == 1)) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+
+            event.consume();
+        });
+
+        stackPane.setOnDragEntered(event -> {
+            if ((event.getGestureSource() != stackPane) && (stackPane.getChildren().size() == 1)) {
+                stackPane.getStyleClass().add("selectedSquare");
+            }
+
+            event.consume();
+        });
+
+        stackPane.setOnDragExited(event -> {
+            stackPane.getStyleClass().remove("selectedSquare");
+
+            event.consume();
+        });
+
+        stackPane.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasImage()) {
+                stackPane.getChildren().add(new ImageView(db.getImage()));
+                stackPane.getStyleClass().add("fullPane");
+                success = true;
+            }
+
+            event.setDropCompleted(success);
+
+            event.consume();
+        });
+
+        stackPane.setOnDragDone(event -> {
+            if (event.getTransferMode() == TransferMode.MOVE) {
+                List<Node> stackPaneChildren = stackPane.getChildren();
+                stackPane.getChildren().remove(stackPaneChildren.size() - 1);
+                stackPane.getStyleClass().remove("fullPane");
+            }
+            event.consume();
+        });
+
         square.getStyleClass().add((row + col) % 2 == 0 ? "lightSquare" : "darkSquare");
+        stackPane.getStyleClass().add(stackPane.getChildren().size() > 1 ? "fullPane" : null);
 
         this.add(stackPane, col, row);
     }
 
-    private ImageView addImage(int col, int row) {
+    private Optional<ImageView> addImage(int col, int row) {
         Image img = null;
         Piece piece = game.getBoard().getSquare(new Position(col, row));
 
@@ -78,9 +150,9 @@ public class Board extends GridPane {
         }
 
         if(img != null) {
-            return new ImageView(img);
+            return Optional.of(new ImageView(img));
         } else {
-            return new ImageView();
+            return Optional.empty();
         }
     }
 }
