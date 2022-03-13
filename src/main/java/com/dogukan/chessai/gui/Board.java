@@ -101,6 +101,16 @@ public class Board extends GridPane {
             event.consume();
         });
 
+        stackPane.setOnMouseClicked(click -> {
+            if (click.getClickCount() == 2) {
+                List<Node> stackPaneChildren = stackPane.getChildren();
+                if(stackPaneChildren.size() > 1) {
+                    stackPaneChildren.remove(stackPaneChildren.size() - 1);
+                    stackPane.getStyleClass().remove("fullPane");
+                }
+            }
+        });
+
         square.getStyleClass().add((row + col) % 2 == 0 ? "lightSquare" : "darkSquare");
         stackPane.getStyleClass().add(stackPane.getChildren().size() > 1 ? "fullPane" : null);
 
