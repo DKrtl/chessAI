@@ -41,6 +41,65 @@ public class Board extends GridPane {
             stackPane.getChildren().add(imageView);
         });
 
+        dragAndDrop(stackPane);
+        doubleClick(stackPane);
+
+        square.getStyleClass().add((row + col) % 2 == 0 ? "lightSquare" : "darkSquare");
+        stackPane.getStyleClass().add(stackPane.getChildren().size() > 1 ? "fullPane" : null);
+
+        this.add(stackPane, col, row);
+    }
+
+    private Optional<ImageView> addImage(int col, int row) {
+        Image img = null;
+        Piece piece = game.getBoard().getSquare(new Position(col, row));
+
+        if (piece instanceof Pawn) {
+            if (piece.getColour() == PieceColour.WHITE) {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhitePawn.png");
+            } else {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackPawn.png");
+            }
+        } else if (piece instanceof Rook) {
+            if (piece.getColour() == PieceColour.WHITE) {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteRook.png");
+            } else {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackRook.png");
+            }
+        } else if (piece instanceof Bishop) {
+            if (piece.getColour() == PieceColour.WHITE) {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteBishop.png");
+            } else {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackBishop.png");
+            }
+        } else if (piece instanceof Knight) {
+            if (piece.getColour() == PieceColour.WHITE) {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteKnight.png");
+            } else {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackKnight.png");
+            }
+        } else if (piece instanceof Queen) {
+            if (piece.getColour() == PieceColour.WHITE) {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteQueen.png");
+            } else {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackQueen.png");
+            }
+        } else if (piece instanceof King) {
+            if (piece.getColour() == PieceColour.WHITE) {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteKing.png");
+            } else {
+                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackKing.png");
+            }
+        }
+
+        if(img != null) {
+            return Optional.of(new ImageView(img));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private void dragAndDrop(StackPane stackPane) {
         stackPane.setOnDragDetected(event -> {
             List<Node> stackPaneChildren = stackPane.getChildren();
             if(stackPaneChildren.size() > 1) {
@@ -100,69 +159,17 @@ public class Board extends GridPane {
             }
             event.consume();
         });
+    }
 
+    private void doubleClick(StackPane stackPane) {
         stackPane.setOnMouseClicked(click -> {
             if (click.getClickCount() == 2) {
                 List<Node> stackPaneChildren = stackPane.getChildren();
-                if(stackPaneChildren.size() > 1) {
+                if (stackPaneChildren.size() > 1) {
                     stackPaneChildren.remove(stackPaneChildren.size() - 1);
                     stackPane.getStyleClass().remove("fullPane");
                 }
             }
         });
-
-        square.getStyleClass().add((row + col) % 2 == 0 ? "lightSquare" : "darkSquare");
-        stackPane.getStyleClass().add(stackPane.getChildren().size() > 1 ? "fullPane" : null);
-
-        this.add(stackPane, col, row);
-    }
-
-    private Optional<ImageView> addImage(int col, int row) {
-        Image img = null;
-        Piece piece = game.getBoard().getSquare(new Position(col, row));
-
-        if (piece instanceof Pawn) {
-            if (piece.getColour() == PieceColour.WHITE) {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhitePawn.png");
-            } else {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackPawn.png");
-            }
-        } else if (piece instanceof Rook) {
-            if (piece.getColour() == PieceColour.WHITE) {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteRook.png");
-            } else {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackRook.png");
-            }
-        } else if (piece instanceof Bishop) {
-            if (piece.getColour() == PieceColour.WHITE) {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteBishop.png");
-            } else {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackBishop.png");
-            }
-        } else if (piece instanceof Knight) {
-            if (piece.getColour() == PieceColour.WHITE) {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteKnight.png");
-            } else {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackKnight.png");
-            }
-        } else if (piece instanceof Queen) {
-            if (piece.getColour() == PieceColour.WHITE) {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteQueen.png");
-            } else {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackQueen.png");
-            }
-        } else if (piece instanceof King) {
-            if (piece.getColour() == PieceColour.WHITE) {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/WhiteKing.png");
-            } else {
-                img = new Image("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/images/BlackKing.png");
-            }
-        }
-
-        if(img != null) {
-            return Optional.of(new ImageView(img));
-        } else {
-            return Optional.empty();
-        }
     }
 }
