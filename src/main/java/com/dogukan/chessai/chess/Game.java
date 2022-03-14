@@ -100,7 +100,9 @@ public class Game {
 
     public void move(Move move) {
         GameState next = currentState.move(move);
-        if(next != null) {
+        if(getCreativeMode()) {
+            currentState = next;
+        } else if(next != null) {
             currentState = currentState.setNext(next);
         }
     }

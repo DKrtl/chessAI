@@ -25,6 +25,14 @@ public abstract class Piece {
         return gameState;
     }
 
+    public GameState creativeModeMove(GameState gameState, Move move) {
+        Board board = gameState.getBoard();
+        Board newBoard = new Board(board.getSquares(), true);
+        newBoard.removePiece(move.getFrom());
+        newBoard.addPiece(move.getTo(), this);
+        return new GameState(gameState, gameState.getPlayerTurn(), newBoard, gameState.getCreativeMode());
+    }
+
     public abstract Set<Move> legalMoves(Board board, Position position);
 
     public PieceColour getColour() {

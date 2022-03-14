@@ -1,7 +1,6 @@
 package com.dogukan.chessai.gui;
 
 import com.dogukan.chessai.chess.*;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,12 +12,14 @@ import javafx.scene.shape.Rectangle;
 import java.util.List;
 import java.util.Optional;
 
-public class Board extends GridPane {
+public class BoardUI extends GridPane {
     private final int size = 8;
     private Game game;
     private int width;
+    private Position from;
+    private Position to;
 
-    Board(Game game, int width) {
+    BoardUI(Game game, int width) {
         this.width = width;
         this.game = game;
 
@@ -37,11 +38,9 @@ public class Board extends GridPane {
         Optional<ImageView> piece = addImage(col, row);
 
         stackPane.getChildren().add(square);
-        piece.ifPresent(imageView -> {
-            stackPane.getChildren().add(imageView);
-        });
+        piece.ifPresent(imageView -> stackPane.getChildren().add(imageView));
 
-        dragAndDrop(stackPane);
+        dragAndDrop(stackPane, col, row);
         doubleClick(stackPane);
 
         square.getStyleClass().add((row + col) % 2 == 0 ? "lightSquare" : "darkSquare");
@@ -99,7 +98,7 @@ public class Board extends GridPane {
         }
     }
 
-    private void dragAndDrop(StackPane stackPane) {
+    private void dragAndDrop(StackPane stackPane, int col, int row) {
         stackPane.setOnDragDetected(event -> {
             List<Node> stackPaneChildren = stackPane.getChildren();
             if(stackPaneChildren.size() > 1) {
@@ -141,6 +140,8 @@ public class Board extends GridPane {
             Dragboard db = event.getDragboard();
             boolean success = false;
             if (db.hasImage()) {
+                to = new Position(col, row);
+                System.out.println(col + " " + row);
                 stackPane.getChildren().add(new ImageView(db.getImage()));
                 stackPane.getStyleClass().add("fullPane");
                 success = true;
@@ -153,10 +154,15 @@ public class Board extends GridPane {
 
         stackPane.setOnDragDone(event -> {
             if (event.getTransferMode() == TransferMode.MOVE) {
+                from = new Position(col, row);
                 List<Node> stackPaneChildren = stackPane.getChildren();
                 stackPane.getChildren().remove(stackPaneChildren.size() - 1);
                 stackPane.getStyleClass().remove("fullPane");
+                game.move(new Move(from, to));
             }
+
+            makeBoard();
+
             event.consume();
         });
     }
@@ -171,5 +177,55 @@ public class Board extends GridPane {
                 }
             }
         });
+    }
+
+    // Testing purposes
+    private void makeBoard() {
+        com.dogukan.chessai.chess.Board board = game.getBoard();
+        for (int y = 0; y < board.columnLength(); y++) {
+            for (int x = 0; x < board.rowLength(); x++) {
+                Piece piece = board.getSquare(new Position(x, y));
+                if (piece instanceof Pawn) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WP ");
+                    } else {
+                        System.out.print("BP ");
+                    }
+                } else if (piece instanceof Rook) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WR ");
+                    } else {
+                        System.out.print("BR ");
+                    }
+                } else if (piece instanceof Bishop) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WB ");
+                    } else {
+                        System.out.print("BB ");
+                    }
+                } else if (piece instanceof Knight) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WK ");
+                    } else {
+                        System.out.print("BK ");
+                    }
+                } else if (piece instanceof Queen) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WQ ");
+                    } else {
+                        System.out.print("BQ ");
+                    }
+                } else if (piece instanceof King) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WKi ");
+                    } else {
+                        System.out.print("BKi ");
+                    }
+                } else {
+                    System.out.print(" x ");
+                }
+            }
+            System.out.println();
+        }
     }
 }

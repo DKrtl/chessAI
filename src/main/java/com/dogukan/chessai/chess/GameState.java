@@ -35,7 +35,9 @@ public class GameState {
 
     public GameState move(Move move) {
         Piece piece = board.getSquare(move.getFrom());
-        if((piece != null) && (piece.getColour() == playerTurn)) {
+        if(creativeMode) {
+            return piece.creativeModeMove(this, move);
+        } else if((piece != null) && (piece.getColour() == playerTurn)) {
             GameState next = piece.move(this, move);
             if(!next.isCheck(getPlayerTurn())) {
                 return next;
