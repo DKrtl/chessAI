@@ -107,6 +107,13 @@ public class Game {
         }
     }
 
+    public void remove(Position position) {
+        GameState next = currentState.remove(position);
+        if(next != null) {
+            currentState = next;
+        }
+    }
+
     public boolean isGameOver() {
         return currentState.isCheckmate(currentState.getPlayerTurn());
     }

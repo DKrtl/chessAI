@@ -174,8 +174,10 @@ public class BoardUI extends GridPane {
                 if (stackPaneChildren.size() > 1) {
                     stackPaneChildren.remove(stackPaneChildren.size() - 1);
                     stackPane.getStyleClass().remove("fullPane");
+                    game.remove(new Position(getColumnIndex(stackPane), getRowIndex(stackPane)));
                 }
             }
+            makeBoard();
         });
     }
 

@@ -46,6 +46,15 @@ public class GameState {
         return null;
     }
 
+    public GameState remove(Position position) {
+        Board newBoard = new Board(board.getSquares(), true);
+        if(getCreativeMode()) {
+            newBoard.removePiece(position);
+            return new GameState(this, getPlayerTurn(), newBoard, getCreativeMode());
+        }
+        return null;
+    }
+
     public boolean isCheck(PieceColour playerTurn) {
         Piece[][] board = this.board.getSquares();
         Position king = this.board.findKing(playerTurn);
