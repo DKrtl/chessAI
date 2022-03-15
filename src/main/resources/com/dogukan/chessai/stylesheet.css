@@ -21,3 +21,15 @@
 .selectedSquare {
     -fx-opacity: 0.5;
 }
+
+#leftIcon {
+    -fx-icon-code: "bi-arrow-left-square-fill";
+    -fx-icon-size: 30;
+    -fx-icon-color: black;
+}
+
+#rightIcon {
+    -fx-icon-code: "bi-arrow-right-square-fill";
+    -fx-icon-size: 30;
+    -fx-icon-color: black;
+}

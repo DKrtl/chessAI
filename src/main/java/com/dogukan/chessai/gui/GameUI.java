@@ -3,6 +3,7 @@ package com.dogukan.chessai.gui;
 import com.dogukan.chessai.chess.Game;
 import com.dogukan.chessai.chess.PieceColour;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -16,9 +17,13 @@ public class GameUI extends Application {
 //        Scene scene = new Scene(fxmlLoader.load(), 600, 700);
         int width = 600;
         int height = 670;
+
         Game game = new Game(PieceColour.WHITE, true);
         VBox root = new VBox();
-        root.getChildren().add(new BoardUI(game, width));
+        BoardUI boardUI = new BoardUI(game, width);
+        NavigationUI navigationUI = new NavigationUI(width, height - width);
+        root.getChildren().addAll(boardUI, navigationUI);
+
         Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/stylesheet.css");
         stage.setTitle("Explore Chess Moves");
