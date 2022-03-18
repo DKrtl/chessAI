@@ -12,14 +12,21 @@ public class NavigationUI extends HBox {
         setMinWidth(width);
         setMinHeight(height);
         setAlignment(Pos.CENTER);
+        setSpacing(5);
 
-        HBox direction = createDirections();
+        HBox direction = createDirections(width, height);
+        StackPane bestMove = bestMoveButton(width, height);
+        StackPane complete = completeButton(width, height);
 
-        getChildren().add(direction);
+        getChildren().addAll(direction, bestMove, complete);
     }
 
-    private HBox createDirections() {
+    private HBox createDirections(int width, int height) {
         HBox directions = new HBox();
+        directions.setAlignment(Pos.CENTER);
+        directions.setSpacing(5);
+        directions.setMinWidth(width * 0.6);
+        directions.setMinHeight(height);
 
         StackPane leftPane = new StackPane();
         leftPane.setAlignment(Pos.CENTER);
@@ -42,4 +49,27 @@ public class NavigationUI extends HBox {
         return directions;
     }
 
+    private StackPane completeButton(int width, int height) {
+        StackPane pane = new StackPane();
+        pane.setAlignment(Pos.CENTER);
+        pane.setMinWidth(width * 0.2);
+        pane.setMinHeight(height);
+
+        Button complete = new Button("OK");
+        pane.getChildren().add(complete);
+
+        return pane;
+    }
+
+    private StackPane bestMoveButton(int width, int height) {
+        StackPane pane = new StackPane();
+        pane.setAlignment(Pos.CENTER);
+        pane.setMinWidth(width * 0.2);
+        pane.setMinHeight(height);
+
+        Button bestMove = new Button("Best Move");
+        pane.getChildren().add(bestMove);
+
+        return pane;
+    }
 }

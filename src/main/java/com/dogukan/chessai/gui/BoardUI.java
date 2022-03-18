@@ -1,6 +1,7 @@
 package com.dogukan.chessai.gui;
 
 import com.dogukan.chessai.chess.*;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,7 +42,7 @@ public class BoardUI extends GridPane {
         piece.ifPresent(imageView -> stackPane.getChildren().add(imageView));
 
         dragAndDrop(stackPane, col, row);
-        doubleClick(stackPane);
+        clickListener(stackPane);
 
         square.getStyleClass().add((row + col) % 2 == 0 ? "lightSquare" : "darkSquare");
         stackPane.getStyleClass().add(stackPane.getChildren().size() > 1 ? "fullPane" : null);
@@ -101,7 +102,7 @@ public class BoardUI extends GridPane {
     private void dragAndDrop(StackPane stackPane, int col, int row) {
         stackPane.setOnDragDetected(event -> {
             List<Node> stackPaneChildren = stackPane.getChildren();
-            if(stackPaneChildren.size() > 1) {
+            if(stackPaneChildren.size() > 1 && !stackPane.getStyleClass().contains("rightClicked")) {
                 stackPane.getStyleClass().add("selectedSquare");
                 ImageView img = (ImageView) stackPaneChildren.get(stackPaneChildren.size() - 1);
                 Dragboard db = img.startDragAndDrop(TransferMode.MOVE);
@@ -141,7 +142,6 @@ public class BoardUI extends GridPane {
             boolean success = false;
             if (db.hasImage()) {
                 to = new Position(col, row);
-                System.out.println(col + " " + row);
                 stackPane.getChildren().add(new ImageView(db.getImage()));
                 stackPane.getStyleClass().add("fullPane");
                 success = true;
@@ -167,18 +167,46 @@ public class BoardUI extends GridPane {
         });
     }
 
-    private void doubleClick(StackPane stackPane) {
+    private void clickListener(StackPane stackPane) {
         stackPane.setOnMouseClicked(click -> {
             if (click.getClickCount() == 2) {
-                List<Node> stackPaneChildren = stackPane.getChildren();
-                if (stackPaneChildren.size() > 1) {
-                    stackPaneChildren.remove(stackPaneChildren.size() - 1);
-                    stackPane.getStyleClass().remove("fullPane");
-                    game.remove(new Position(getColumnIndex(stackPane), getRowIndex(stackPane)));
-                }
+                doubleClick(stackPane);
+            } else if(click.getButton() == MouseButton.SECONDARY) {
+                rightClick(stackPane);
             }
             makeBoard();
         });
+    }
+
+//    private void clickListener(StackPane stackPane) {
+//        EventHandler<MouseEvent> handler = new EventHandler<>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                if(event.getClickCount() == 2) {
+//                    doubleClick(stackPane);
+//                } else if(event.getButton() == MouseButton.SECONDARY) {
+//                    rightClick(stackPane);
+//                }
+//            }
+//        };
+//        stackPane.addEventHandler(MouseEvent.MOUSE_CLICKED, handler);
+//    }
+
+    private void rightClick(StackPane stackPane) {
+        if(stackPane.getStyleClass().contains("rightClicked")) {
+            stackPane.getStyleClass().remove("rightClicked");
+        } else if(stackPane.getChildren().size() > 1) {
+            stackPane.getStyleClass().add("rightClicked");
+        }
+    }
+
+    private void doubleClick(StackPane stackPane) {
+        List<Node> stackPaneChildren = stackPane.getChildren();
+        if (stackPaneChildren.size() > 1 && !stackPane.getStyleClass().contains("rightClicked")) {
+            stackPaneChildren.remove(stackPaneChildren.size() - 1);
+            stackPane.getStyleClass().remove("fullPane");
+            game.remove(new Position(getColumnIndex(stackPane), getRowIndex(stackPane)));
+        }
     }
 
     // Testing purposes

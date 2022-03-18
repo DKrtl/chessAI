@@ -33,3 +33,7 @@
     -fx-icon-size: 30;
     -fx-icon-color: black;
 }
+
+.rightClicked {
+    -fx-opacity: 0.4;
+}
