@@ -178,20 +178,6 @@ public class BoardUI extends GridPane {
         });
     }
 
-//    private void clickListener(StackPane stackPane) {
-//        EventHandler<MouseEvent> handler = new EventHandler<>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                if(event.getClickCount() == 2) {
-//                    doubleClick(stackPane);
-//                } else if(event.getButton() == MouseButton.SECONDARY) {
-//                    rightClick(stackPane);
-//                }
-//            }
-//        };
-//        stackPane.addEventHandler(MouseEvent.MOUSE_CLICKED, handler);
-//    }
-
     private void rightClick(StackPane stackPane) {
         if(stackPane.getStyleClass().contains("rightClicked")) {
             stackPane.getStyleClass().remove("rightClicked");
