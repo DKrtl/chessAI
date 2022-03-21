@@ -1,5 +1,8 @@
 package com.dogukan.chessai.gui;
 
+import com.dogukan.chessai.ai.AI;
+import com.dogukan.chessai.chess.Game;
+import com.dogukan.chessai.chess.GameState;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -8,7 +11,12 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 public class NavigationUI extends HBox {
 
-    public NavigationUI(int width, int height) {
+    private Game game;
+    private BoardUI boardUI;
+
+    public NavigationUI(Game game, BoardUI boardUI, int width, int height) {
+        this.game = game;
+        this.boardUI = boardUI;
         setMinWidth(width);
         setMinHeight(height);
         setAlignment(Pos.CENTER);
@@ -58,7 +66,15 @@ public class NavigationUI extends HBox {
         Button complete = new Button("OK");
         pane.getChildren().add(complete);
 
+        completeButtonClicked(complete);
+
         return pane;
+    }
+
+    private void completeButtonClicked(Button button) {
+        button.setOnMouseClicked(click -> {
+
+        });
     }
 
     private StackPane bestMoveButton(int width, int height) {
@@ -70,6 +86,16 @@ public class NavigationUI extends HBox {
         Button bestMove = new Button("Best Move");
         pane.getChildren().add(bestMove);
 
+        bestMoveButtonClicked(bestMove);
+
         return pane;
+    }
+
+    private void bestMoveButtonClicked(Button button) {
+        button.setOnMouseClicked(click -> {
+            game.bestMove();
+
+            boardUI.draw();
+        });
     }
 }

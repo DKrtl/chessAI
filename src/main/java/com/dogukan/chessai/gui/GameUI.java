@@ -21,7 +21,7 @@ public class GameUI extends Application {
         Game game = new Game(PieceColour.WHITE, true);
         VBox root = new VBox();
         BoardUI boardUI = new BoardUI(game, width);
-        NavigationUI navigationUI = new NavigationUI(width, height - width);
+        NavigationUI navigationUI = new NavigationUI(game, boardUI, width, height - width);
         root.getChildren().addAll(boardUI, navigationUI);
 
         Scene scene = new Scene(root, width, height);

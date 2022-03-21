@@ -1,11 +1,15 @@
 package com.dogukan.chessai.chess;
 
+import com.dogukan.chessai.ai.AI;
+
 public class Game {
 
     private GameState currentState;
+    private AI ai;
 
     public Game(PieceColour colour, boolean creativeMode) {
         newGame(colour, creativeMode);
+        ai = new AI(currentState);
     }
 
     private void newGame(PieceColour colour, boolean creativeMode) {
@@ -124,5 +128,13 @@ public class Game {
 
     public void setCreativeMode(boolean creativeMode) {
         currentState.setCreativeMode(creativeMode);
+    }
+
+    public void bestMove() {
+        currentState = ai.bestMove(currentState);
+    }
+
+    public AI getAI() {
+        return ai;
     }
 }

@@ -1,7 +1,6 @@
 package com.dogukan.chessai.gui;
 
 import com.dogukan.chessai.chess.*;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +23,10 @@ public class BoardUI extends GridPane {
         this.width = width;
         this.game = game;
 
+        draw();
+    }
+
+    public void draw() {
         setId("board");
         for (int col = 0; col < size; col++) {
             for (int row = 0; row < size; row++) {
@@ -161,8 +164,6 @@ public class BoardUI extends GridPane {
                 game.move(new Move(from, to));
             }
 
-            makeBoard();
-
             event.consume();
         });
     }
@@ -174,15 +175,17 @@ public class BoardUI extends GridPane {
             } else if(click.getButton() == MouseButton.SECONDARY) {
                 rightClick(stackPane);
             }
-            makeBoard();
         });
     }
 
     private void rightClick(StackPane stackPane) {
+        Position position = new Position(getColumnIndex(stackPane), getRowIndex(stackPane));
         if(stackPane.getStyleClass().contains("rightClicked")) {
             stackPane.getStyleClass().remove("rightClicked");
+            game.getAI().removeFromSelected(position);
         } else if(stackPane.getChildren().size() > 1) {
             stackPane.getStyleClass().add("rightClicked");
+            game.getAI().addToSelected(position);
         }
     }
 
@@ -192,56 +195,6 @@ public class BoardUI extends GridPane {
             stackPaneChildren.remove(stackPaneChildren.size() - 1);
             stackPane.getStyleClass().remove("fullPane");
             game.remove(new Position(getColumnIndex(stackPane), getRowIndex(stackPane)));
-        }
-    }
-
-    // Testing purposes
-    private void makeBoard() {
-        com.dogukan.chessai.chess.Board board = game.getBoard();
-        for (int y = 0; y < board.columnLength(); y++) {
-            for (int x = 0; x < board.rowLength(); x++) {
-                Piece piece = board.getSquare(new Position(x, y));
-                if (piece instanceof Pawn) {
-                    if (piece.getColour() == PieceColour.WHITE) {
-                        System.out.print("WP ");
-                    } else {
-                        System.out.print("BP ");
-                    }
-                } else if (piece instanceof Rook) {
-                    if (piece.getColour() == PieceColour.WHITE) {
-                        System.out.print("WR ");
-                    } else {
-                        System.out.print("BR ");
-                    }
-                } else if (piece instanceof Bishop) {
-                    if (piece.getColour() == PieceColour.WHITE) {
-                        System.out.print("WB ");
-                    } else {
-                        System.out.print("BB ");
-                    }
-                } else if (piece instanceof Knight) {
-                    if (piece.getColour() == PieceColour.WHITE) {
-                        System.out.print("WK ");
-                    } else {
-                        System.out.print("BK ");
-                    }
-                } else if (piece instanceof Queen) {
-                    if (piece.getColour() == PieceColour.WHITE) {
-                        System.out.print("WQ ");
-                    } else {
-                        System.out.print("BQ ");
-                    }
-                } else if (piece instanceof King) {
-                    if (piece.getColour() == PieceColour.WHITE) {
-                        System.out.print("WKi ");
-                    } else {
-                        System.out.print("BKi ");
-                    }
-                } else {
-                    System.out.print(" x ");
-                }
-            }
-            System.out.println();
         }
     }
 }

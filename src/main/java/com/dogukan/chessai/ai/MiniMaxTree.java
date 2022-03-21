@@ -60,4 +60,55 @@ public class MiniMaxTree {
     public MiniMaxNode getRoot() {
         return root;
     }
+
+    // Testing purposes
+//    private void makeBoard() {
+//        com.dogukan.chessai.chess.Board board = game.getBoard();
+//        com.dogukan.chessai.chess.Board board = currentState.getBoard();
+//        for (int y = 0; y < board.columnLength(); y++) {
+//            for (int x = 0; x < board.rowLength(); x++) {
+//                Piece piece = board.getSquare(new Position(x, y));
+//                if (piece instanceof Pawn) {
+//                    if (piece.getColour() == PieceColour.WHITE) {
+//                        System.out.print("WP ");
+//                    } else {
+//                        System.out.print("BP ");
+//                    }
+//                } else if (piece instanceof Rook) {
+//                    if (piece.getColour() == PieceColour.WHITE) {
+//                        System.out.print("WR ");
+//                    } else {
+//                        System.out.print("BR ");
+//                    }
+//                } else if (piece instanceof Bishop) {
+//                    if (piece.getColour() == PieceColour.WHITE) {
+//                        System.out.print("WB ");
+//                    } else {
+//                        System.out.print("BB ");
+//                    }
+//                } else if (piece instanceof Knight) {
+//                    if (piece.getColour() == PieceColour.WHITE) {
+//                        System.out.print("WK ");
+//                    } else {
+//                        System.out.print("BK ");
+//                    }
+//                } else if (piece instanceof Queen) {
+//                    if (piece.getColour() == PieceColour.WHITE) {
+//                        System.out.print("WQ ");
+//                    } else {
+//                        System.out.print("BQ ");
+//                    }
+//                } else if (piece instanceof King) {
+//                    if (piece.getColour() == PieceColour.WHITE) {
+//                        System.out.print("WKi ");
+//                    } else {
+//                        System.out.print("BKi ");
+//                    }
+//                } else {
+//                    System.out.print(" x ");
+//                }
+//            }
+//            System.out.println();
+//        }
+//    }
 }
