@@ -1,8 +1,6 @@
 package com.dogukan.chessai.gui;
 
-import com.dogukan.chessai.ai.AI;
 import com.dogukan.chessai.chess.Game;
-import com.dogukan.chessai.chess.GameState;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;

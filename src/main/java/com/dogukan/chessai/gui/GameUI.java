@@ -3,7 +3,6 @@ package com.dogukan.chessai.gui;
 import com.dogukan.chessai.chess.Game;
 import com.dogukan.chessai.chess.PieceColour;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
