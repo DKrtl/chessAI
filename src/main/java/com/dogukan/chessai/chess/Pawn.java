@@ -58,7 +58,8 @@ public class Pawn extends Piece {
     private Set<Move> forwardMove(Board board, Position position) {
         Set<Move> moves = new HashSet<>();
 
-        if(initialMove) {
+        if((position.getY() == board.columnLength() - 2 && getColour() == PieceColour.WHITE) ||
+                (position.getY() == 1 && getColour() == PieceColour.BLACK)) {
             moves.addAll(Direction.northMove(board, position, getColour(), 2));
         } else {
             moves.addAll(Direction.northMove(board, position, getColour(), 1));

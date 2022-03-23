@@ -29,7 +29,7 @@ public class Move {
     }
 
     public int distance() {
-        if (isDiagonal()) {
+        if(isDiagonal()) {
             return manhattanDistance() / 2;
         } else {
             return manhattanDistance();

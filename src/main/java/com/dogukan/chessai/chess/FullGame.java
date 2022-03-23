@@ -4,60 +4,25 @@ import java.util.Scanner;
 
 public class FullGame {
 
-    static Game game;
+    static Game game = new Game(PieceColour.WHITE, false);
     static Board board;
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("This application starts off in 'creative mode' where the pieces can\n" +
-                "be moved to the desired board setting before querying the program.");
-        System.out.println("Press enter to continue...");
-        scanner.nextLine();
-
-        System.out.println("Instructions on the commands can be prompted by typing 'help' into the\n" +
-                "terminal at any time after the board is loaded.");
-        System.out.println("Press enter to continue...");
-        scanner.nextLine();
-
-        System.out.println("However, first state which piece colour you are playing as.");
-        while(true) {
-            System.out.println("Enter your colour as 'w' or 'b' corresponding to white and black respectively.");
-            if(scanner.hasNext()) {
-                String input = scanner.next();
-                if(input.equals("w")) {
-                    game = new Game(PieceColour.WHITE, true);
-                    break;
-                } else if(input.equals("b")) {
-                    game = new Game(PieceColour.BLACK, true);
-                    break;
-                }
-                generalInvalidInputMessage();
-            }
-        }
-
         makeBoard();
+
+        Scanner scanner = new Scanner(System.in);
 
         while (!game.isGameOver()) {
             if (scanner.hasNext()) {
-                String input = scanner.next();
-                if(input.equals("help")) {
-                    commandInstructions(scanner);
-                } else if(input.equals("m")) {
-                    int x1 = Integer.parseInt(scanner.next());
-                    int y1 = Integer.parseInt(scanner.next());
+                int x1 = Integer.parseInt(scanner.next());
+                int y1 = Integer.parseInt(scanner.next());
 
-                    int x2 = Integer.parseInt(scanner.next());
-                    int y2 = Integer.parseInt(scanner.next());
-                    game.move(new Move(new Position(x1, y1),
-                            new Position(x2, y2)));
-                    makeBoard();
-                } else if(input.equals("done")) {
-                    game.setCreativeMode(false);
-                } else {
-                    generalInvalidInputMessage();
-                }
+                int x2 = Integer.parseInt(scanner.next());
+                int y2 = Integer.parseInt(scanner.next());
+                game.move(new Move(new Position(x1, y1),
+                        new Position(x2, y2)));
             }
+            makeBoard();
         }
     }
 
@@ -108,14 +73,5 @@ public class FullGame {
             }
             System.out.println();
         }
-    }
-
-    private static void commandInstructions(Scanner scanner) {
-        System.out.println("Press enter to continue...");
-        scanner.nextLine();
-    }
-
-    private static void generalInvalidInputMessage() {
-        System.out.println("Sorry, that's not a recognised input. Please try again.");
     }
 }
