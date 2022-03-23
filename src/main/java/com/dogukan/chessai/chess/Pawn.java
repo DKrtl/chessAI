@@ -5,12 +5,10 @@ import java.util.Set;
 
 public class Pawn extends Piece {
 
-    private boolean initialMove;
     private boolean tookTwoSquareMove;
 
     Pawn(PieceColour colour) {
         super(colour);
-        initialMove = true;
         tookTwoSquareMove = false;
         setStrength(10);
     }
@@ -38,7 +36,6 @@ public class Pawn extends Piece {
 
             newBoard.removePiece(move.getFrom());
             newBoard.addPiece(move.getTo(), this);
-            initialMove = false;
 
             return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard, gameState.getCreativeMode());
         }
