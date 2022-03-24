@@ -26,7 +26,7 @@ public class GameState {
             for(int j = 0; j < board.rowLength(); j++) {
                 Piece piece = board.getSquare(new Position(i, j));
                 if(piece != null) {
-                    total += piece.getStrength();
+                    total += piece.getStrength(i, j);
                 }
             }
         }

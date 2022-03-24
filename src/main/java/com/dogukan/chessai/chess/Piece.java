@@ -6,6 +6,7 @@ public abstract class Piece {
 
     private PieceColour colour;
     private int strength;
+    private int[][] pieceSquareTable;
 
     Piece(PieceColour colour) {
         this.colour = colour;
@@ -47,7 +48,15 @@ public abstract class Piece {
         }
     }
 
-    public int getStrength() {
-        return strength;
+    public void setPieceSquareTable(int[][] pieceSquareTable) {
+        this.pieceSquareTable = pieceSquareTable;
+    }
+
+    public int getStrength(int x, int y) {
+        if(colour == PieceColour.WHITE) {
+            return strength + pieceSquareTable[y][x];
+        } else {
+            return strength + (pieceSquareTable[y][x] * -1);
+        }
     }
 }

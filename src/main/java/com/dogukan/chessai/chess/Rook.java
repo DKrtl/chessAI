@@ -8,6 +8,15 @@ public class Rook extends Piece {
     Rook(PieceColour colour) {
         super(colour);
         setStrength(500);
+        int[][] pieceSquareTable = {{0, 0, 0, 0, 0, 0, 0, 0},
+                                    {5, 10, 10, 10, 10, 10, 10, 5},
+                                    {-5, 0, 0, 0, 0, 0, 0, -5},
+                                    {-5, 0, 0, 0, 0, 0, 0, -5},
+                                    {-5, 0, 0, 0, 0, 0, 0, -5},
+                                    {-5, 0, 0, 0, 0, 0, 0, -5},
+                                    {-5, 0, 0, 0, 0, 0, 0, -5},
+                                    {0, 0, 0, 5, 5, 0, 0, 0}};
+        setPieceSquareTable(pieceSquareTable);
     }
 
     @Override
