@@ -1,6 +1,7 @@
 package com.dogukan.chessai.ai;
 
 import com.dogukan.chessai.chess.GameState;
+import com.dogukan.chessai.chess.PieceColour;
 import com.dogukan.chessai.chess.Position;
 
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import java.util.Set;
 public class AI {
     private Set<Position> selectedPieces;
 
-    public AI(GameState currentGameState) {
+    public AI() {
         this.selectedPieces = new HashSet<>();
     }
 
@@ -22,15 +23,15 @@ public class AI {
         selectedPieces.remove(position);
     }
 
-    public GameState bestMove(GameState currentGameState) {
-        MiniMaxTree miniMaxTree = new MiniMaxTree(currentGameState, 3);
+    public GameState bestMove(GameState currentGameState, PieceColour playerTurn) {
+        MiniMaxTree miniMaxTree = new MiniMaxTree(currentGameState, 4);
         MiniMaxNode node = miniMaxTree.getRoot();
 
         List<MiniMaxNode> children = node.getChildren();
 
         for(MiniMaxNode n : children) {
             if(n.getUtility() == node.getUtility()) {
-                return n.getCurrentGameState();
+                return n.getGameState().setPlayerTurn(playerTurn);
             }
         }
         return null;

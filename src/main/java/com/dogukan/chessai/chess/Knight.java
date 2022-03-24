@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Knight extends Piece {
 
-    Knight(PieceColour colour) {
+    public Knight(PieceColour colour) {
         super(colour);
         setStrength(30);
     }
@@ -31,7 +31,8 @@ public class Knight extends Piece {
 
     private void createMove(Board board, Move move, Set<Move> moves) {
         if (board.isEmpty(move.getTo()) ||
-                (board.isInRange(move.getTo()) && board.getSquare(move.getTo()).getColour() != getColour())) {
+                (board.isInRange(move.getTo()) && board.getSquare(move.getTo()).getColour() != getColour()) &&
+                        !(board.getSquare(move.getTo()) instanceof King)) {
             moves.add(move);
         }
     }

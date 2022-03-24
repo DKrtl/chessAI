@@ -1,6 +1,7 @@
 package com.dogukan.chessai.gui;
 
 import com.dogukan.chessai.chess.Game;
+import com.dogukan.chessai.chess.PieceColour;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -91,9 +92,10 @@ public class NavigationUI extends HBox {
 
     private void bestMoveButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
-            game.bestMove();
-
+            game.setCreativeMode(false);
+            game.setCurrentState(game.bestMove(PieceColour.WHITE));
             boardUI.draw();
+            game.setCreativeMode(true);
         });
     }
 }

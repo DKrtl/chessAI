@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class FullGame {
 
-    static Game game = new Game(PieceColour.WHITE, false);
+    static Game game = new Game(PieceColour.WHITE, true);
     static Board board;
 
     public static void main(String[] args) {

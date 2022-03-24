@@ -182,10 +182,10 @@ public class BoardUI extends GridPane {
         Position position = new Position(getColumnIndex(stackPane), getRowIndex(stackPane));
         if(stackPane.getStyleClass().contains("rightClicked")) {
             stackPane.getStyleClass().remove("rightClicked");
-            game.getAI().removeFromSelected(position);
+//            game.getAI().removeFromSelected(position);
         } else if(stackPane.getChildren().size() > 1) {
             stackPane.getStyleClass().add("rightClicked");
-            game.getAI().addToSelected(position);
+//            game.getAI().addToSelected(position);
         }
     }
 

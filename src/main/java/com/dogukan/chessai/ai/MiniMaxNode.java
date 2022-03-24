@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MiniMaxNode {
-    private GameState currentGameState;
-    private List<MiniMaxNode> children;
+    private final GameState currentGameState;
+    private final List<MiniMaxNode> children;
     private int utility;
 
     public MiniMaxNode(GameState currentGameState) {
@@ -29,7 +29,7 @@ public class MiniMaxNode {
         this.children.add(child);
     }
 
-    public GameState getCurrentGameState() {
+    public GameState getGameState() {
         return currentGameState;
     }
 

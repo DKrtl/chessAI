@@ -6,7 +6,7 @@ public class GameState {
 
     private final GameState prev;
     private GameState next;
-    private final PieceColour playerTurn;
+    private PieceColour playerTurn;
     private final Board board;
     private final int netStrength;
     private boolean creativeMode;
@@ -94,6 +94,11 @@ public class GameState {
             }
         }
         return true;
+    }
+
+    public GameState setPlayerTurn(PieceColour pieceColour) {
+        playerTurn = pieceColour;
+        return this;
     }
 
     public Board getBoard() {

@@ -7,13 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class GameUI extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(Game.class.getResource("mainUI.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 600, 700);
+    public void start(Stage stage) {
         int width = 600;
         int height = 670;
 

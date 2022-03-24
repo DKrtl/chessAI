@@ -5,11 +5,11 @@ import com.dogukan.chessai.ai.AI;
 public class Game {
 
     private GameState currentState;
-    private AI ai;
+    private final AI ai;
 
     public Game(PieceColour colour, boolean creativeMode) {
         newGame(colour, creativeMode);
-        ai = new AI(currentState);
+        ai = new AI();
     }
 
     private void newGame(PieceColour colour, boolean creativeMode) {
@@ -98,10 +98,6 @@ public class Game {
         currentState = new GameState(null, PieceColour.WHITE, board, creativeMode);
     }
 
-    public Board getBoard() {
-        return currentState.getBoard();
-    }
-
     public void move(Move move) {
         GameState next = currentState.move(move);
         if(getCreativeMode()) {
@@ -126,15 +122,19 @@ public class Game {
         return currentState.getCreativeMode();
     }
 
+    public Board getBoard() {
+        return currentState.getBoard();
+    }
+
     public void setCreativeMode(boolean creativeMode) {
         currentState.setCreativeMode(creativeMode);
     }
 
-    public void bestMove() {
-        currentState = ai.bestMove(currentState);
+    public GameState bestMove(PieceColour player) {
+        return ai.bestMove(currentState, player);
     }
 
-    public AI getAI() {
-        return ai;
+    public void setCurrentState(GameState gameState) {
+        currentState = gameState;
     }
 }
