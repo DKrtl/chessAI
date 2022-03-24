@@ -52,7 +52,7 @@ public class MiniMaxTree {
                 }
             }
         } else {
-            node.setUtility(currentGameState.getNetStrength());
+            node.setUtility(currentGameState.getEvaluation());
         }
 
         return node;

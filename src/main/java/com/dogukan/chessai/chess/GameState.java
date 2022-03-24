@@ -8,7 +8,7 @@ public class GameState {
     private GameState next;
     private PieceColour playerTurn;
     private final Board board;
-    private final int netStrength;
+    private final int evaluation;
     private boolean creativeMode;
 
     public GameState(GameState prev, PieceColour playerTurn, Board board, boolean creativeMode) {
@@ -16,11 +16,11 @@ public class GameState {
         this.next = null;
         this.playerTurn = playerTurn;
         this.board = board;
-        this.netStrength = calculateNetStrength();
+        this.evaluation = evaluateBoard();
         this.creativeMode = creativeMode;
     }
 
-    private int calculateNetStrength() {
+    private int evaluateBoard() {
         int total = 0;
         for(int i = 0; i < board.columnLength(); i++) {
             for(int j = 0; j < board.rowLength(); j++) {
@@ -39,6 +39,14 @@ public class GameState {
             return piece.creativeModeMove(this, move);
         } else if((piece != null) && (piece.getColour() == playerTurn)) {
             GameState next = piece.move(this, move);
+            Position to = move.getTo();
+            if(next.getBoard().getSquare(to) instanceof Pawn) {
+                if((piece.getColour() == PieceColour.WHITE && to.equals(new Position(move.getTo().getX(), 0)))||
+                        (piece.getColour() == PieceColour.BLACK && to.equals(new Position(move.getTo().getX(), 7)))) {
+                    next.getBoard().removePiece(to);
+                    next.getBoard().addPiece(to, new Queen(piece.getColour()));
+                }
+            }
             if(!next.isCheck(getPlayerTurn())) {
                 return next;
             }
@@ -122,8 +130,8 @@ public class GameState {
         return playerTurn;
     }
 
-    public int getNetStrength() {
-        return netStrength;
+    public int getEvaluation() {
+        return evaluation;
     }
 
     public boolean getCreativeMode() {
