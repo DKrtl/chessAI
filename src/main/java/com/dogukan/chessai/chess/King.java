@@ -7,7 +7,7 @@ public class King extends Piece {
 
     King(PieceColour colour) {
         super(colour);
-        setStrength(900);
+        setStrength(20000);
     }
 
     @Override

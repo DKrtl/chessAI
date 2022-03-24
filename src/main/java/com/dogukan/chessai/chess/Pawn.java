@@ -10,7 +10,7 @@ public class Pawn extends Piece {
     Pawn(PieceColour colour) {
         super(colour);
         tookTwoSquareMove = false;
-        setStrength(10);
+        setStrength(100);
     }
 
     @Override
