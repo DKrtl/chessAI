@@ -13,7 +13,7 @@ public class GameUI extends Application {
         int width = 600;
         int height = 670;
 
-        Game game = new Game(PieceColour.WHITE, true);
+        Game game = new Game(PieceColour.WHITE, false);
         VBox root = new VBox();
         BoardUI boardUI = new BoardUI(game, width);
         NavigationUI navigationUI = new NavigationUI(game, boardUI, width, height - width);

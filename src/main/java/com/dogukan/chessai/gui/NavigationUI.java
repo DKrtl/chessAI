@@ -12,12 +12,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.ToggleSwitch;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 public class NavigationUI extends HBox {
 
     private Game game;
     private BoardUI boardUI;
+    private Button complete;
+    private Button bestMove;
 
     public NavigationUI(Game game, BoardUI boardUI, int width, int height) {
         this.game = game;
@@ -27,7 +28,6 @@ public class NavigationUI extends HBox {
         setAlignment(Pos.CENTER);
         setSpacing(5);
 
-//        HBox direction = createDirections(width, height);
         StackPane toggleCreativeMode = creativeModeToggle(width, height);
         StackPane bestMove = bestMoveButton(width, height);
         StackPane complete = completeButton(width, height);
@@ -44,36 +44,63 @@ public class NavigationUI extends HBox {
         ToggleSwitch complete = new ToggleSwitch("Creative Mode");
         pane.getChildren().add(complete);
 
+        boolean creativeMode = game.getCreativeMode();
+
+        complete.setSelected(creativeMode);
+
+        if(creativeMode) {
+            boardUI.setDisable(false);
+        } else {
+            boardUI.setDisable(true);
+        }
+
+        toggleSwitch(complete);
+
         return pane;
     }
 
-    private HBox createDirections(int width, int height) {
-        HBox directions = new HBox();
-        directions.setAlignment(Pos.CENTER);
-        directions.setSpacing(5);
-        directions.setMinWidth(width * 0.6);
-        directions.setMinHeight(height);
-
-        StackPane leftPane = new StackPane();
-        leftPane.setAlignment(Pos.CENTER);
-        Button leftButton = new Button();
-        FontIcon iconL = new FontIcon();
-        iconL.setId("leftIcon");
-        leftButton.setGraphic(iconL);
-        leftPane.getChildren().add(leftButton);
-
-        StackPane rightPane = new StackPane();
-        rightPane.setAlignment(Pos.CENTER);
-        Button rightButton = new Button();
-        FontIcon iconR = new FontIcon();
-        iconR.setId("rightIcon");
-        rightButton.setGraphic(iconR);
-        rightPane.getChildren().add(rightButton);
-
-        directions.getChildren().addAll(leftPane, rightPane);
-
-        return directions;
+    private void toggleSwitch(ToggleSwitch toggleSwitch) {
+        toggleSwitch.setOnMouseClicked(pressed -> {
+            game.setCreativeMode(toggleSwitch.isSelected());
+            if (game.getCreativeMode()) {
+                complete.setDisable(true);
+                bestMove.setDisable(true);
+                boardUI.setDisable(false);
+            } else {
+                complete.setDisable(false);
+                bestMove.setDisable(false);
+                boardUI.setDisable(true);
+            }
+        });
     }
+
+//    private HBox createDirections(int width, int height) {
+//        HBox directions = new HBox();
+//        directions.setAlignment(Pos.CENTER);
+//        directions.setSpacing(5);
+//        directions.setMinWidth(width * 0.6);
+//        directions.setMinHeight(height);
+//
+//        StackPane leftPane = new StackPane();
+//        leftPane.setAlignment(Pos.CENTER);
+//        Button leftButton = new Button();
+//        FontIcon iconL = new FontIcon();
+//        iconL.setId("leftIcon");
+//        leftButton.setGraphic(iconL);
+//        leftPane.getChildren().add(leftButton);
+//
+//        StackPane rightPane = new StackPane();
+//        rightPane.setAlignment(Pos.CENTER);
+//        Button rightButton = new Button();
+//        FontIcon iconR = new FontIcon();
+//        iconR.setId("rightIcon");
+//        rightButton.setGraphic(iconR);
+//        rightPane.getChildren().add(rightButton);
+//
+//        directions.getChildren().addAll(leftPane, rightPane);
+//
+//        return directions;
+//    }
 
     private StackPane completeButton(int width, int height) {
         StackPane pane = new StackPane();
@@ -81,8 +108,14 @@ public class NavigationUI extends HBox {
         pane.setMinWidth(width * 0.3);
         pane.setMinHeight(height);
 
-        Button complete = new Button("OK");
+        complete = new Button("OK");
         pane.getChildren().add(complete);
+
+//        if(game.getCreativeMode()) {
+//            complete.setDisable(true);
+//        } else {
+//            complete.setDisable(false);
+//        }
 
         completeButtonClicked(complete);
 
@@ -101,7 +134,7 @@ public class NavigationUI extends HBox {
         pane.setMinWidth(width * 0.3);
         pane.setMinHeight(height);
 
-        Button bestMove = new Button("Best Move");
+        bestMove = new Button("Best Move");
         pane.getChildren().add(bestMove);
 
         bestMoveButtonClicked(bestMove);
