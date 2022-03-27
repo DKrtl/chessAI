@@ -9,31 +9,31 @@ import java.util.List;
 import java.util.Set;
 
 public class AI {
-    private Set<Position> selectedPieces;
-
-    public AI() {
-        this.selectedPieces = new HashSet<>();
-    }
-
-    public void addToSelected(Position position) {
-        selectedPieces.add(position);
-    }
-
-    public void removeFromSelected(Position position) {
-        selectedPieces.remove(position);
-    }
-
-    public GameState bestMove(GameState currentGameState, PieceColour playerTurn) {
-        MiniMaxTree miniMaxTree = new MiniMaxTree(currentGameState, 4);
-        MiniMaxNode node = miniMaxTree.getRoot();
-
-        List<MiniMaxNode> children = node.getChildren();
-
-        for(MiniMaxNode n : children) {
-            if(n.getUtility() == node.getUtility()) {
-                return n.getGameState().setPlayerTurn(playerTurn);
-            }
-        }
-        return null;
-    }
+//    private Set<Position> selectedPieces;
+//
+//    public AI() {
+//        this.selectedPieces = new HashSet<>();
+//    }
+//
+//    public void addToSelected(Position position) {
+//        selectedPieces.add(position);
+//    }
+//
+//    public void removeFromSelected(Position position) {
+//        selectedPieces.remove(position);
+//    }
+//
+//    public GameState bestMove(GameState currentGameState, PieceColour playerTurn) {
+//        MiniMaxTree miniMaxTree = new MiniMaxTree(currentGameState, 4);
+//        MiniMaxNode node = miniMaxTree.getRoot();
+//
+//        List<MiniMaxNode> children = node.getChildren();
+//
+//        for(MiniMaxNode n : children) {
+//            if(n.getUtility() == node.getUtility()) {
+//                return n.getGameState().setPlayerTurn(playerTurn);
+//            }
+//        }
+//        return null;
+//    }
 }

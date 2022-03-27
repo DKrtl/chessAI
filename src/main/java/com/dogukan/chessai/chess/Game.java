@@ -95,7 +95,7 @@ public class Game {
                 }
             }
         }
-        currentState = new GameState(null, PieceColour.WHITE, board, creativeMode);
+        currentState = new GameState(null, board, creativeMode);
     }
 
     public void move(Move move) {
@@ -114,7 +114,7 @@ public class Game {
     }
 
     public boolean isGameOver() {
-        return currentState.isCheckmate();
+        return currentState.gameOver();
     }
 
     public boolean getCreativeMode() {
@@ -129,9 +129,9 @@ public class Game {
         currentState.setCreativeMode(creativeMode);
     }
 
-    public GameState bestMove(PieceColour player) {
-        return ai.bestMove(currentState, player);
-    }
+//    public GameState bestMove(PieceColour player) {
+//        return ai.bestMove(currentState, player);
+//    }
 
     public void setCurrentState(GameState gameState) {
         currentState = gameState;

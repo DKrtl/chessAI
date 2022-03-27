@@ -6,15 +6,13 @@ public class GameState {
 
     private final GameState prev;
     private GameState next;
-    private PieceColour playerTurn;
     private final Board board;
     private final int evaluation;
     private boolean creativeMode;
 
-    public GameState(GameState prev, PieceColour playerTurn, Board board, boolean creativeMode) {
+    public GameState(GameState prev, Board board, boolean creativeMode) {
         this.prev = prev;
         this.next = null;
-        this.playerTurn = playerTurn;
         this.board = board;
         this.evaluation = evaluateBoard();
         this.creativeMode = creativeMode;
@@ -35,8 +33,8 @@ public class GameState {
 
     public GameState move(Move move) {
         Piece piece = board.getSquare(move.getFrom());
-        if((piece != null) && (piece.getColour() == playerTurn)) {
-            GameState next = new GameState(this, playerTurn, piece.move(this, move), creativeMode);
+        if((piece != null)) {
+            GameState next = new GameState(this, piece.move(this, move), creativeMode);
             Position to = move.getTo();
             if(next.getBoard().getSquare(to) instanceof Pawn) {
                 if((piece.getColour() == PieceColour.WHITE && to.equals(new Position(move.getTo().getX(), 0))) ||
@@ -45,7 +43,7 @@ public class GameState {
                     next.getBoard().addPiece(to, new Queen(piece.getColour()));
                 }
             }
-            if(!next.isCheck()) {
+            if(!next.isCheck(piece.getColour())) {
                 return next;
             }
         }
@@ -55,7 +53,7 @@ public class GameState {
     public GameState creativeModeMove(Move move) {
         Piece piece = board.getSquare(move.getFrom());
         if(creativeMode) {
-            return new GameState(this, playerTurn, piece.creativeModeMove(this, move), creativeMode);
+            return new GameState(this, piece.creativeModeMove(this, move), creativeMode);
         } else {
             return null;
         }
@@ -65,12 +63,12 @@ public class GameState {
         Board newBoard = new Board(board.getSquares(), true);
         if(getCreativeMode()) {
             newBoard.removePiece(position);
-            return new GameState(this, getPlayerTurn(), newBoard, getCreativeMode());
+            return new GameState(this, newBoard, getCreativeMode());
         }
         return null;
     }
 
-    public boolean isCheck() {
+    public boolean isCheck(PieceColour playerTurn) {
         Piece[][] board = this.board.getSquares();
         Position king = this.board.findKing(playerTurn);
 
@@ -90,32 +88,33 @@ public class GameState {
         return false;
     }
 
-    public boolean isCheckmate() {
-        Piece[][] board = this.board.getSquares();
+    public boolean isCheckmate(PieceColour playerTurn) {
+        if(isCheck(playerTurn)) {
+            Piece[][] board = this.board.getSquares();
 
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board[i].length; j++) {
-                Position currentPos = new Position(i, j);
-                Piece piece = this.board.getSquare(currentPos);
-                if(piece != null && piece.getColour() == playerTurn.opponent()) {
-                    Set<Move> moves = piece.legalMoves(getBoard(), currentPos);
-                    for(Move move : moves) {
-                        GameState next = move(move);
-                        if(next != null && !next.isCheck()) {
-                            next.setPlayerTurn(playerTurn.opponent());
-                            System.out.println(move.getFrom().getX() + " " + move.getFrom().getY() + " | " + move.getTo().getX() + " " + move.getTo().getY());
-                            return false;
+            for(int i = 0; i < board.length; i++) {
+                for(int j = 0; j < board[i].length; j++) {
+                    Position currentPos = new Position(i, j);
+                    Piece piece = this.board.getSquare(currentPos);
+                    if(piece != null && piece.getColour() == playerTurn) {
+                        Set<Move> moves = piece.legalMoves(getBoard(), currentPos);
+                        for(Move move : moves) {
+                            GameState next = move(move);
+                            if(next != null && !next.isCheck(playerTurn)) {
+                                return false;
+                            }
                         }
                     }
                 }
             }
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
 
-    public GameState setPlayerTurn(PieceColour pieceColour) {
-        playerTurn = pieceColour;
-        return this;
+    public boolean gameOver() {
+        return isCheckmate(PieceColour.WHITE) || isCheckmate(PieceColour.BLACK);
     }
 
     public Board getBoard() {
@@ -133,10 +132,6 @@ public class GameState {
     public GameState setNext(GameState next) {
         this.next = next;
         return next;
-    }
-
-    public PieceColour getPlayerTurn() {
-        return playerTurn;
     }
 
     public int getEvaluation() {
