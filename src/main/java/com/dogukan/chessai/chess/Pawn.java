@@ -23,12 +23,12 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public GameState move(GameState gameState, Move move) {
+    public Board move(GameState gameState, Move move) {
         Board board = gameState.getBoard();
         Board newBoard = new Board(board.getSquares(), true);
         Set<Move> moves = legalMoves(newBoard, move.getFrom());
 
-        if (moves.contains(move)) {
+        if (moves.contains(move) && !(board.getSquare(move.getTo()) instanceof King)) {
             tookTwoSquareMove = (move.distance() == 2);
 
             if (isEnPassantMove(board, move)) {
@@ -46,7 +46,7 @@ public class Pawn extends Piece {
             newBoard.removePiece(move.getFrom());
             newBoard.addPiece(move.getTo(), this);
 
-            return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard, gameState.getCreativeMode());
+            return newBoard;
         }
         return null;
     }

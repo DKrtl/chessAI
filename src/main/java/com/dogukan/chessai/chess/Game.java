@@ -99,11 +99,10 @@ public class Game {
     }
 
     public void move(Move move) {
-        GameState next = currentState.move(move);
         if(getCreativeMode()) {
-            currentState = next;
-        } else if(next != null) {
-            currentState = currentState.setNext(next);
+            currentState = currentState.creativeModeMove(move);
+        } else {
+            currentState = currentState.setNext(currentState.move(move));
         }
     }
 
@@ -115,7 +114,7 @@ public class Game {
     }
 
     public boolean isGameOver() {
-        return currentState.isCheckmate(currentState.getPlayerTurn());
+        return currentState.isCheckmate();
     }
 
     public boolean getCreativeMode() {

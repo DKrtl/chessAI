@@ -14,7 +14,7 @@ public class MiniMaxTree {
     private MiniMaxNode createTree(GameState currentGameState, int alpha, int beta, int depth) {
         MiniMaxNode node = new MiniMaxNode(currentGameState);
         depth--;
-        if (depth > 0 && !currentGameState.isCheckmate(currentGameState.getPlayerTurn())) {
+        if (depth > 0 && !currentGameState.isCheckmate()) {
             Board board = currentGameState.getBoard();
             for (int i = 0; i < board.columnLength(); i++) {
                 for (int j = 0; j < board.rowLength(); j++) {
@@ -24,6 +24,7 @@ public class MiniMaxTree {
                         for(Move move : legalMoves) {
                             GameState next = currentGameState.move(move);
                             if(next != null) {
+                                next.setPlayerTurn(currentGameState.getPlayerTurn().opponent());
                                 MiniMaxNode child = createTree(next, alpha, beta, depth);
                                 int childNetStrength = child.getUtility();
                                 int currentUtility = node.getUtility();

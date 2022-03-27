@@ -12,26 +12,25 @@ public abstract class Piece {
         this.colour = colour;
     }
 
-    public GameState move(GameState gameState, Move move) {
+    public Board move(GameState gameState, Move move) {
         Board board = gameState.getBoard();
         Board newBoard = new Board(board.getSquares(), true);
         Set<Move> legalMoves = legalMoves(newBoard, move.getFrom());
-        if (legalMoves.contains(move)) {
-            if (newBoard.isInRange(move.getTo())) {
+        if(legalMoves.contains(move) && !(board.getSquare(move.getTo()) instanceof King)) {
+            if(newBoard.isInRange(move.getTo())) {
                 newBoard.removePiece(move.getFrom());
                 newBoard.addPiece(move.getTo(), this);
-                return new GameState(gameState, gameState.getPlayerTurn().opponent(), newBoard, gameState.getCreativeMode());
             }
         }
-        return gameState;
+        return newBoard;
     }
 
-    public GameState creativeModeMove(GameState gameState, Move move) {
+    public Board creativeModeMove(GameState gameState, Move move) {
         Board board = gameState.getBoard();
         Board newBoard = new Board(board.getSquares(), true);
         newBoard.removePiece(move.getFrom());
         newBoard.addPiece(move.getTo(), this);
-        return new GameState(gameState, gameState.getPlayerTurn(), newBoard, gameState.getCreativeMode());
+        return newBoard;
     }
 
     public abstract Set<Move> legalMoves(Board board, Position position);

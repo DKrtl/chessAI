@@ -197,8 +197,7 @@ public class Direction {
                 moves.add(new Move(position, to));
             } else {
                 Piece blockingPiece = board.getSquare(to);
-                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent() &&
-                        !(board.getSquare(to) instanceof King)) {
+                if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
                     moves.add(new Move(position, to));
                 }
                 return false;

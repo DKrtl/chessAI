@@ -40,8 +40,7 @@ public class Knight extends Piece {
 
     private void createMove(Board board, Move move, Set<Move> moves) {
         if (board.isEmpty(move.getTo()) ||
-                (board.isInRange(move.getTo()) && board.getSquare(move.getTo()).getColour() != getColour()) &&
-                        !(board.getSquare(move.getTo()) instanceof King)) {
+                (board.isInRange(move.getTo()) && board.getSquare(move.getTo()).getColour() != getColour())) {
             moves.add(move);
         }
     }

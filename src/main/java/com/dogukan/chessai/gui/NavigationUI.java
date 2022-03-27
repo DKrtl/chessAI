@@ -70,6 +70,7 @@ public class NavigationUI extends HBox {
                 complete.setDisable(false);
                 bestMove.setDisable(false);
                 boardUI.setDisable(true);
+                checkmateCheck();
             }
         });
     }
@@ -111,12 +112,6 @@ public class NavigationUI extends HBox {
         complete = new Button("OK");
         pane.getChildren().add(complete);
 
-//        if(game.getCreativeMode()) {
-//            complete.setDisable(true);
-//        } else {
-//            complete.setDisable(false);
-//        }
-
         completeButtonClicked(complete);
 
         return pane;
@@ -124,7 +119,7 @@ public class NavigationUI extends HBox {
 
     private void completeButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
-
+            button.setDisable(checkmateCheck());
         });
     }
 
@@ -144,15 +139,9 @@ public class NavigationUI extends HBox {
 
     private void bestMoveButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
-            game.setCreativeMode(false);
+            button.setDisable(checkmateCheck());
             game.setCurrentState(game.bestMove(PieceColour.WHITE));
             boardUI.draw();
-
-            if(game.isGameOver()) {
-                gameOverPopUp();
-            }
-
-            game.setCreativeMode(true);
         });
     }
 
@@ -165,5 +154,13 @@ public class NavigationUI extends HBox {
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
         dialog.show();
+    }
+
+    private boolean checkmateCheck() {
+        if(game.isGameOver()) {
+            gameOverPopUp();
+            return true;
+        }
+        return false;
     }
 }

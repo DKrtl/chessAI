@@ -35,23 +35,30 @@ public class GameState {
 
     public GameState move(Move move) {
         Piece piece = board.getSquare(move.getFrom());
-        if(creativeMode) {
-            return piece.creativeModeMove(this, move);
-        } else if((piece != null) && (piece.getColour() == playerTurn)) {
-            GameState next = piece.move(this, move);
+        if((piece != null) && (piece.getColour() == playerTurn)) {
+            GameState next = new GameState(this, playerTurn, piece.move(this, move), creativeMode);
             Position to = move.getTo();
             if(next.getBoard().getSquare(to) instanceof Pawn) {
-                if((piece.getColour() == PieceColour.WHITE && to.equals(new Position(move.getTo().getX(), 0)))||
+                if((piece.getColour() == PieceColour.WHITE && to.equals(new Position(move.getTo().getX(), 0))) ||
                         (piece.getColour() == PieceColour.BLACK && to.equals(new Position(move.getTo().getX(), 7)))) {
                     next.getBoard().removePiece(to);
                     next.getBoard().addPiece(to, new Queen(piece.getColour()));
                 }
             }
-            if(!next.isCheck(getPlayerTurn())) {
+            if(!next.isCheck()) {
                 return next;
             }
         }
         return null;
+    }
+
+    public GameState creativeModeMove(Move move) {
+        Piece piece = board.getSquare(move.getFrom());
+        if(creativeMode) {
+            return new GameState(this, playerTurn, piece.creativeModeMove(this, move), creativeMode);
+        } else {
+            return null;
+        }
     }
 
     public GameState remove(Position position) {
@@ -63,7 +70,7 @@ public class GameState {
         return null;
     }
 
-    public boolean isCheck(PieceColour playerTurn) {
+    public boolean isCheck() {
         Piece[][] board = this.board.getSquares();
         Position king = this.board.findKing(playerTurn);
 
@@ -83,18 +90,20 @@ public class GameState {
         return false;
     }
 
-    public boolean isCheckmate(PieceColour playerTurn) {
+    public boolean isCheckmate() {
         Piece[][] board = this.board.getSquares();
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[i].length; j++) {
                 Position currentPos = new Position(i, j);
                 Piece piece = this.board.getSquare(currentPos);
-                if(piece != null && piece.getColour() == playerTurn) {
+                if(piece != null && piece.getColour() == playerTurn.opponent()) {
                     Set<Move> moves = piece.legalMoves(getBoard(), currentPos);
                     for(Move move : moves) {
-                        GameState next = piece.move(this, move);
-                        if(!next.isCheck(getPlayerTurn())) {
+                        GameState next = move(move);
+                        if(next != null && !next.isCheck()) {
+                            next.setPlayerTurn(playerTurn.opponent());
+                            System.out.println(move.getFrom().getX() + " " + move.getFrom().getY() + " | " + move.getTo().getX() + " " + move.getTo().getY());
                             return false;
                         }
                     }
