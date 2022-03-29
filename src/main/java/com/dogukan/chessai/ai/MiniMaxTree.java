@@ -14,7 +14,7 @@ public class MiniMaxTree {
     private MiniMaxNode createTree(PieceColour colour, GameState currentGameState, int alpha, int beta, int depth) {
         MiniMaxNode node = new MiniMaxNode(colour, currentGameState);
         depth--;
-        if (depth > 0 && !currentGameState.gameOver()) {
+        if (depth > 0) {
             Board board = currentGameState.getBoard();
             for (int i = 0; i < board.columnLength(); i++) {
                 for (int j = 0; j < board.rowLength(); j++) {
@@ -25,8 +25,16 @@ public class MiniMaxTree {
                             GameState next = currentGameState.move(move);
                             if(next != null) {
                                 MiniMaxNode child = createTree(colour.opponent(), next, alpha, beta, depth);
+                                int currentUtility;
+                                if(next.isCheckmate(PieceColour.WHITE)) {
+                                    currentUtility = Integer.MAX_VALUE;
+                                } else if(next.isCheckmate(PieceColour.BLACK)) {
+                                    currentUtility = Integer.MIN_VALUE;
+                                } else {
+                                    currentUtility = node.getUtility();
+                                }
                                 int childNetStrength = child.getUtility();
-                                int currentUtility = node.getUtility();
+
                                 if(piece.getColour() == PieceColour.WHITE) {
                                     if(childNetStrength > currentUtility) {
                                         node.setUtility(childNetStrength);

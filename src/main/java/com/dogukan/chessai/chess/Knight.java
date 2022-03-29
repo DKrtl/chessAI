@@ -25,15 +25,23 @@ public class Knight extends Piece {
         int currentX = position.getX();
         int currentY = position.getY();
 
-        Position northEast = new Position(currentX + 1, currentY - 2);
-        Position southEast = new Position(currentX + 1, currentY + 2);
-        Position southWest = new Position(currentX - 1, currentY + 2);
-        Position northWest = new Position(currentX - 1, currentY - 2);
+        Position topEast = new Position(currentX + 1, currentY - 2);
+        Position bottomEast = new Position(currentX + 1, currentY + 2);
+        Position bottomWest = new Position(currentX - 1, currentY + 2);
+        Position topWest = new Position(currentX - 1, currentY - 2);
+        Position leftNorth = new Position(currentX - 2, currentY + 1);
+        Position leftSouth = new Position(currentX - 2, currentY - 1);
+        Position rightNorth = new Position(currentX + 2, currentY + 1);
+        Position rightSouth = new Position(currentX + 2, currentY - 1);
 
-        createMove(board, new Move(position, northEast), moves);
-        createMove(board, new Move(position, southEast), moves);
-        createMove(board, new Move(position, southWest), moves);
-        createMove(board, new Move(position, northWest), moves);
+        createMove(board, new Move(position, topEast), moves);
+        createMove(board, new Move(position, bottomEast), moves);
+        createMove(board, new Move(position, bottomWest), moves);
+        createMove(board, new Move(position, topWest), moves);
+        createMove(board, new Move(position, leftNorth), moves);
+        createMove(board, new Move(position, leftSouth), moves);
+        createMove(board, new Move(position, rightNorth), moves);
+        createMove(board, new Move(position, rightSouth), moves);
 
         return moves;
     }
