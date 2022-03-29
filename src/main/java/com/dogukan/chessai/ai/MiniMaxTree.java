@@ -23,6 +23,10 @@ public class MiniMaxTree {
             for (GameState gameState : allPossibleGameStates) {
                 int eval = createTree(playerTurn.opponent(), gameState, alpha, beta, depth - 1);
                 maxEval = Integer.max(maxEval, eval);
+                alpha = Integer.max(alpha, eval);
+                if(beta <= alpha) {
+                    break;
+                }
             }
             return maxEval;
         } else {
@@ -30,6 +34,10 @@ public class MiniMaxTree {
             for (GameState gameState : allPossibleGameStates) {
                 int eval = createTree(playerTurn.opponent(), gameState, alpha, beta, depth - 1);
                 minEval = Integer.min(minEval, eval);
+                beta = Integer.min(beta, eval);
+                if(beta <= alpha) {
+                    break;
+                }
             }
             return minEval;
         }

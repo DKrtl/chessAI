@@ -111,34 +111,6 @@ public class NavigationUI extends HBox {
         });
     }
 
-//    private HBox createDirections(int width, int height) {
-//        HBox directions = new HBox();
-//        directions.setAlignment(Pos.CENTER);
-//        directions.setSpacing(5);
-//        directions.setMinWidth(width * 0.6);
-//        directions.setMinHeight(height);
-//
-//        StackPane leftPane = new StackPane();
-//        leftPane.setAlignment(Pos.CENTER);
-//        Button leftButton = new Button();
-//        FontIcon iconL = new FontIcon();
-//        iconL.setId("leftIcon");
-//        leftButton.setGraphic(iconL);
-//        leftPane.getChildren().add(leftButton);
-//
-//        StackPane rightPane = new StackPane();
-//        rightPane.setAlignment(Pos.CENTER);
-//        Button rightButton = new Button();
-//        FontIcon iconR = new FontIcon();
-//        iconR.setId("rightIcon");
-//        rightButton.setGraphic(iconR);
-//        rightPane.getChildren().add(rightButton);
-//
-//        directions.getChildren().addAll(leftPane, rightPane);
-//
-//        return directions;
-//    }
-
     private StackPane completeButton(int width, int height) {
         StackPane pane = new StackPane();
         pane.setAlignment(Pos.CENTER);
@@ -177,6 +149,7 @@ public class NavigationUI extends HBox {
         button.setOnMouseClicked(click -> {
             game.setCurrentState(game.bestMove(PieceColour.WHITE));
             boardUI.draw();
+            checkmateCheck();
         });
     }
 
