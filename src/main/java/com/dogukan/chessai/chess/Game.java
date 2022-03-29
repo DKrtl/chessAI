@@ -130,7 +130,7 @@ public class Game {
     }
 
     public GameState bestMove(PieceColour player) {
-        return ai.bestMove(player, currentState);
+        return ai.bestMove(player, currentState, 3);
     }
 
     public void setCurrentState(GameState gameState) {

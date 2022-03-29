@@ -23,17 +23,42 @@ public class AI {
         selectedPieces.remove(position);
     }
 
-    public GameState bestMove(PieceColour colour, GameState currentGameState) {
-        MiniMaxTree miniMaxTree = new MiniMaxTree(colour, currentGameState, 4);
-        MiniMaxNode node = miniMaxTree.getRoot();
+    public GameState bestMove(PieceColour colour, GameState currentGameState, int depth) {
+        Set<GameState> allPossibleMoves = currentGameState.allPossibleGameStates(colour);
+        GameState maxGameState = new GameState(currentGameState.getPrev(), currentGameState.getBoard(),
+                currentGameState.getCreativeMode());
 
-        List<MiniMaxNode> children = node.getChildren();
-
-        for(MiniMaxNode n : children) {
-            if(n.getUtility() == node.getUtility()) {
-                return n.getGameState();
+        if(colour == PieceColour.WHITE) {
+            int maxEval = Integer.MIN_VALUE;
+            for(GameState gameState : allPossibleMoves) {
+                MiniMaxTree tree = new MiniMaxTree(colour.opponent(), gameState, depth - 1);
+                if(tree.getUtility() > maxEval) {
+                    maxEval = tree.getUtility();
+                    maxGameState = gameState;
+                }
+            }
+        } else {
+            int minEval = Integer.MAX_VALUE;
+            for(GameState gameState : allPossibleMoves) {
+                MiniMaxTree tree = new MiniMaxTree(colour.opponent(), gameState, depth - 1);
+                if(tree.getUtility() < minEval) {
+                    minEval = tree.getUtility();
+                    maxGameState = gameState;
+                }
             }
         }
-        return null;
+
+        return maxGameState;
+//        MiniMaxTree miniMaxTree = new MiniMaxTree(colour, currentGameState, 5);
+//        MiniMaxNode node = miniMaxTree.getRoot();
+//
+//        List<MiniMaxNode> children = node.getChildren();
+//
+//        for(MiniMaxNode n : children) {
+//            if(n.getUtility() == node.getUtility()) {
+//                return n.getGameState();
+//            }
+//        }
+//        return null;
     }
 }

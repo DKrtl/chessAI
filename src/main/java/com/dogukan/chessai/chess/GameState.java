@@ -1,5 +1,6 @@
 package com.dogukan.chessai.chess;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class GameState {
@@ -111,6 +112,28 @@ public class GameState {
         } else {
             return false;
         }
+    }
+
+    public Set<GameState> allPossibleGameStates(PieceColour playerTurn) {
+        Set<GameState> allPossibleGameStates = new HashSet<>();
+
+        Board board = getBoard();
+        for(int i = 0; i < board.columnLength(); i++) {
+            for(int j = 0; j < board.rowLength(); j++) {
+                Position position = new Position(i, j);
+                Piece piece = board.getSquare(position);
+                if(piece != null && piece.getColour() == playerTurn) {
+                    Set<Move> moves = piece.legalMoves(board, position);
+                    for(Move move : moves) {
+                        GameState next = move(move);
+                        if(next != null) {
+                            allPossibleGameStates.add(next);
+                        }
+                    }
+                }
+            }
+        }
+        return allPossibleGameStates;
     }
 
     public boolean gameOver() {
