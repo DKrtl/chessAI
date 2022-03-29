@@ -101,8 +101,6 @@ public class GameState {
                         for(Move move : moves) {
                             GameState next = move(move);
                             if(next != null && !next.isCheck(playerTurn)) {
-                                System.out.println(move.getFrom().getX() + " " + move.getFrom().getY() + " | " +
-                                        move.getTo().getX() + " " + move.getTo().getY());
                                 return false;
                             }
                         }
