@@ -19,34 +19,37 @@ public class NavigationUI extends HBox {
     private BoardUI boardUI;
     private Button complete;
     private Button bestMove;
+    private PieceColour selectedColour;
 
     public NavigationUI(Game game, BoardUI boardUI, int width, int height) {
         this.game = game;
         this.boardUI = boardUI;
+        this.selectedColour = PieceColour.WHITE;
         setMinWidth(width);
         setMinHeight(height);
         setAlignment(Pos.CENTER);
         setSpacing(5);
 
         StackPane toggleCreativeMode = creativeModeToggle(width, height);
+        StackPane toggleColour = colourToggle(width, height);
         StackPane bestMove = bestMoveButton(width, height);
         StackPane complete = completeButton(width, height);
 
-        getChildren().addAll(toggleCreativeMode, bestMove, complete);
+        getChildren().addAll(toggleCreativeMode, toggleColour, bestMove, complete);
     }
 
     private StackPane creativeModeToggle(int width, int height) {
         StackPane pane = new StackPane();
         pane.setAlignment(Pos.CENTER);
-        pane.setMinWidth(width * 0.4);
+        pane.setMinWidth(width * 0.3);
         pane.setMinHeight(height);
 
-        ToggleSwitch complete = new ToggleSwitch("Creative Mode");
-        pane.getChildren().add(complete);
+        ToggleSwitch creativeModeToggle = new ToggleSwitch("Creative Mode");
+        pane.getChildren().add(creativeModeToggle);
 
         boolean creativeMode = game.getCreativeMode();
 
-        complete.setSelected(creativeMode);
+        creativeModeToggle.setSelected(creativeMode);
 
         if(creativeMode) {
             boardUI.setDisable(false);
@@ -54,12 +57,12 @@ public class NavigationUI extends HBox {
             boardUI.setDisable(true);
         }
 
-        toggleSwitch(complete);
+        creativeModeToggleButton(creativeModeToggle);
 
         return pane;
     }
 
-    private void toggleSwitch(ToggleSwitch toggleSwitch) {
+    private void creativeModeToggleButton(ToggleSwitch toggleSwitch) {
         toggleSwitch.setOnMouseClicked(pressed -> {
             game.setCreativeMode(toggleSwitch.isSelected());
             if (game.getCreativeMode()) {
@@ -71,6 +74,39 @@ public class NavigationUI extends HBox {
                 bestMove.setDisable(false);
                 boardUI.setDisable(true);
                 checkmateCheck();
+            }
+        });
+    }
+
+    private StackPane colourToggle(int width, int height) {
+        StackPane pane = new StackPane();
+        pane.setAlignment(Pos.CENTER);
+        pane.setMinWidth(width * 0.3);
+        pane.setMinHeight(height);
+
+        ToggleSwitch colour = new ToggleSwitch("Player turn");
+        pane.getChildren().add(colour);
+
+        colour.setSelected(selectedColour == PieceColour.BLACK);
+        if(colour.isSelected()) {
+            colour.getStyleClass().add("colourToggle");
+        } else {
+            colour.getStyleClass().remove("colourToggle");
+        }
+
+        colourToggleButton(colour);
+
+        return pane;
+    }
+
+    private void colourToggleButton(ToggleSwitch toggleSwitch) {
+        toggleSwitch.setOnMouseClicked(pressed -> {
+            if(toggleSwitch.isSelected()) {
+                selectedColour = PieceColour.BLACK;
+                toggleSwitch.getStyleClass().add("colourToggle");
+            } else {
+                selectedColour = PieceColour.WHITE;
+                toggleSwitch.getStyleClass().remove("colourToggle");
             }
         });
     }
@@ -106,7 +142,7 @@ public class NavigationUI extends HBox {
     private StackPane completeButton(int width, int height) {
         StackPane pane = new StackPane();
         pane.setAlignment(Pos.CENTER);
-        pane.setMinWidth(width * 0.3);
+        pane.setMinWidth(width * 0.2);
         pane.setMinHeight(height);
 
         complete = new Button("OK");
@@ -126,7 +162,7 @@ public class NavigationUI extends HBox {
     private StackPane bestMoveButton(int width, int height) {
         StackPane pane = new StackPane();
         pane.setAlignment(Pos.CENTER);
-        pane.setMinWidth(width * 0.3);
+        pane.setMinWidth(width * 0.2);
         pane.setMinHeight(height);
 
         bestMove = new Button("Best Move");

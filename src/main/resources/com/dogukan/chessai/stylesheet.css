@@ -37,3 +37,7 @@
 .rightClicked {
     -fx-opacity: 0.4;
 }
+
+.colourToggle:selected .thumb-area {
+    -fx-background-color: black;
+}
