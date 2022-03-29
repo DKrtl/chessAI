@@ -129,9 +129,9 @@ public class Game {
         currentState.setCreativeMode(creativeMode);
     }
 
-//    public GameState bestMove(PieceColour player) {
-//        return ai.bestMove(currentState, player);
-//    }
+    public GameState bestMove(PieceColour player) {
+        return ai.bestMove(player, currentState);
+    }
 
     public void setCurrentState(GameState gameState) {
         currentState = gameState;
