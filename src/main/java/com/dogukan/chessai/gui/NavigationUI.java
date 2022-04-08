@@ -147,7 +147,7 @@ public class NavigationUI extends HBox {
 
     private void bestMoveButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
-            game.setCurrentState(game.bestMove(PieceColour.WHITE));
+            game.setCurrentState(game.bestMove(selectedColour));
             boardUI.draw();
             checkmateCheck();
         });

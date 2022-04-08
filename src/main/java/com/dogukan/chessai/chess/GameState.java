@@ -1,6 +1,6 @@
 package com.dogukan.chessai.chess;
 
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class GameState {
@@ -114,28 +114,6 @@ public class GameState {
         }
     }
 
-    public Set<GameState> allPossibleGameStates(PieceColour playerTurn) {
-        Set<GameState> allPossibleGameStates = new HashSet<>();
-
-        Board board = getBoard();
-        for(int i = 0; i < board.columnLength(); i++) {
-            for(int j = 0; j < board.rowLength(); j++) {
-                Position position = new Position(i, j);
-                Piece piece = board.getSquare(position);
-                if(piece != null && piece.getColour() == playerTurn) {
-                    Set<Move> moves = piece.legalMoves(board, position);
-                    for(Move move : moves) {
-                        GameState next = move(move);
-                        if(next != null) {
-                            allPossibleGameStates.add(next);
-                        }
-                    }
-                }
-            }
-        }
-        return allPossibleGameStates;
-    }
-
     public boolean gameOver() {
         return isCheckmate(PieceColour.WHITE) || isCheckmate(PieceColour.BLACK);
     }
@@ -167,5 +145,18 @@ public class GameState {
 
     public void setCreativeMode(boolean creativeMode) {
         this.creativeMode = creativeMode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameState gameState = (GameState) o;
+        return Objects.equals(board, gameState.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(board);
     }
 }

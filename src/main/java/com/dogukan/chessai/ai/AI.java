@@ -9,9 +9,11 @@ import java.util.Set;
 
 public class AI {
     private Set<Position> selectedPieces;
+    private MiniMaxTree tree;
 
     public AI() {
         this.selectedPieces = new HashSet<>();
+        this.tree = new MiniMaxTree();
     }
 
     public void addToSelected(Position position) {
@@ -23,13 +25,6 @@ public class AI {
     }
 
     public GameState bestMove(PieceColour colour, GameState currentGameState, int depth) {
-        MiniMaxTree tree = new MiniMaxTree(colour, currentGameState, 5);
-
-        for(MiniMaxNode child : tree.getRoot().getChildren()) {
-            if(tree.getRoot().getUtility() == child.getUtility()) {
-                return child.getGameState();
-            }
-        }
-        return null;
+        return tree.getBestMove(colour, currentGameState, depth);
     }
 }

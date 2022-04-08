@@ -1,5 +1,7 @@
 package com.dogukan.chessai.chess;
 
+import java.util.Arrays;
+
 public class Board {
 
     private Piece[][] board;
@@ -67,5 +69,79 @@ public class Board {
 
     public int columnLength() {
         return board.length;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece[][] board1 = ((Board) o).getSquares();
+        for(int i = 0; i < rowLength(); i++) {
+            for(int j = 0; j < columnLength(); j++) {
+                if(board[i][j] == null && board1[i][j] != null ||
+                        board[i][j] != null && board1[i][j] == null) {
+                    return false;
+                } else if(board[i][j] == null && board1[i][j] == null) {
+                } else {
+                    if(board[i][j].getClass() != board1[i][j].getClass()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(board);
+    }
+
+    public void makeBoard() {
+        for (int y = 0; y < columnLength(); y++) {
+            for (int x = 0; x < rowLength(); x++) {
+                Piece piece = getSquare(new Position(x, y));
+                if (piece instanceof Pawn) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WP ");
+                    } else {
+                        System.out.print("BP ");
+                    }
+                } else if (piece instanceof Rook) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WR ");
+                    } else {
+                        System.out.print("BR ");
+                    }
+                } else if (piece instanceof Bishop) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WB ");
+                    } else {
+                        System.out.print("BB ");
+                    }
+                } else if (piece instanceof Knight) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WK ");
+                    } else {
+                        System.out.print("BK ");
+                    }
+                } else if (piece instanceof Queen) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WQ ");
+                    } else {
+                        System.out.print("BQ ");
+                    }
+                } else if (piece instanceof King) {
+                    if (piece.getColour() == PieceColour.WHITE) {
+                        System.out.print("WKi ");
+                    } else {
+                        System.out.print("BKi ");
+                    }
+                } else {
+                    System.out.print(" x ");
+                }
+            }
+            System.out.println();
+        }
     }
 }

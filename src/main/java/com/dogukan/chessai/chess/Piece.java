@@ -55,7 +55,8 @@ public abstract class Piece {
         if(colour == PieceColour.WHITE) {
             return strength + pieceSquareTable[y][x];
         } else {
-            return strength + (pieceSquareTable[y][x] * -1);
+            int length = pieceSquareTable.length;
+            return strength - pieceSquareTable[length - 1 - y][length - 1 - x];
         }
     }
 }

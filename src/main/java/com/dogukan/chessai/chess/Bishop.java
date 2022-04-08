@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Bishop extends Piece {
 
-    Bishop(PieceColour colour) {
+    public Bishop(PieceColour colour) {
         super(colour);
         setStrength(330);
         int[][] pieceSquareTable = {{-20, -10, -10, -10, -10, -10, -10, -20},

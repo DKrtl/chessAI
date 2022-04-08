@@ -9,7 +9,7 @@ public class Game {
 
     public Game(PieceColour colour, boolean creativeMode) {
         newGame(colour, creativeMode);
-        ai = new AI();
+        this.ai = new AI();
     }
 
     private void newGame(PieceColour colour, boolean creativeMode) {
@@ -37,15 +37,15 @@ public class Game {
                         }
                     } else if (i == 1 || i == 6) {
                         if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
-                        } else {
-                            board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
-                        }
-                    } else if (i == 2 || i == 5) {
-                        if(colour == PieceColour.WHITE) {
                             board.addPiece(new Position(i , j), new Knight(PieceColour.BLACK));
                         } else {
                             board.addPiece(new Position(i , j), new Knight(PieceColour.WHITE));
+                        }
+                    } else if (i == 2 || i == 5) {
+                        if(colour == PieceColour.WHITE) {
+                            board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
+                        } else {
+                            board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
                         }
                     } else if (i == 3) {
                         if(colour == PieceColour.WHITE) {
@@ -69,15 +69,15 @@ public class Game {
                         }
                     } else if (i == 1 || i == 6) {
                         if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
-                        } else {
-                            board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
-                        }
-                    } else if (i == 2 || i == 5) {
-                        if(colour == PieceColour.WHITE) {
                             board.addPiece(new Position(i , j), new Knight(PieceColour.WHITE));
                         } else {
                             board.addPiece(new Position(i , j), new Knight(PieceColour.BLACK));
+                        }
+                    } else if (i == 2 || i == 5) {
+                        if(colour == PieceColour.WHITE) {
+                            board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
+                        } else {
+                            board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
                         }
                     } else if (i == 3) {
                         if(colour == PieceColour.WHITE) {
@@ -129,8 +129,8 @@ public class Game {
         currentState.setCreativeMode(creativeMode);
     }
 
-    public GameState bestMove(PieceColour player) {
-        return ai.bestMove(player, currentState, 3);
+    public GameState bestMove(PieceColour colour) {
+        return ai.bestMove(colour, currentState, 6);
     }
 
     public void setCurrentState(GameState gameState) {

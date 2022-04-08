@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Rook extends Piece {
 
-    Rook(PieceColour colour) {
+    public Rook(PieceColour colour) {
         super(colour);
         setStrength(500);
         int[][] pieceSquareTable = {{0, 0, 0, 0, 0, 0, 0, 0},

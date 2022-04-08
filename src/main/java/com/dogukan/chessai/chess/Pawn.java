@@ -7,7 +7,7 @@ public class Pawn extends Piece {
 
     private boolean tookTwoSquareMove;
 
-    Pawn(PieceColour colour) {
+    public Pawn(PieceColour colour) {
         super(colour);
         tookTwoSquareMove = false;
         setStrength(100);

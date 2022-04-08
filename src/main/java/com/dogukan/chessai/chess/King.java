@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class King extends Piece {
 
-    King(PieceColour colour) {
+    public King(PieceColour colour) {
         super(colour);
         setStrength(20000);
         int[][] pieceSquareTable = {{-30, -40, -40, -50, -50, -40, -40, -30},
