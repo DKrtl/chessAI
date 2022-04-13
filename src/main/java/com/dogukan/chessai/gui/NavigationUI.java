@@ -17,7 +17,7 @@ public class NavigationUI extends HBox {
 
     private Game game;
     private BoardUI boardUI;
-    private Button complete;
+    private Button flip;
     private Button bestMove;
     private PieceColour selectedColour;
 
@@ -32,10 +32,10 @@ public class NavigationUI extends HBox {
 
         StackPane toggleCreativeMode = creativeModeToggle(width, height);
         StackPane toggleColour = colourToggle(width, height);
+        StackPane flipPane = flipButton(width, height);
         StackPane bestMove = bestMoveButton(width, height);
-        StackPane complete = completeButton(width, height);
 
-        getChildren().addAll(toggleCreativeMode, toggleColour, bestMove, complete);
+        getChildren().addAll(toggleCreativeMode, toggleColour, flipPane, bestMove);
     }
 
     private StackPane creativeModeToggle(int width, int height) {
@@ -66,11 +66,11 @@ public class NavigationUI extends HBox {
         toggleSwitch.setOnMouseClicked(pressed -> {
             game.setCreativeMode(toggleSwitch.isSelected());
             if (game.getCreativeMode()) {
-                complete.setDisable(true);
+                flip.setDisable(true);
                 bestMove.setDisable(true);
                 boardUI.setDisable(false);
             } else {
-                complete.setDisable(false);
+                flip.setDisable(false);
                 bestMove.setDisable(false);
                 boardUI.setDisable(true);
                 checkmateCheck();
@@ -111,23 +111,26 @@ public class NavigationUI extends HBox {
         });
     }
 
-    private StackPane completeButton(int width, int height) {
+    private StackPane flipButton(int width, int height) {
         StackPane pane = new StackPane();
         pane.setAlignment(Pos.CENTER);
         pane.setMinWidth(width * 0.2);
         pane.setMinHeight(height);
 
-        complete = new Button("OK");
-        pane.getChildren().add(complete);
+        flip = new Button("Flip");
+        pane.getChildren().add(flip);
 
-        completeButtonClicked(complete);
+        flipButtonClicked(flip);
 
         return pane;
     }
 
-    private void completeButtonClicked(Button button) {
+    private void flipButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
             button.setDisable(checkmateCheck());
+
+            boardUI.togglePlayerColour();
+            boardUI.draw();
         });
     }
 

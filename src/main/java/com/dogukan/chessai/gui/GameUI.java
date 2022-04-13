@@ -1,7 +1,6 @@
 package com.dogukan.chessai.gui;
 
 import com.dogukan.chessai.chess.Game;
-import com.dogukan.chessai.chess.PieceColour;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -13,7 +12,7 @@ public class GameUI extends Application {
         int width = 600;
         int height = 670;
 
-        Game game = new Game(PieceColour.WHITE, false);
+        Game game = new Game(false);
         VBox root = new VBox();
         BoardUI boardUI = new BoardUI(game, width);
         NavigationUI navigationUI = new NavigationUI(game, boardUI, width, height - width);

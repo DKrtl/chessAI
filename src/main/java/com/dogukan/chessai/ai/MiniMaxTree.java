@@ -122,7 +122,7 @@ public class MiniMaxTree {
         return allPossibleGameStates;
     }
 
-    private GameState iterativeDeepening(PieceColour playerTurn, GameState currentGameState, int maxDepth) {
+    private MiniMaxNode iterativeDeepening(PieceColour playerTurn, GameState currentGameState, int maxDepth) {
         MiniMaxNode bestMove = null;
 
         for(int d = 1; d <= maxDepth; d++) {
@@ -136,7 +136,7 @@ public class MiniMaxTree {
 
         cache = new HashMap<>();
 
-        return bestMove.getGameState();
+        return bestMove;
     }
 
     private MiniMaxNode createRoot(PieceColour playerTurn, GameState currentGameState, int depth) {
@@ -172,8 +172,13 @@ public class MiniMaxTree {
         return null;
     }
 
-    public GameState getBestMove(PieceColour playerTurn, GameState currentGameState, int maxDepth) {
-        return iterativeDeepening(playerTurn, currentGameState, maxDepth);
+    public GameState getBestMove(PieceColour playerTurn, GameState currentGameState, Set<Position> selectedPieces, int maxDepth) {
+        MiniMaxNode root = iterativeDeepening(playerTurn, currentGameState, maxDepth);
+        if(selectedPieces.isEmpty()) {
+            return root.getGameState();
+        } else {
+            return null;
+        }
     }
 
     private void showBoards(Board board) {

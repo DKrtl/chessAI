@@ -25,6 +25,6 @@ public class AI {
     }
 
     public GameState bestMove(PieceColour colour, GameState currentGameState, int depth) {
-        return tree.getBestMove(colour, currentGameState, depth);
+        return tree.getBestMove(colour, currentGameState, selectedPieces, depth);
     }
 }

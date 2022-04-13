@@ -18,10 +18,12 @@ public class BoardUI extends GridPane {
     private int width;
     private Position from;
     private Position to;
+    private PieceColour playerColour;
 
     BoardUI(Game game, int width) {
         this.width = width;
         this.game = game;
+        this.playerColour = PieceColour.WHITE;
 
         draw();
     }
@@ -35,9 +37,14 @@ public class BoardUI extends GridPane {
         }
     }
 
+    public void togglePlayerColour() {
+        getChildren().removeAll();
+        playerColour = playerColour.opponent();
+    }
+
     private void createSquare(int col, int row) {
         StackPane stackPane = new StackPane();
-        double dim = (double) width/(double) size;
+        double dim = (double) (width - 8)/(double) size;
         Rectangle square = new Rectangle(dim, dim);
         Optional<ImageView> piece = addImage(col, row);
 
@@ -50,7 +57,11 @@ public class BoardUI extends GridPane {
         square.getStyleClass().add((row + col) % 2 == 0 ? "lightSquare" : "darkSquare");
         stackPane.getStyleClass().add(stackPane.getChildren().size() > 1 ? "fullPane" : null);
 
-        this.add(stackPane, col, row);
+        if(playerColour == PieceColour.WHITE) {
+            this.add(stackPane, col, row);
+        } else {
+            this.add(stackPane, 7 - col, 7 - row);
+        }
     }
 
     private Optional<ImageView> addImage(int col, int row) {
@@ -182,10 +193,10 @@ public class BoardUI extends GridPane {
         Position position = new Position(getColumnIndex(stackPane), getRowIndex(stackPane));
         if(stackPane.getStyleClass().contains("rightClicked")) {
             stackPane.getStyleClass().remove("rightClicked");
-//            game.getAI().removeFromSelected(position);
+            game.removeFromAI(position);
         } else if(stackPane.getChildren().size() > 1) {
             stackPane.getStyleClass().add("rightClicked");
-//            game.getAI().addToSelected(position);
+            game.addToAI(position);
         }
     }
 

@@ -4,93 +4,47 @@ import com.dogukan.chessai.ai.AI;
 
 public class Game {
 
+    // draw it as white only and flip the board through gui ygm
+
     private GameState currentState;
     private final AI ai;
 
-    public Game(PieceColour colour, boolean creativeMode) {
-        newGame(colour, creativeMode);
+    public Game(boolean creativeMode) {
+        newGame(creativeMode);
         this.ai = new AI();
     }
 
-    private void newGame(PieceColour colour, boolean creativeMode) {
+    private void newGame(boolean creativeMode) {
         Board board = new Board(new Piece[8][8], false);
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j < 8; j++) {
                 if (j == 1) {
-                    if(colour == PieceColour.WHITE) {
-                        board.addPiece(new Position(i, j), new Pawn(PieceColour.BLACK));
-                    } else {
-                        board.addPiece(new Position(i, j), new Pawn(PieceColour.WHITE));
-                    }
+                    board.addPiece(new Position(i, j), new Pawn(PieceColour.BLACK));
                 } else if (j == 6) {
-                    if(colour == PieceColour.WHITE) {
-                        board.addPiece(new Position(i, j), new Pawn(PieceColour.WHITE));
-                    } else {
-                        board.addPiece(new Position(i, j), new Pawn(PieceColour.BLACK));
-                    }
+                    board.addPiece(new Position(i, j), new Pawn(PieceColour.WHITE));
                 } else if (j == 0) {
                     if (i == 0 || i == 7) {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i , j), new Rook(PieceColour.BLACK));
-                        } else {
-                            board.addPiece(new Position(i , j), new Rook(PieceColour.WHITE));
-                        }
+                        board.addPiece(new Position(i , j), new Rook(PieceColour.BLACK));
                     } else if (i == 1 || i == 6) {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i , j), new Knight(PieceColour.BLACK));
-                        } else {
-                            board.addPiece(new Position(i , j), new Knight(PieceColour.WHITE));
-                        }
+                        board.addPiece(new Position(i , j), new Knight(PieceColour.BLACK));
                     } else if (i == 2 || i == 5) {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
-                        } else {
-                            board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
-                        }
+                        board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
                     } else if (i == 3) {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i, j), new Queen(PieceColour.BLACK));
-                        } else {
-                            board.addPiece(new Position(i, j), new Queen(PieceColour.WHITE));
-                        }
+                        board.addPiece(new Position(i, j), new Queen(PieceColour.BLACK));
                     } else {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i, j), new King(PieceColour.BLACK));
-                        } else {
-                            board.addPiece(new Position(i, j), new King(PieceColour.WHITE));
-                        }
+                        board.addPiece(new Position(i, j), new King(PieceColour.BLACK));
                     }
                 } else if (j == 7) {
                     if (i == 0 || i == 7) {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i , j), new Rook(PieceColour.WHITE));
-                        } else {
-                            board.addPiece(new Position(i , j), new Rook(PieceColour.BLACK));
-                        }
+                        board.addPiece(new Position(i , j), new Rook(PieceColour.WHITE));
                     } else if (i == 1 || i == 6) {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i , j), new Knight(PieceColour.WHITE));
-                        } else {
-                            board.addPiece(new Position(i , j), new Knight(PieceColour.BLACK));
-                        }
+                        board.addPiece(new Position(i , j), new Knight(PieceColour.WHITE));
                     } else if (i == 2 || i == 5) {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
-                        } else {
-                            board.addPiece(new Position(i , j), new Bishop(PieceColour.BLACK));
-                        }
+                        board.addPiece(new Position(i , j), new Bishop(PieceColour.WHITE));
                     } else if (i == 3) {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i, j), new Queen(PieceColour.WHITE));
-                        } else {
-                            board.addPiece(new Position(i, j), new Queen(PieceColour.BLACK));
-                        }
+                        board.addPiece(new Position(i, j), new Queen(PieceColour.WHITE));
                     } else {
-                        if(colour == PieceColour.WHITE) {
-                            board.addPiece(new Position(i, j), new King(PieceColour.WHITE));
-                        } else {
-                            board.addPiece(new Position(i, j), new King(PieceColour.BLACK));
-                        }
+                        board.addPiece(new Position(i, j), new King(PieceColour.WHITE));
                     }
                 }
             }
@@ -135,5 +89,13 @@ public class Game {
 
     public void setCurrentState(GameState gameState) {
         currentState = gameState;
+    }
+
+    public void addToAI(Position position) {
+        ai.addToSelected(position);
+    }
+
+    public void removeFromAI(Position position) {
+        ai.removeFromSelected(position);
     }
 }
