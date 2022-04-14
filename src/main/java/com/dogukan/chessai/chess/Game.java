@@ -4,8 +4,6 @@ import com.dogukan.chessai.ai.AI;
 
 public class Game {
 
-    // draw it as white only and flip the board through gui ygm
-
     private GameState currentState;
     private final AI ai;
 
@@ -84,7 +82,7 @@ public class Game {
     }
 
     public GameState bestMove(PieceColour colour) {
-        return ai.bestMove(colour, currentState, 6);
+        return ai.getBestMove(colour, currentState, 6);
     }
 
     public void setCurrentState(GameState gameState) {

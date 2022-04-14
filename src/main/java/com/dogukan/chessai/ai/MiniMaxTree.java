@@ -6,9 +6,11 @@ import java.util.*;
 
 public class MiniMaxTree {
     private Map<MiniMaxNode, MiniMaxNode> cache;
+    private MiniMaxNode root;
 
-    public MiniMaxTree() {
+    public MiniMaxTree(PieceColour playerTurn, GameState currentGameState, int depth) {
         this.cache = new HashMap<>();
+        this.root = iterativeDeepening(playerTurn, currentGameState, depth);
     }
 
     private MiniMaxNode createTree(MiniMaxNode miniMaxNode, int alpha, int beta, int depth) {
@@ -127,7 +129,7 @@ public class MiniMaxTree {
 
         for(int d = 1; d <= maxDepth; d++) {
             MiniMaxNode node = createRoot(playerTurn, currentGameState, d);
-            bestMove = bestMove(createTree(node, Integer.MIN_VALUE, Integer.MAX_VALUE, d));
+            bestMove = createTree(node, Integer.MIN_VALUE, Integer.MAX_VALUE, d);
             if(bestMove.getUtility() == Integer.MAX_VALUE ||
                 bestMove.getUtility() == Integer.MIN_VALUE) {
                 break;
@@ -161,24 +163,8 @@ public class MiniMaxTree {
         });
     }
 
-    private MiniMaxNode bestMove(MiniMaxNode root) {
-        List<MiniMaxNode> children = root.getChildren();
-
-        for(MiniMaxNode child : children) {
-            if(child.getUtility() == root.getUtility()) {
-                return child;
-            }
-        }
-        return null;
-    }
-
-    public GameState getBestMove(PieceColour playerTurn, GameState currentGameState, Set<Position> selectedPieces, int maxDepth) {
-        MiniMaxNode root = iterativeDeepening(playerTurn, currentGameState, maxDepth);
-        if(selectedPieces.isEmpty()) {
-            return root.getGameState();
-        } else {
-            return null;
-        }
+    public MiniMaxNode getRoot() {
+        return root;
     }
 
     private void showBoards(Board board) {
