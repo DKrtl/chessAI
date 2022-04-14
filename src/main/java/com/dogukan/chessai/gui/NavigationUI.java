@@ -20,7 +20,7 @@ public class NavigationUI extends HBox {
     private Game game;
     private BoardUI boardUI;
     private Button flip;
-    private Button bestMove;
+    private Button explore;
     private PieceColour selectedColour;
 
     public NavigationUI(Game game, BoardUI boardUI, int width, int height) {
@@ -35,9 +35,9 @@ public class NavigationUI extends HBox {
         StackPane toggleCreativeMode = creativeModeToggle(width, height);
         StackPane toggleColour = colourToggle(width, height);
         StackPane flipPane = flipButton(width, height);
-        StackPane bestMove = bestMoveButton(width, height);
+        StackPane explorePane = exploreButton(width, height);
 
-        getChildren().addAll(toggleCreativeMode, toggleColour, flipPane, bestMove);
+        getChildren().addAll(toggleCreativeMode, toggleColour, flipPane, explorePane);
     }
 
     private StackPane creativeModeToggle(int width, int height) {
@@ -69,13 +69,12 @@ public class NavigationUI extends HBox {
             game.setCreativeMode(toggleSwitch.isSelected());
             if (game.getCreativeMode()) {
                 flip.setDisable(true);
-                bestMove.setDisable(true);
+                explore.setDisable(true);
                 boardUI.setDisable(false);
             } else {
                 flip.setDisable(false);
-                bestMove.setDisable(false);
+                explore.setDisable(false);
                 boardUI.setDisable(true);
-                checkmateCheck();
             }
         });
     }
@@ -129,23 +128,21 @@ public class NavigationUI extends HBox {
 
     private void flipButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
-            button.setDisable(checkmateCheck());
-
             boardUI.togglePlayerColour();
             boardUI.draw();
         });
     }
 
-    private StackPane bestMoveButton(int width, int height) {
+    private StackPane exploreButton(int width, int height) {
         StackPane pane = new StackPane();
         pane.setAlignment(Pos.CENTER);
         pane.setMinWidth(width * 0.2);
         pane.setMinHeight(height);
 
-        bestMove = new Button("Best Move");
-        pane.getChildren().add(bestMove);
+        explore = new Button("Best Move");
+        pane.getChildren().add(explore);
 
-        bestMoveButtonClicked(bestMove);
+        bestMoveButtonClicked(explore);
 
         return pane;
     }
@@ -153,22 +150,29 @@ public class NavigationUI extends HBox {
     private void bestMoveButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
             game.setCurrentState(game.bestMove(selectedColour));
-            boardUI.draw();
-            checkmateCheck();
+            informationPopUp();
         });
     }
 
-    private void gameOverPopUp() {
-        Alert checkmateAlert = new Alert(Alert.AlertType.NONE, "Checkmate", ButtonType.OK);
-
-        checkmateAlert.show();
+    private void informationPopUp() {
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(getScene().getWindow());
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(new Text("This is a Dialog"));
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
+//        Alert checkmateAlert = new Alert(Alert.AlertType.NONE, "Checkmate", ButtonType.OK);
+//
+//        checkmateAlert.show();
     }
 
-    private boolean checkmateCheck() {
-        if(game.isGameOver()) {
-            gameOverPopUp();
-            return true;
-        }
-        return false;
-    }
+//    private boolean checkmateCheck() {
+//        if(game.isGameOver()) {
+//            gameOverPopUp();
+//            return true;
+//        }
+//        return false;
+//    }
 }
