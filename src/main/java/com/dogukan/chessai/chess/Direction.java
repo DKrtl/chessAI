@@ -32,7 +32,7 @@ public class Direction {
     private static void downTheBoard(Board board, Position position, PieceColour colour, int amount, Set<Move> moves) {
         for(int i = 1; i <= amount; i++) {
             Position to = new Position(position.getX(), position.getY() + i);
-            if (!createMove(board, position, colour, moves, to)) {
+            if (createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -41,7 +41,7 @@ public class Direction {
     private static void upTheBoard(Board board, Position position, PieceColour colour, int amount, Set<Move> moves) {
         for(int i = 1; i <= amount; i++) {
             Position to = new Position(position.getX(), position.getY() - i);
-            if (!createMove(board, position, colour, moves, to)) {
+            if (createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -79,7 +79,7 @@ public class Direction {
                                     Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
             Position to = new Position(currentX + i, currentY);
-            if (!createMove(board, position, colour, moves, to)) {
+            if (createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -89,7 +89,7 @@ public class Direction {
                                      Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
             Position to = new Position(currentX - i, currentY);
-            if (!createMove(board, position, colour, moves, to)) {
+            if (createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -127,7 +127,7 @@ public class Direction {
                                              Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
             Position to = new Position(currentX - i, currentY + i);
-            if (!createMove(board, position, colour, moves, to)) {
+            if (createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -137,7 +137,7 @@ public class Direction {
                                            Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
             Position to = new Position(currentX + i, currentY - i);
-            if (!createMove(board, position, colour, moves, to)) {
+            if (createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -175,7 +175,7 @@ public class Direction {
                                               Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
             Position to = new Position(currentX + i, currentY + i);
-            if (!createMove(board, position, colour, moves, to)) {
+            if (createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -185,7 +185,7 @@ public class Direction {
                                           Set<Move> moves, int currentX, int currentY) {
         for(int i = 1; i <= amount; i++) {
             Position to = new Position(currentX - i, currentY - i);
-            if (!createMove(board, position, colour, moves, to)) {
+            if (createMove(board, position, colour, moves, to)) {
                 break;
             }
         }
@@ -200,11 +200,11 @@ public class Direction {
                 if (blockingPiece != null && blockingPiece.getColour() == colour.opponent()) {
                     moves.add(new Move(position, to));
                 }
-                return false;
+                return true;
             }
         } else {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }

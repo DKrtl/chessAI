@@ -4,7 +4,9 @@ import com.dogukan.chessai.chess.Game;
 import com.dogukan.chessai.chess.PieceColour;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -157,14 +159,9 @@ public class NavigationUI extends HBox {
     }
 
     private void gameOverPopUp() {
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(getScene().getWindow());
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text("This is a Dialog"));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
+        Alert checkmateAlert = new Alert(Alert.AlertType.NONE, "Checkmate", ButtonType.OK);
+
+        checkmateAlert.show();
     }
 
     private boolean checkmateCheck() {
