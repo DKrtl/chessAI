@@ -6,26 +6,26 @@ import java.util.Scanner;
 
 public class FullGame {
 
-    static Game game = new Game(true);
+    static Game game = new Game(false);
     static Board board;
 
     public static void main(String[] args) {
-//        makeBoard();
-//
-//        Scanner scanner = new Scanner(System.in);
-//
-//        while (!game.isGameOver()) {
-//            if (scanner.hasNext()) {
-//                int x1 = Integer.parseInt(scanner.next());
-//                int y1 = Integer.parseInt(scanner.next());
-//
-//                int x2 = Integer.parseInt(scanner.next());
-//                int y2 = Integer.parseInt(scanner.next());
-//                game.move(new Move(new Position(x1, y1),
-//                        new Position(x2, y2)));
-//            }
-//            makeBoard();
-//        }
+        makeBoard();
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (!game.isGameOver()) {
+            if (scanner.hasNext()) {
+                int x1 = Integer.parseInt(scanner.next());
+                int y1 = Integer.parseInt(scanner.next());
+
+                int x2 = Integer.parseInt(scanner.next());
+                int y2 = Integer.parseInt(scanner.next());
+                game.move(new Move(new Position(x1, y1),
+                        new Position(x2, y2)));
+            }
+            makeBoard();
+        }
         game.bestMove(PieceColour.WHITE);
     }
 

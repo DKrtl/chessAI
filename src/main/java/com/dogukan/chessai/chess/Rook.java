@@ -20,6 +20,14 @@ public class Rook extends Piece {
     }
 
     @Override
+    public Piece copy() {
+        Rook copy = new Rook(getColour());
+        copy.setPieceSquareTable(getPieceSquareTable());
+        copy.setStrength(getStrength());
+        return copy;
+    }
+
+    @Override
     public Set<Move> legalMoves(Board board, Position position) {
         Set<Move> moves = new HashSet<>();
 

@@ -20,6 +20,14 @@ public class Bishop extends Piece {
     }
 
     @Override
+    public Piece copy() {
+        Bishop copy = new Bishop(getColour());
+        copy.setPieceSquareTable(getPieceSquareTable());
+        copy.setStrength(getStrength());
+        return copy;
+    }
+
+    @Override
     public Set<Move> legalMoves(Board board, Position position) {
         Set<Move> moves = new HashSet<>();
         moves.addAll(Direction.northEastMove(board, position, getColour(), board.columnLength()));

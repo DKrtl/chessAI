@@ -139,18 +139,20 @@ public class NavigationUI extends HBox {
         pane.setMinWidth(width * 0.2);
         pane.setMinHeight(height);
 
-        explore = new Button("Best Move");
+        explore = new Button("Explore");
         pane.getChildren().add(explore);
 
-        bestMoveButtonClicked(explore);
+        exploreButtonClicked(explore);
 
         return pane;
     }
 
-    private void bestMoveButtonClicked(Button button) {
+    private void exploreButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
+//            informationPopUp();
             game.setCurrentState(game.bestMove(selectedColour));
-            informationPopUp();
+            boardUI.draw();
+            checkmateCheck();
         });
     }
 
@@ -168,11 +170,11 @@ public class NavigationUI extends HBox {
 //        checkmateAlert.show();
     }
 
-//    private boolean checkmateCheck() {
-//        if(game.isGameOver()) {
-//            gameOverPopUp();
-//            return true;
-//        }
-//        return false;
-//    }
+    private boolean checkmateCheck() {
+        if(game.isGameOver()) {
+            informationPopUp();
+            return true;
+        }
+        return false;
+    }
 }

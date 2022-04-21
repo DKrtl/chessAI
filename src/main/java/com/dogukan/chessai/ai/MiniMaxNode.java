@@ -12,14 +12,14 @@ public class MiniMaxNode {
     private List<MiniMaxNode> children;
     private int utility;
     private PieceColour playerTurn;
-    private int depth;
+    private int upperBound;
+    private int lowerBound;
 
-    public MiniMaxNode(GameState currentGameState, PieceColour playerTurn, int utility, int depth) {
+    public MiniMaxNode(GameState currentGameState, PieceColour playerTurn, int utility) {
         this.currentGameState = currentGameState;
         this.children = new ArrayList<>();
         this.utility = utility;
         this.playerTurn = playerTurn;
-        this.depth = depth;
     }
 
     public MiniMaxNode(MiniMaxNode miniMaxNode) {
@@ -29,6 +29,8 @@ public class MiniMaxNode {
         this.children = new ArrayList<>(miniMaxNode.getChildren());
         this.utility = miniMaxNode.getUtility();
         this.playerTurn = miniMaxNode.getPlayerTurn();
+        this.upperBound = miniMaxNode.upperBound;
+        this.lowerBound = miniMaxNode.lowerBound;
     }
 
     public void addChild(MiniMaxNode child) {
@@ -59,22 +61,28 @@ public class MiniMaxNode {
         return children;
     }
 
-    public void updateNode(MiniMaxNode node) {
-        this.children = node.getChildren();
-        this.currentGameState = node.getGameState();
-        this.utility = node.getUtility();
-    }
-
     public void emptyChildren() {
         children.clear();
     }
 
-    public void addChildren(List children) {
-        this.children = children;
+    public void setUpperBound(int upperBound) {
+        this.upperBound = upperBound;
     }
 
-    public int getDepth() {
-        return depth;
+    public void setLowerBound(int lowerBound) {
+        this.lowerBound = lowerBound;
+    }
+
+    public int getLowerBound() {
+        return lowerBound;
+    }
+
+    public int getUpperBound() {
+        return upperBound;
+    }
+
+    public void addChildren(List<MiniMaxNode> children) {
+        this.children = children;
     }
 
     @Override
@@ -82,7 +90,7 @@ public class MiniMaxNode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MiniMaxNode node = (MiniMaxNode) o;
-        return Objects.equals(currentGameState, node.currentGameState) && playerTurn == node.getPlayerTurn();
+        return currentGameState.equals(node.getGameState()) && playerTurn == node.getPlayerTurn();
     }
 
     @Override

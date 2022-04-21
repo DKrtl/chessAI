@@ -20,6 +20,14 @@ public class Queen extends Piece {
     }
 
     @Override
+    public Piece copy() {
+        Queen copy = new Queen(getColour());
+        copy.setPieceSquareTable(getPieceSquareTable());
+        copy.setStrength(getStrength());
+        return copy;
+    }
+
+    @Override
     public Set<Move> legalMoves(Board board, Position position) {
         Set<Move> moves = new HashSet<>();
 

@@ -20,6 +20,14 @@ public class King extends Piece {
     }
 
     @Override
+    public Piece copy() {
+        King copy = new King(getColour());
+        copy.setPieceSquareTable(getPieceSquareTable());
+        copy.setStrength(getStrength());
+        return copy;
+    }
+
+    @Override
     public Set<Move> legalMoves(Board board, Position position) {
         Set<Move> moves = new HashSet<>();
         moves.addAll(Direction.northMove(board, position, getColour(), 1));

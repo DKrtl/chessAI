@@ -20,6 +20,14 @@ public class Knight extends Piece {
     }
 
     @Override
+    public Piece copy() {
+        Knight copy = new Knight(getColour());
+        copy.setPieceSquareTable(getPieceSquareTable());
+        copy.setStrength(getStrength());
+        return copy;
+    }
+
+    @Override
     public Set<Move> legalMoves(Board board, Position position) {
         Set<Move> moves = new HashSet<>();
         int currentX = position.getX();

@@ -8,7 +8,7 @@ public abstract class Piece {
     private int strength;
     private int[][] pieceSquareTable;
 
-    Piece(PieceColour colour) {
+    public Piece(PieceColour colour) {
         this.colour = colour;
     }
 
@@ -24,6 +24,8 @@ public abstract class Piece {
         }
         return newBoard;
     }
+
+    public abstract Piece copy();
 
     public Board creativeModeMove(GameState gameState, Move move) {
         Board board = gameState.getBoard();
@@ -58,5 +60,17 @@ public abstract class Piece {
             int length = pieceSquareTable.length;
             return strength - pieceSquareTable[length - 1 - y][length - 1 - x];
         }
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int[][] getPieceSquareTable() {
+        return pieceSquareTable;
+    }
+
+    public void setColour(PieceColour colour) {
+        this.colour = colour;
     }
 }

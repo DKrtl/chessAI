@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class GameState {
 
-    private final GameState prev;
+    private GameState prev;
     private GameState next;
     private final Board board;
     private final int evaluation;
@@ -147,12 +147,16 @@ public class GameState {
         this.creativeMode = creativeMode;
     }
 
+    public void setPrev(GameState prev) {
+        this.prev = prev;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GameState gameState = (GameState) o;
-        return Objects.equals(board, gameState.board);
+        return getBoard().equals(gameState.getBoard());
     }
 
     @Override
