@@ -1,6 +1,7 @@
 package com.dogukan.chessai.gui;
 
 import com.dogukan.chessai.chess.Game;
+import com.dogukan.chessai.chess.Information;
 import com.dogukan.chessai.chess.PieceColour;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,6 +15,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.ToggleSwitch;
+
+import java.util.List;
 
 public class NavigationUI extends HBox {
 
@@ -149,32 +152,27 @@ public class NavigationUI extends HBox {
 
     private void exploreButtonClicked(Button button) {
         button.setOnMouseClicked(click -> {
-//            informationPopUp();
-            game.setCurrentState(game.bestMove(selectedColour));
-            boardUI.draw();
-            checkmateCheck();
+            informationPopUp(game.createInformation(selectedColour));
         });
     }
 
-    private void informationPopUp() {
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(getScene().getWindow());
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text("This is a Dialog"));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
-//        Alert checkmateAlert = new Alert(Alert.AlertType.NONE, "Checkmate", ButtonType.OK);
-//
-//        checkmateAlert.show();
-    }
-
-    private boolean checkmateCheck() {
-        if(game.isGameOver()) {
-            informationPopUp();
-            return true;
+    private void informationPopUp(List<Information> information) {
+//        final Stage popup = new InformationUI(information);
+//        popup.initOwner(getScene().getWindow());
+//        popup.show();
+        StringBuilder output = new StringBuilder();
+        for(int i = 0; i < 5; i++) {
+            if(i < information.size()) {
+                Information info = information.get(i);
+                output.append("Move ").append(info.getPiece()).append(" from position ")
+                        .append(info.getFrom()).append(" to position ").append(info.getTo()).append("\n")
+                        .append("for an initial evaluation: ").append(info.getInitialEval())
+                        .append(" to the final evaluation: ").append(info.getFinalEval())
+                        .append("\n\n");
+            }
         }
-        return false;
+        Alert checkmateAlert = new Alert(Alert.AlertType.NONE, output.toString(), ButtonType.OK);
+
+        checkmateAlert.show();
     }
 }

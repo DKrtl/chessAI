@@ -1,42 +1,56 @@
 package com.dogukan.chessai.ai;
 
-import com.dogukan.chessai.chess.GameState;
-import com.dogukan.chessai.chess.PieceColour;
-import com.dogukan.chessai.chess.Position;
+import com.dogukan.chessai.chess.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class AI {
-    private Set<Position> selectedPieces;
+    private Set<Piece> selectedPieces;
 
     public AI() {
         this.selectedPieces = new HashSet<>();
     }
 
-    private MiniMaxTree drawTree(PieceColour playerTurn, GameState currentGameState, int depth) {
-        return new MiniMaxTree(playerTurn, currentGameState, depth);
+    private MiniMaxTree drawTree(PieceColour playerTurn, GameState currentGameState) {
+        return new MiniMaxTree(playerTurn, currentGameState);
     }
 
-    public void addToSelected(Position position) {
-        selectedPieces.add(position);
+    public void addToSelected(Piece piece) {
+        selectedPieces.add(piece);
     }
 
-    public void removeFromSelected(Position position) {
-        selectedPieces.remove(position);
+    public void removeFromSelected(Piece piece) {
+        selectedPieces.remove(piece);
     }
 
-    public GameState getBestMove(PieceColour playerTurn, GameState currentGameState, int depth) {
-        MiniMaxNode root = drawTree(playerTurn, currentGameState, depth).getRoot();
+    public List<Information> createInformation(PieceColour playerTurn, GameState currentGameState, int depth) {
+        MiniMaxNode root = drawTree(playerTurn, currentGameState).getRoot();
+        List<Information> informationList = new ArrayList<>();
+        List<MiniMaxNode> children = root.getChildren();
+
         if(selectedPieces.isEmpty()) {
-            return bestMove(root).getGameState();
+
+            for(MiniMaxNode child : children) {
+                informationList.add(new Information(child.getMovedPiece(), child.getMove(), root.getGameState().getEvaluation(),
+                        child.getUtility()));
+            }
         } else {
-            return null;
+
+            for(MiniMaxNode child : children) {
+                if(selectedPieces.contains(child.getMovedPiece())) {
+                    informationList.add(new Information(child.getMovedPiece(), child.getMove(), root.getGameState().getEvaluation(),
+                            child.getUtility()));
+                }
+            }
         }
+
+        return informationList;
     }
 
-    private MiniMaxNode bestMove(MiniMaxNode root) {
+    private MiniMaxNode bestMoves(MiniMaxNode root) {
         List<MiniMaxNode> children = root.getChildren();
 
         for(MiniMaxNode child : children) {

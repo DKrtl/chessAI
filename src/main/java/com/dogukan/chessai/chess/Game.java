@@ -2,6 +2,8 @@ package com.dogukan.chessai.chess;
 
 import com.dogukan.chessai.ai.AI;
 
+import java.util.List;
+
 public class Game {
 
     private GameState currentState;
@@ -81,19 +83,19 @@ public class Game {
         currentState.setCreativeMode(creativeMode);
     }
 
-    public GameState bestMove(PieceColour colour) {
-        return ai.getBestMove(colour, currentState, 6);
+    public List<Information> createInformation(PieceColour colour) {
+        return ai.createInformation(colour, currentState, 6);
     }
 
     public void setCurrentState(GameState gameState) {
         currentState = gameState;
     }
 
-    public void addToAI(Position position) {
-        ai.addToSelected(position);
+    public void addToAI(Piece piece) {
+        ai.addToSelected(piece);
     }
 
-    public void removeFromAI(Position position) {
-        ai.removeFromSelected(position);
+    public void removeFromAI(Piece piece) {
+        ai.removeFromSelected(piece);
     }
 }

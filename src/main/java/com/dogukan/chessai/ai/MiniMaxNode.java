@@ -1,6 +1,8 @@
 package com.dogukan.chessai.ai;
 
 import com.dogukan.chessai.chess.GameState;
+import com.dogukan.chessai.chess.Move;
+import com.dogukan.chessai.chess.Piece;
 import com.dogukan.chessai.chess.PieceColour;
 
 import java.util.ArrayList;
@@ -14,23 +16,16 @@ public class MiniMaxNode {
     private PieceColour playerTurn;
     private int upperBound;
     private int lowerBound;
+    private Piece movedPiece;
+    private Move move;
 
-    public MiniMaxNode(GameState currentGameState, PieceColour playerTurn, int utility) {
+    public MiniMaxNode(GameState currentGameState, PieceColour playerTurn, Piece movedPiece, Move move, int utility) {
         this.currentGameState = currentGameState;
         this.children = new ArrayList<>();
         this.utility = utility;
         this.playerTurn = playerTurn;
-    }
-
-    public MiniMaxNode(MiniMaxNode miniMaxNode) {
-        GameState miniMaxGameState = miniMaxNode.getGameState();
-        this.currentGameState = new GameState(miniMaxGameState.getPrev(), miniMaxGameState.getBoard(),
-                miniMaxGameState.getCreativeMode());
-        this.children = new ArrayList<>(miniMaxNode.getChildren());
-        this.utility = miniMaxNode.getUtility();
-        this.playerTurn = miniMaxNode.getPlayerTurn();
-        this.upperBound = miniMaxNode.upperBound;
-        this.lowerBound = miniMaxNode.lowerBound;
+        this.movedPiece = movedPiece;
+        this.move = move;
     }
 
     public void addChild(MiniMaxNode child) {
@@ -61,8 +56,12 @@ public class MiniMaxNode {
         return children;
     }
 
-    public void emptyChildren() {
-        children.clear();
+    public Move getMove() {
+        return move;
+    }
+
+    public Piece getMovedPiece() {
+        return movedPiece;
     }
 
     public void setUpperBound(int upperBound) {

@@ -26,7 +26,6 @@ public class FullGame {
             }
             makeBoard();
         }
-        game.bestMove(PieceColour.WHITE);
     }
 
     private static void makeBoard() {
