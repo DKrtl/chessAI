@@ -146,9 +146,7 @@ public class NavigationUI extends HBox {
     }
 
     private void exploreButtonClicked(Button button) {
-        button.setOnMouseClicked(click -> {
-            informationPopUp(game.createInformation(selectedColour));
-        });
+        button.setOnMouseClicked(click -> informationPopUp(game.createInformation(selectedColour)));
     }
 
     private void informationPopUp(List<Information> information) {
