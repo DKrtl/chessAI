@@ -110,10 +110,6 @@ public class GameState {
         }
     }
 
-    public boolean gameOver() {
-        return isCheckmate(PieceColour.WHITE) || isCheckmate(PieceColour.BLACK);
-    }
-
     public Board getBoard() {
         return board;
     }

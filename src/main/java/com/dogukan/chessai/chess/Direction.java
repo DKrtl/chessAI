@@ -191,7 +191,8 @@ public class Direction {
         }
     }
 
-    private static boolean createMove(Board board, Position position, PieceColour colour, Set<Move> moves, Position to) {
+    private static boolean createMove(Board board, Position position, PieceColour colour, Set<Move> moves,
+                                      Position to) {
         if(board.isInRange(to)) {
             if(board.isEmpty(to)) {
                 moves.add(new Move(position, to));

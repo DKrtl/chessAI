@@ -33,18 +33,17 @@ public class AI {
 
         if(selectedPieces.isEmpty()) {
             for(MiniMaxNode child : children) {
-                informationList.add(new Information(child.getMovedPiece(), child.getMove(), root.getGameState().getEvaluation(),
-                        child.getUtility()));
+                informationList.add(new Information(child.getMovedPiece(), child.getMove(),
+                        root.getGameState().getEvaluation(), child.getUtility()));
             }
         } else {
             for(MiniMaxNode child : children) {
                 if(selectedPieces.contains(child.getMovedPiece())) {
-                    informationList.add(new Information(child.getMovedPiece(), child.getMove(), root.getGameState().getEvaluation(),
-                            child.getUtility()));
+                    informationList.add(new Information(child.getMovedPiece(), child.getMove(),
+                            root.getGameState().getEvaluation(), child.getUtility()));
                 }
             }
         }
-
         return informationList;
     }
 }

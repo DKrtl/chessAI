@@ -19,7 +19,8 @@ public class GameUI extends Application {
         root.getChildren().addAll(boardUI, navigationUI);
 
         Scene scene = new Scene(root, width, height);
-        scene.getStylesheets().add("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/stylesheet.css");
+        scene.getStylesheets()
+                .add("file:///Users/dogukan/Desktop/chessAI/src/main/resources/com/dogukan/chessai/stylesheet.css");
         stage.setTitle("Explore Chess Moves");
         stage.setScene(scene);
         stage.setResizable(false);

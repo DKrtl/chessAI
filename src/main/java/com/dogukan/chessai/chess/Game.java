@@ -65,10 +65,6 @@ public class Game {
         }
     }
 
-    public boolean isGameOver() {
-        return currentState.gameOver();
-    }
-
     public boolean getCreativeMode() {
         return currentState.getCreativeMode();
     }
