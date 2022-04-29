@@ -26,19 +26,17 @@ public class AI {
         selectedPieces.remove(piece);
     }
 
-    public List<Information> createInformation(PieceColour playerTurn, GameState currentGameState, int depth) {
+    public List<Information> createInformation(PieceColour playerTurn, GameState currentGameState) {
         MiniMaxNode root = drawTree(playerTurn, currentGameState).getRoot();
         List<Information> informationList = new ArrayList<>();
         List<MiniMaxNode> children = root.getChildren();
 
         if(selectedPieces.isEmpty()) {
-
             for(MiniMaxNode child : children) {
                 informationList.add(new Information(child.getMovedPiece(), child.getMove(), root.getGameState().getEvaluation(),
                         child.getUtility()));
             }
         } else {
-
             for(MiniMaxNode child : children) {
                 if(selectedPieces.contains(child.getMovedPiece())) {
                     informationList.add(new Information(child.getMovedPiece(), child.getMove(), root.getGameState().getEvaluation(),
@@ -48,16 +46,5 @@ public class AI {
         }
 
         return informationList;
-    }
-
-    private MiniMaxNode bestMoves(MiniMaxNode root) {
-        List<MiniMaxNode> children = root.getChildren();
-
-        for(MiniMaxNode child : children) {
-            if(child.getUtility() == root.getUtility()) {
-                return child;
-            }
-        }
-        return null;
     }
 }

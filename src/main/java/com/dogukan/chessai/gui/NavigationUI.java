@@ -4,16 +4,11 @@ import com.dogukan.chessai.chess.Game;
 import com.dogukan.chessai.chess.Information;
 import com.dogukan.chessai.chess.PieceColour;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.controlsfx.control.ToggleSwitch;
 
 import java.util.List;
@@ -157,22 +152,39 @@ public class NavigationUI extends HBox {
     }
 
     private void informationPopUp(List<Information> information) {
-//        final Stage popup = new InformationUI(information);
-//        popup.initOwner(getScene().getWindow());
-//        popup.show();
         StringBuilder output = new StringBuilder();
         for(int i = 0; i < 5; i++) {
             if(i < information.size()) {
                 Information info = information.get(i);
-                output.append("Move ").append(info.getPiece()).append(" from position ")
-                        .append(info.getFrom()).append(" to position ").append(info.getTo()).append("\n")
-                        .append("for an initial evaluation: ").append(info.getInitialEval())
-                        .append(" to the final evaluation: ").append(info.getFinalEval())
-                        .append("\n\n");
+                if(selectedColour == PieceColour.WHITE) {
+                    informationConstruction(output, info, Integer.MAX_VALUE, Integer.MIN_VALUE);
+                } else {
+                    informationConstruction(output, info, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                }
             }
         }
         Alert checkmateAlert = new Alert(Alert.AlertType.NONE, output.toString(), ButtonType.OK);
 
         checkmateAlert.show();
+    }
+
+    private void informationConstruction(StringBuilder output, Information info, int maxValue, int minValue) {
+        if(info.getFinalEval() == maxValue) {
+            output.append("Move ").append(info.getPiece()).append(" from position ")
+                    .append(info.getFrom()).append(" to position ").append(info.getTo()).append("\n")
+                    .append("for an initial evaluation: ").append(info.getInitialEval())
+                    .append(" to the final evaluation: win").append("\n\n");
+        } else if(info.getFinalEval() == minValue) {
+            output.append("Move ").append(info.getPiece()).append(" from position ")
+                    .append(info.getFrom()).append(" to position ").append(info.getTo()).append("\n")
+                    .append("for an initial evaluation: ").append(info.getInitialEval())
+                    .append(" to the final evaluation: lose").append("\n\n");
+        } else {
+            output.append("Move ").append(info.getPiece()).append(" from position ")
+                    .append(info.getFrom()).append(" to position ").append(info.getTo()).append("\n")
+                    .append("for an initial evaluation: ").append(info.getInitialEval())
+                    .append(" to the final evaluation: ").append(info.getFinalEval())
+                    .append("\n\n");
+        }
     }
 }

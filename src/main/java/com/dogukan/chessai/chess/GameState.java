@@ -5,15 +5,11 @@ import java.util.Set;
 
 public class GameState {
 
-    private GameState prev;
-    private GameState next;
     private final Board board;
     private final int evaluation;
     private boolean creativeMode;
 
-    public GameState(GameState prev, Board board, boolean creativeMode) {
-        this.prev = prev;
-        this.next = null;
+    public GameState(Board board, boolean creativeMode) {
         this.board = board;
         this.evaluation = evaluateBoard();
         this.creativeMode = creativeMode;
@@ -35,7 +31,7 @@ public class GameState {
     public GameState move(Move move) {
         Piece piece = board.getSquare(move.getFrom());
         if((piece != null)) {
-            GameState next = new GameState(this, piece.move(this, move), creativeMode);
+            GameState next = new GameState(piece.move(this, move), creativeMode);
             Position to = move.getTo();
             if(next.getBoard().getSquare(to) instanceof Pawn) {
                 if((piece.getColour() == PieceColour.WHITE && to.equals(new Position(move.getTo().getX(), 0))) ||
@@ -54,7 +50,7 @@ public class GameState {
     public GameState creativeModeMove(Move move) {
         Piece piece = board.getSquare(move.getFrom());
         if(creativeMode) {
-            return new GameState(this, piece.creativeModeMove(this, move), creativeMode);
+            return new GameState(piece.creativeModeMove(this, move), creativeMode);
         } else {
             return null;
         }
@@ -64,7 +60,7 @@ public class GameState {
         Board newBoard = new Board(board.getSquares(), true);
         if(getCreativeMode()) {
             newBoard.removePiece(position);
-            return new GameState(this, newBoard, getCreativeMode());
+            return new GameState(newBoard, getCreativeMode());
         }
         return null;
     }
@@ -122,19 +118,6 @@ public class GameState {
         return board;
     }
 
-    public GameState getPrev() {
-        return prev;
-    }
-
-    public GameState getNext() {
-        return next;
-    }
-
-    public GameState setNext(GameState next) {
-        this.next = next;
-        return next;
-    }
-
     public int getEvaluation() {
         return evaluation;
     }
@@ -145,10 +128,6 @@ public class GameState {
 
     public void setCreativeMode(boolean creativeMode) {
         this.creativeMode = creativeMode;
-    }
-
-    public void setPrev(GameState prev) {
-        this.prev = prev;
     }
 
     @Override

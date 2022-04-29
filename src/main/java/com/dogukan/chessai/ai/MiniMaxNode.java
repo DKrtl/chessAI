@@ -28,16 +28,8 @@ public class MiniMaxNode {
         this.move = move;
     }
 
-    public void addChild(MiniMaxNode child) {
-        this.children.add(child);
-    }
-
     public PieceColour getPlayerTurn() {
         return playerTurn;
-    }
-
-    public void setPlayerTurn(PieceColour playerTurn) {
-        this.playerTurn = playerTurn;
     }
 
     public GameState getGameState() {

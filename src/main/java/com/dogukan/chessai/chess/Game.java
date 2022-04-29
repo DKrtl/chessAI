@@ -49,14 +49,12 @@ public class Game {
                 }
             }
         }
-        currentState = new GameState(null, board, creativeMode);
+        currentState = new GameState(board, creativeMode);
     }
 
     public void move(Move move) {
         if(getCreativeMode()) {
             currentState = currentState.creativeModeMove(move);
-        } else {
-            currentState = currentState.setNext(currentState.move(move));
         }
     }
 
@@ -84,11 +82,7 @@ public class Game {
     }
 
     public List<Information> createInformation(PieceColour colour) {
-        return ai.createInformation(colour, currentState, 6);
-    }
-
-    public void setCurrentState(GameState gameState) {
-        currentState = gameState;
+        return ai.createInformation(colour, currentState);
     }
 
     public void addToAI(Piece piece) {

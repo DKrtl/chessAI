@@ -8,20 +8,14 @@ import java.util.*;
 public class MiniMaxTree {
     private Map<MiniMaxNode, Pair<MiniMaxNode, Integer>> cache;
     private MiniMaxNode root;
-    int count = 0;
 
     public MiniMaxTree(PieceColour playerTurn, GameState currentGameState) {
         this.cache = new HashMap<>();
         this.root = iterativeDeepening(playerTurn, currentGameState);
         sortNodes(root.getChildren(), playerTurn);
-
-        for(MiniMaxNode child : root.getChildren()) {
-            System.out.println(child.getUtility());
-        }
     }
 
     private MiniMaxNode createTree(MiniMaxNode node, int alpha, int beta, int depth) {
-        count++;
         Pair<MiniMaxNode, Integer> cachePair = cache.get(node);
         if(cachePair != null && cachePair.getValue() >= depth) {
             MiniMaxNode cacheNode = cachePair.getKey();
@@ -69,10 +63,12 @@ public class MiniMaxTree {
         if(eval <= alpha) {
             node.setUpperBound(eval);
         }
+
         if(eval > alpha && eval < beta) {
             node.setLowerBound(eval);
             node.setUpperBound(eval);
         }
+
         if(eval >= beta) {
             node.setLowerBound(eval);
         }
@@ -98,7 +94,8 @@ public class MiniMaxTree {
                     for(Move move : moves) {
                         GameState next = currentGameState.move(move);
                         if(next != null) {
-                            allPossibleGameStates.add(new MiniMaxNode(next, playerTurn.opponent(), piece, move, next.getEvaluation()));
+                            allPossibleGameStates.add(new MiniMaxNode(next, playerTurn.opponent(), piece, move,
+                                    next.getEvaluation()));
                         }
                     }
                 }
